@@ -20,8 +20,16 @@ public class FriendManager : MonoBehaviour
     [Header("Character Prefab List")]
     public GameObject[] characterPrefabList; // Toto, Galilei, Miu 순서
     
+    [Header("Skill Duration Settings")]
+    public float cocoSkillDuration = 3f;
+    public float totoSkillDuration = 3f;
+    public float galileiSkillDuration = 3f;
+    public float miuSkillDuration = 3f;
+    
     private GameObject currentCharacterInstance;
     private Transform playerTransform;
+    private Move playerMove;
+    private Coroutine skillDurationCoroutine;
     
     void Start()
     {
@@ -30,10 +38,14 @@ public class FriendManager : MonoBehaviour
         Debug.Log("지금은 도와주는 친구가 없어요.");
         
         // 플레이어 Transform 찾기
-        playerTransform = FindFirstObjectByType<Move>()?.transform;
-        if (playerTransform == null)
+        playerMove = FindFirstObjectByType<Move>();
+        if (playerMove == null)
         {
             Debug.LogError("플레이어 오브젝트를 찾을 수 없습니다!");
+        }
+        else
+        {
+            playerTransform = playerMove.transform;
         }
     }
     
@@ -86,38 +98,54 @@ public class FriendManager : MonoBehaviour
     // 스킬 사용
     public void UseSkill(CharacterSkill skill)
     {
-        // 기존 스킬 캐릭터만 제거
-        DestroySkillCharacter();
+        StopCurrentSkill();
         
         switch (skill)
         {
             case CharacterSkill.None:
-                currentSkill = CharacterSkill.None;
-                Debug.Log("지금은 도와주는 친구가 없어요.");
+                UseNoneSkill();
                 break;
-                
             case CharacterSkill.Coco:
-                currentSkill = skill;
-                Debug.Log($"{skill} 친구와 함께 해요! (애니메이션)");
+                UseCocoSkill();
                 break;
-                
-            case CharacterSkill.Toto:
-            case CharacterSkill.Galilei:
-            case CharacterSkill.Miu:
-                int skillIndex = (int)skill - 2; // None=0, Coco=1이므로 -2 (Toto부터 시작)
-                
-                if (skillIndex >= 0 && skillIndex < skillUnlocked.Length && skillUnlocked[skillIndex + 1])
-                {
-                    currentSkill = skill;
-                    CreateSkillCharacter(skill);
-                    Debug.Log($"{skill} 친구와 함께 해요!");
-                }
-                else
-                {
-                    Debug.Log($"{skill} 친구는 아직 함께하지 못했어요.");
-                }
+            default:
+                UsePrefabSkill(skill);
                 break;
         }
+    }
+    
+    // None 스킬 사용
+    void UseNoneSkill()
+    {
+        currentSkill = CharacterSkill.None;
+        SetCocoAnimation(false);
+        Debug.Log("지금은 도와주는 친구가 없어요.");
+    }
+    
+    // Coco 스킬 사용 (애니메이션)
+    void UseCocoSkill()
+    {
+        currentSkill = CharacterSkill.Coco;
+        SetCocoAnimation(true);
+        StartSkillDuration(CharacterSkill.Coco, cocoSkillDuration);
+        Debug.Log($"Coco 친구와 함께 해요! (애니메이션) - {cocoSkillDuration}초");
+    }
+    
+    // 프리팹 스킬 사용 (Toto, Galilei, Miu)
+    void UsePrefabSkill(CharacterSkill skill)
+    {
+        SetCocoAnimation(false);
+        
+        if (!IsSkillUnlocked(skill))
+        {
+            Debug.Log($"{skill} 친구는 아직 함께하지 못했어요.");
+            return;
+        }
+        
+        currentSkill = skill;
+        CreateSkillCharacter(skill);
+        StartSkillDuration(skill, GetSkillDuration(skill));
+        Debug.Log($"{skill} 친구와 함께 해요! - {GetSkillDuration(skill)}초");
     }
     
     // 스킬 캐릭터 생성
@@ -142,6 +170,63 @@ public class FriendManager : MonoBehaviour
         {
             Destroy(currentCharacterInstance);
             currentCharacterInstance = null;
+        }
+    }
+    
+    // Coco 애니메이션 제어
+    void SetCocoAnimation(bool isActive)
+    {
+        if (playerMove != null)
+        {
+            playerMove.SetCocoSkill(isActive);
+        }
+    }
+    
+    // 스킬 지속 시간 시작
+    void StartSkillDuration(CharacterSkill skill, float duration)
+    {
+        if (skillDurationCoroutine != null)
+        {
+            StopCoroutine(skillDurationCoroutine);
+        }
+        skillDurationCoroutine = StartCoroutine(SkillDurationCoroutine(skill, duration));
+    }
+    
+    // 현재 스킬 정지
+    void StopCurrentSkill()
+    {
+        if (skillDurationCoroutine != null)
+        {
+            StopCoroutine(skillDurationCoroutine);
+            skillDurationCoroutine = null;
+        }
+        
+        // 기존 스킬 캐릭터 제거
+        DestroySkillCharacter();
+    }
+    
+    // 스킬 지속 시간 코루틴
+    System.Collections.IEnumerator SkillDurationCoroutine(CharacterSkill skill, float duration)
+    {
+        yield return new WaitForSeconds(duration);
+        
+        // 스킬 시간 종료
+        Debug.Log($"{skill} 친구와의 시간이 끝났어요!");
+        
+        // 스킬 해제
+        UseSkill(CharacterSkill.None);
+    }
+    
+    // 스킬별 지속 시간 가져오기
+    float GetSkillDuration(CharacterSkill skill)
+    {
+        switch (skill)
+        {
+            case CharacterSkill.Coco: return cocoSkillDuration;
+            case CharacterSkill.Toto: return totoSkillDuration;
+            case CharacterSkill.Galilei: return galileiSkillDuration;
+            case CharacterSkill.Miu: return miuSkillDuration;
+            default: return 0f;
         }
     }
     
