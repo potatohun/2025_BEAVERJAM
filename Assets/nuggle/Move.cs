@@ -112,7 +112,7 @@ public class Move : MonoBehaviour
             animator.SetBool("Jump", false);
         }
         
-        Debug.Log("isGrounded: " + isGrounded);
+        //Debug.Log("isGrounded: " + isGrounded);
     }
     
     
