@@ -1,4 +1,5 @@
-group,id,text,next_id
-start,text_id_1," hello my name is potato",text_id_2
-start,text_id_2,i want to be a great,text_id_3
-start,text_id_3,nice to meet you,end
+group_id,talk_id,start,talk,next_talk_id
+start,talk_id_1,player," hello my name is coco",talk_id_2
+start,talk_id_2,npc,i want to be a great npc,talk_id_3
+start,talk_id_3,player,nice to meet you,talk_id_4
+start,talk_id_4,npc,nic to meet you too,end
