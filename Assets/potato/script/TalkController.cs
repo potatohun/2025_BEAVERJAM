@@ -11,4 +11,12 @@ public class TalkController : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
+    public void StartTalk(string id) {
+
+    }
+
+    public void NextTalk() {
+        
+    }
 }
