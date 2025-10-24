@@ -5,17 +5,19 @@ using System.IO;
 [System.Serializable]
 public class TalkData
 {
-    public string group;
-    public string id;
-    public string text;
-    public string nextId;
+    public string group_id;
+    public string talk_id;
+    public string start;
+    public string talk;
+    public string next_talk_id;
     
-    public TalkData(string group, string id, string text, string nextId)
+    public TalkData(string group_id, string talk_id, string start, string talk, string next_talk_id)
     {
-        this.group = group;
-        this.id = id;
-        this.text = text;
-        this.nextId = nextId;
+        this.group_id = group_id;
+        this.talk_id = talk_id;
+        this.start = start;
+        this.talk = talk;
+        this.next_talk_id = next_talk_id;
     }
 }
 
@@ -26,19 +28,17 @@ public class TalkDataLoader : MonoBehaviour
     [Header("CSV 파일 설정")]
     [SerializeField] private TextAsset csvFile;
     
-    private Dictionary<string, TalkData> talkDataDict = new Dictionary<string, TalkData>();
+    private List<TalkData> talkDataList = new List<TalkData>();
     
-    private void Awake()
-    {
-        if (instance == null)
-        {
+    private void Awake() {
+        if (instance == null) {
             instance = this;
-            LoadTalkData();
-        }
-        else
-        {
+        } else {
             Destroy(gameObject);
         }
+
+        // 데이터 로드
+        LoadTalkData();
     }
     
     private void LoadTalkData()
@@ -50,35 +50,30 @@ public class TalkDataLoader : MonoBehaviour
         }
         
         ParseCSVData(csvFile.text);
-        Debug.Log($"대화 데이터 {talkDataDict.Count}개를 로드했습니다.");
+        Debug.Log($"대화 데이터 {talkDataList.Count}개를 로드했습니다.");
     }
     
-    private void ParseCSVData(string csvContent)
-    {
+    private void ParseCSVData(string csvContent) {
         string[] lines = csvContent.Split('\n');
         
-        // 첫 번째 줄은 헤더이므로 건너뛰기
-        for (int i = 1; i < lines.Length; i++)
-        {
+        for (int i = 1; i < lines.Length; i++) {
             if (string.IsNullOrEmpty(lines[i].Trim())) continue;
             
-            string[] values = ParseCSVLine(lines[i]);
-            
-            if (values.Length >= 4)
-            {
-                string group = values[0].Trim();
-                string id = values[1].Trim();
-                string text = values[2].Trim().Trim('"'); // 따옴표 제거
-                string nextId = values[3].Trim();
+            string[] values = ParseCSVLine(lines[i]);            
+            if (values.Length >= 5) {
+                string group_id = values[0].Trim();
+                string talk_id = values[1].Trim();
+                string start = values[2].Trim().Trim('"');
+                string talk = values[3].Trim().Trim('"');
+                string next_talk_id = values[4].Trim();
                 
-                TalkData talkData = new TalkData(group, id, text, nextId);
-                talkDataDict[id] = talkData;
+                TalkData talkData = new TalkData(group_id, talk_id, start, talk, next_talk_id);
+                talkDataList.Add(talkData);
             }
         }
-    }
-    
-    private string[] ParseCSVLine(string line)
-    {
+    }    
+
+    private string[] ParseCSVLine(string line) {
         List<string> result = new List<string>();
         bool inQuotes = false;
         string currentField = "";
@@ -106,50 +101,29 @@ public class TalkDataLoader : MonoBehaviour
         return result.ToArray();
     }
     
-    public TalkData GetTalkData(string id)
+    // 그룹 ID를 받아서, 첫 번째 대화 데이터를 제공
+    public TalkData GetTalkDataByGroup(string group_id)
     {
-        if (talkDataDict.ContainsKey(id))
-        {
-            return talkDataDict[id];
+        foreach (var talkData in talkDataList) {
+            if (talkData.group_id == group_id) {
+                return talkData;
+            }
         }
-        
-        Debug.LogWarning($"대화 ID '{id}'를 찾을 수 없습니다.");
+
+        Debug.LogWarning($"그룹 ID '{group_id}'를 찾을 수 없습니다.");
         return null;
     }
-    
-    public List<TalkData> GetTalkDataByGroup(string group)
+
+    // 대화 ID를 받아서, 대화 데이터를 제공
+    public TalkData GetTalkData(string talk_id)
     {
-        List<TalkData> result = new List<TalkData>();
-        
-        foreach (var talkData in talkDataDict.Values)
-        {
-            if (talkData.group == group)
-            {
-                result.Add(talkData);
+        foreach (var talkData in talkDataList) {
+            if (talkData.talk_id == talk_id) {
+                return talkData;
             }
         }
         
-        return result;
-    }
-    
-    public bool HasTalkData(string id)
-    {
-        return talkDataDict.ContainsKey(id);
-    }
-    
-    [ContextMenu("CSV 데이터 다시 로드")]
-    public void ReloadData()
-    {
-        talkDataDict.Clear();
-        LoadTalkData();
-    }
-    
-    private void OnValidate()
-    {
-        // 인스펙터에서 CSV 파일이 변경되면 자동으로 다시 로드
-        if (csvFile != null && Application.isPlaying)
-        {
-            ReloadData();
-        }
+        Debug.LogWarning($"대화 ID '{talk_id}'를 찾을 수 없습니다.");
+        return null;
     }
 }
