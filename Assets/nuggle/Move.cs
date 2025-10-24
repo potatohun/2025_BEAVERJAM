@@ -40,6 +40,9 @@ public class Move : MonoBehaviour
         else if (Input.GetKey(KeyCode.RightArrow))
             horizontalInput = 1f;
         
+        // 캐릭터 방향 바꾸기
+        FlipCharacter();
+        
         // 점프 입력 확인
         if (Input.GetButtonDown("Jump") && isGrounded)
         {
@@ -51,6 +54,20 @@ public class Move : MonoBehaviour
         
         // 애니메이터 파라미터 업데이트
         UpdateAnimator();
+    }
+    
+    void FlipCharacter()
+    {
+        if (horizontalInput > 0f)
+        {
+            // 오른쪽으로 이동 - 정방향 (scale.x = 1)
+            transform.localScale = new Vector3(1f, 1f, 1f);
+        }
+        else if (horizontalInput < 0f)
+        {
+            // 왼쪽으로 이동 - 뒤집기 (scale.x = -1)
+            transform.localScale = new Vector3(-1f, 1f, 1f);
+        }
     }
     
     void UpdateAnimator()
