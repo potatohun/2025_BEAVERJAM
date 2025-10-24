@@ -169,6 +169,10 @@ MonoBehaviour:
   - {fileID: 975410161573131870, guid: 5d1060c1ba58e4a8882cb549b81fea83, type: 3}
   - {fileID: 775597287516483158, guid: 01422afa3a6e2a145b18db9178aa25ee, type: 3}
   - {fileID: 3872098966061449410, guid: 97e4f263ade8ceb43bc39dd332ca023e, type: 3}
+  cocoSkillDuration: 3
+  totoSkillDuration: 3
+  galileiSkillDuration: 3
+  miuSkillDuration: 3
 --- !u!1 &277619763
 GameObject:
   m_ObjectHideFlags: 0
