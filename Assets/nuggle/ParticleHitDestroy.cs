@@ -15,11 +15,12 @@ public class ParticleHitDestroy : MonoBehaviour
     private GameObject currentFireObject;
     private bool isShrinking = false;
     private int fireLayer;
-    
+    private int pondLayer;
     void Awake()
     {
         // 레이어 캐싱으로 성능 최적화
         fireLayer = LayerMask.NameToLayer("Fire");
+        pondLayer = LayerMask.NameToLayer("Pond");
     }
     
     void OnTriggerEnter2D(Collider2D other)
@@ -34,6 +35,9 @@ public class ParticleHitDestroy : MonoBehaviour
             {
                 StartShrinking(other.gameObject);
             }
+        } else if (other.gameObject.layer == pondLayer)
+        {
+            other.GetComponent<PondController>().FillPond();
         }
     }
     

@@ -189,6 +189,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SkillIcon_Galilei
       objectReference: {fileID: 0}
+    - target: {fileID: 8645325240374681394, guid: 3434e4ba656794ba998b1d642a906e07, type: 3}
+      propertyPath: m_FillAmount
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 9104226072343541549, guid: 3434e4ba656794ba998b1d642a906e07, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
