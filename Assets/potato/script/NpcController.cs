@@ -17,6 +17,10 @@ public class NpcController : MonoBehaviour
         }
 
         if(other.gameObject.tag == "Player") {
+            // npc 다른 npc와 대화 중이면 대화 불가
+            if(TalkController.instance.IsTalking())
+                return;
+
             // 대화 시작
             TalkController.instance.StartTalk(group_id, textBubble);
             if(reUseable == false)
