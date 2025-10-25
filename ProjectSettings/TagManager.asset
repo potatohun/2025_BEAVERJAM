@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Npc
   - NpcBubble
+  - MapCollider
   layers:
   - Default
   - TransparentFX

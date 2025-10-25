@@ -10,3 +10,5 @@ toto,talk_toto_8,npc,그렇다면... 따라 가겠습니다!,talk_toto_9
 toto,talk_toto_9,player,뭐어? 정말인겨?,talk_toto_10
 toto,talk_toto_10,player,그러면 나는 안심이구먼유!,talk_toto_11
 toto,talk_toto_11,npc,코코! 달리고 싶으시면 언제든지 제게 말씀하십쇼!,end
+ham_1,talk_ham_1_1,npc,수호신님!! 물이 필요해요!,end
+ham_2,talk_ham_2_1,npc,울어라! 울어라!,end
