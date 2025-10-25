@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 723aededfbc6ac04ba0fdf657c3a40b6
+guid: 7e694b280ba054e3387321481055c5b2
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 6507049351780477479
-    second: block_pencil_0
+      213: -2725155917679352033
+    second: bg_layer3_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -40,15 +40,15 @@ TextureImporter:
     filterMode: 1
     aniso: 1
     mipBias: 0
-    wrapU: 1
-    wrapV: 1
-    wrapW: 1
+    wrapU: 0
+    wrapV: 0
+    wrapW: 0
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
   spriteMode: 1
   spriteExtrude: 1
-  spriteMeshType: 1
+  spriteMeshType: 0
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 100
@@ -126,13 +126,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: block_pencil_0
+      name: bg_layer3_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 128
-        height: 128
+        width: 2048
+        height: 986
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -141,8 +141,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 72aafccd8eead4a50800000000000000
-      internalID: 6507049351780477479
+      spriteID: f172b21a12d4e2ad0800000000000000
+      internalID: -2725155917679352033
       vertices: []
       indices: 
       edges: []
@@ -161,7 +161,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      block_pencil_0: 6507049351780477479
+      bg_layer3_0: -2725155917679352033
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
