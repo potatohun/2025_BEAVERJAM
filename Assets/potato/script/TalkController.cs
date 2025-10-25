@@ -43,7 +43,7 @@ public class TalkController : MonoBehaviour
     }
 
     void Update() {
-        if(Input.GetKeyDown(KeyCode.Space)) {
+        if(Input.anyKeyDown) {
             if(currentTalkData == null) {
                 return;
             }
