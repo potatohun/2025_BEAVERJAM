@@ -80,6 +80,15 @@ public class Move : MonoBehaviour
         }
     }
     
+    // Coco 스킬 애니메이션 제어
+    public void SetCocoSkill(bool isActive)
+    {
+        if (animator != null)
+        {
+            animator.SetBool("CocoSkill", isActive);
+        }
+    }
+    
     void FixedUpdate()
     {
         // 좌우 이동
