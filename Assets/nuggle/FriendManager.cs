@@ -2,6 +2,9 @@ using UnityEngine;
 
 public class FriendManager : MonoBehaviour
 {
+    // 싱글톤 패턴
+    public static FriendManager Instance { get; private set; }
+    
     public enum CharacterSkill
     {
         None,
@@ -31,26 +34,40 @@ public class FriendManager : MonoBehaviour
     private Move playerMove;
     private Coroutine skillDurationCoroutine;
     
+    void Awake()
+    {
+        // 싱글톤 설정
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+            return;
+        }
+    }
+    
     void Start()
     {
         // 게임 시작 시 스킬 없음 상태
         currentSkill = CharacterSkill.None;
         Debug.Log("지금은 도와주는 친구가 없어요.");
-        
-        // 플레이어 Transform 찾기
-        playerMove = FindFirstObjectByType<Move>();
-        if (playerMove == null)
-        {
-            Debug.LogError("플레이어 오브젝트를 찾을 수 없습니다!");
-        }
-        else
-        {
-            playerTransform = playerMove.transform;
-        }
+    }
+    
+    // 플레이어 참조 설정 (Move.cs에서 호출)
+    public void SetPlayerReference(Move move)
+    {
+        playerMove = move;
+        playerTransform = move.transform;
+        Debug.Log("플레이어 참조가 설정되었습니다.");
     }
     
     void Update()
     {
+        if(playerMove == null || playerMove.isDead || playerMove.isInDialogue) return;
+        
         // 스킬 사용 키 입력
         if (Input.GetKeyDown(KeyCode.Q))
         {
@@ -176,10 +193,7 @@ public class FriendManager : MonoBehaviour
     // Coco 애니메이션 제어
     void SetCocoAnimation(bool isActive)
     {
-        if (playerMove != null)
-        {
-            playerMove.SetCocoSkill(isActive);
-        }
+        playerMove?.SetCocoSkill(isActive);
     }
     
     // 스킬 지속 시간 시작
@@ -243,6 +257,21 @@ public class FriendManager : MonoBehaviour
         
         int skillIndex = (int)skill - 1; // None이 0이므로 -1
         return skillIndex >= 0 && skillIndex < skillUnlocked.Length && skillUnlocked[skillIndex];
+    }
+    
+    // 대화 상태에 따른 스킬 중단 처리
+    public void OnDialogueStart()
+    {
+        if (currentSkill != CharacterSkill.None)
+        {
+            // 코루틴 중단
+            StopCurrentSkill();
+            
+            // 스킬 상태 초기화
+            currentSkill = CharacterSkill.None;
+            
+            Debug.Log("대화 시작으로 인한 스킬 중단 - 코루틴 중단");
+        }
     }
     
     // 편의 함수들
