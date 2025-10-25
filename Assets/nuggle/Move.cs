@@ -26,7 +26,7 @@ public class Move : MonoBehaviour
     
     // 2단 점프 관련 변수
     private int jumpCount = 0;
-    private int maxJumps = 2; // 최대 2단 점프
+    private int maxJumps = 1; // 최대 2단 점프
     
     void Start()
     {
@@ -228,7 +228,6 @@ public class Move : MonoBehaviour
         else
         {
             Debug.Log($"점프 불가! 점프 횟수 초과: {jumpCount}/{maxJumps}");
-            jumpCount = 0;
         }
     }
     
@@ -254,7 +253,8 @@ public class Move : MonoBehaviour
         animator.SetBool("Jump", !grounded);
         // 디버그용 레이캐스트 시각화
         Debug.DrawRay(rayOrigin, rayDirection * groundCheckDistance, grounded ? Color.green : Color.red);
-        
+
+        if (grounded) jumpCount = 0;
         return grounded;
     }
     
