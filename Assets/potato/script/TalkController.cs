@@ -155,6 +155,11 @@ public class TalkController : MonoBehaviour
         currentTalkTarget = null;
         ui_talk.gameObject.SetActive(false);
         CameraManager.instance.ZoomOut();
+
+        // 대화 종료 시, 캐릭터 스킬 해금
+        if(talkTarge_npc.GetComponent<NpcController>().GetCanUnlock()) {
+            FriendManager.FM.UnlockSkill(talkTarge_npc.GetComponent<NpcController>().GetSkill());
+        }
     }
 
     public Vector2 GetTargetPositionToCanvas(GameObject target)

@@ -6,6 +6,8 @@ public class NpcController : MonoBehaviour
     [SerializeField] private bool isTalkable = true;
     [SerializeField] private bool reUseable = false;
     [SerializeField] private string group_id;
+    [SerializeField] private bool canUnlock = false;
+    [SerializeField] private FriendManager.CharacterSkill skill;
 
     [Header("Text Bubble")]
     [SerializeField] private GameObject textBubble;
@@ -26,5 +28,13 @@ public class NpcController : MonoBehaviour
             if(reUseable == false)
                 isTalkable = false;
         }
+    }
+
+    public bool GetCanUnlock() {
+        return canUnlock;
+    }
+
+    public FriendManager.CharacterSkill GetSkill() {
+        return skill;
     }
 }

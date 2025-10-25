@@ -82,12 +82,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 8005598834360314164, guid: 320d7fac42aafff448148b52a0958cc8, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 017edd4bfa60e514a805eb6d7dd136de, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 8.83, y: 11.12}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -127,17 +127,17 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -2.19, y: -1.6125097}
+  m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 10.73, y: 11.74}
-    newSize: {x: 1, y: 1}
+    oldSize: {x: 8.83, y: 11.12}
+    newSize: {x: 8.83, y: 11.12}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 15, y: 8.725128}
+  m_Size: {x: 15, y: 11}
   m_EdgeRadius: 0
 --- !u!114 &2440345266722393795
 MonoBehaviour:
@@ -152,7 +152,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NpcController
   isTalkable: 1
+  reUseable: 0
   group_id: galilei
+  canUnlock: 1
+  skill: 3
   textBubble: {fileID: 684676608762431411}
 --- !u!1 &684676608762431411
 GameObject:
@@ -179,7 +182,7 @@ Transform:
   m_GameObject: {fileID: 684676608762431411}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2, y: 1, z: 0}
+  m_LocalPosition: {x: 0, y: 2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
