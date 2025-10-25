@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Move : MonoBehaviour
@@ -27,6 +28,8 @@ public class Move : MonoBehaviour
     // 2단 점프 관련 변수
     private int jumpCount = 0;
     private int maxJumps = 1; // 최대 2단 점프
+
+    public GameObject WaterCol_Object;
     
     void Start()
     {
@@ -70,10 +73,10 @@ public class Move : MonoBehaviour
         {
             EndDialogue();
         }
-        if(Input.GetKeyDown(KeyCode.C))
-        {
-            SetDead();
-        }
+        //if(Input.GetKeyDown(KeyCode.C))
+        //{
+        //    SetDead();
+        //}
         else if(Input.GetKeyDown(KeyCode.V))
         {
             Respawn();
@@ -287,55 +290,64 @@ public class Move : MonoBehaviour
             }
         }
     }
-    
+
     // 죽음 트리거 처리 (상대편이 Fire(6번)나 Obstacle(7번) 레이어면 죽음)
     void OnTriggerEnter2D(Collider2D other)
     {
-        Debug.Log($"[충돌 감지] 플레이어와 충돌한 오브젝트: {other.gameObject.name}, 레이어: {other.gameObject.layer}");
-        
-        // 이미 죽었거나 대화 중이면 무시
-        if (isDead || isInDialogue) 
+        if (!WaterCol_Object.GetComponent<CircleCollider2D>().enabled)
         {
-            Debug.Log("[무시] 이미 죽었거나 대화 중");
-            return;
+            Debug.Log($"[충돌 감지] 플레이어와 충돌한 오브젝트: {other.gameObject.name}, 레이어: {other.gameObject.layer}");
+
+            // 이미 죽었거나 대화 중이면 무시
+            if (isDead || isInDialogue)
+            {
+                Debug.Log("[무시] 이미 죽었거나 대화 중");
+                return;
+            }
+
+            // 상대편이 Fire나 Obstacle 레이어인지 확인
+            if (IsDeathLayer(other.gameObject))
+            {
+                Debug.Log($"[죽음] 플레이어가 {other.gameObject.name}({GetLayerName(other.gameObject.layer)})과 충돌하여 죽었습니다!");
+                SetDead();
+            }
+            else
+            {
+                Debug.Log($"[안전] 충돌한 오브젝트는 안전한 레이어입니다: {GetLayerName(other.gameObject.layer)}");
+            }
         }
-        
-        // 상대편이 Fire나 Obstacle 레이어인지 확인
-        if (IsDeathLayer(other.gameObject))
-        {
-            Debug.Log($"[죽음] 플레이어가 {other.gameObject.name}({GetLayerName(other.gameObject.layer)})과 충돌하여 죽었습니다!");
-            SetDead();
-        }
-        else
-        {
-            Debug.Log($"[안전] 충돌한 오브젝트는 안전한 레이어입니다: {GetLayerName(other.gameObject.layer)}");
-        }
+
     }
-    
-    // 일반 충돌 처리 (상대편이 Fire(6번)나 Obstacle(7번) 레이어면 죽음)
-    void OnCollisionEnter2D(Collision2D collision)
-    {
-        Debug.Log($"[충돌 감지] 플레이어와 충돌한 오브젝트: {collision.gameObject.name}, 레이어: {collision.gameObject.layer}");
-        
-        // 이미 죽었거나 대화 중이면 무시
-        if (isDead || isInDialogue) 
-        {
-            Debug.Log("[무시] 이미 죽었거나 대화 중");
-            return;
-        }
-        
-        // 상대편이 Fire나 Obstacle 레이어인지 확인
-        if (IsDeathLayer(collision.gameObject))
-        {
-            Debug.Log($"[죽음] 플레이어가 {collision.gameObject.name}({GetLayerName(collision.gameObject.layer)})과 충돌하여 죽었습니다!");
-            SetDead();
-        }
-        else
-        {
-            Debug.Log($"[안전] 충돌한 오브젝트는 안전한 레이어입니다: {GetLayerName(collision.gameObject.layer)}");
-        }
-    }
-    
+
+    //// 일반 충돌 처리 (상대편이 Fire(6번)나 Obstacle(7번) 레이어면 죽음)
+    //void OnCollisionEnter2D(Collision2D collision)
+    //{
+    //    if (!WaterCol_Object.GetComponent<CircleCollider2D>().enabled)
+    //    {
+    //        Debug.Log($"[충돌 감지] 플레이어와 충돌한 오브젝트: {collision.gameObject.name}, 레이어: {collision.gameObject.layer}");
+
+    //        // 이미 죽었거나 대화 중이면 무시
+    //        if (isDead || isInDialogue)
+    //        {
+    //            Debug.Log("[무시] 이미 죽었거나 대화 중");
+    //            return;
+    //        }
+
+    //        // 상대편이 Fire나 Obstacle 레이어인지 확인
+    //        if (IsDeathLayer(collision.gameObject))
+    //        {
+    //            Debug.Log($"[죽음] 플레이어가 {collision.gameObject.name}({GetLayerName(collision.gameObject.layer)})과 충돌하여 죽었습니다!");
+    //            SetDead();
+    //        }
+    //        else
+    //        {
+    //            Debug.Log($"[안전] 충돌한 오브젝트는 안전한 레이어입니다: {GetLayerName(collision.gameObject.layer)}");
+    //        }
+    //    }
+
+
+    //}
+
     // 죽음 레이어인지 확인 (상대편이 Fire(6번)나 Obstacle(7번) 레이어인지 체크)
     private bool IsDeathLayer(GameObject obj)
     {
@@ -400,6 +412,9 @@ public class Move : MonoBehaviour
         
         // FriendManager 싱글톤을 통해 스킬 중단
         FriendManager.FM?.OnDialogueStart();
+        GameManager.instance.GameOver();
+
+
     }
     
     // 플레이어 리스폰
