@@ -68,7 +68,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 1365010433866345102, guid: b4e55e6dae1a240ebb74e98d359c8811, type: 3}
+  m_Sprite: {fileID: 21300000, guid: b4e55e6dae1a240ebb74e98d359c8811, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -367,7 +367,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -7503290073607644743, guid: 3e6bbe5c17e1d4b57a3ce59fdfbe1af6, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 3e6bbe5c17e1d4b57a3ce59fdfbe1af6, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -425,6 +425,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TalkController
   textSpeed: 0.05
   textOffset: 6
+  talkSoundDelay: 0.1
   talkTarget_player: {fileID: 0}
   talkTarge_npc: {fileID: 0}
   ui_talk: {fileID: 7833998146216930314}

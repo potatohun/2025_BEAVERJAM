@@ -11,6 +11,7 @@ public class TalkController : MonoBehaviour
     [Header("Settings")]
     [SerializeField] private float textSpeed = 0.05f;
     [SerializeField] private float textOffset = 2f;
+    [SerializeField] private float talkSoundDelay = 0.1f;
 
     [Header("Talk Targets")]
     public GameObject talkTarget_player;
@@ -26,6 +27,8 @@ public class TalkController : MonoBehaviour
     private TalkData currentTalkData;
     private GameObject currentTalkTarget;
     private Tween talkTextTween;
+
+    private float talkSoundTime = 0f;
 
     private void Awake() {
         if (instance == null) {
@@ -112,7 +115,12 @@ public class TalkController : MonoBehaviour
         textLength -= bracketCount;
 
         // 텍스트 연출 표시
-        talkTextTween = ui_text_talk.DOText(currentTalkData.talk, textLength * textSpeed).OnComplete(() => {
+        talkTextTween = ui_text_talk.DOText(currentTalkData.talk, textLength * textSpeed).OnUpdate(() => {
+            if(Time.time - talkSoundTime > talkSoundDelay) {
+                SoundManager.instance.PlaySound("talk");
+                talkSoundTime = Time.time;
+            }
+        }).OnComplete(() => {
             isPlaying = false;
             talkTextTween = null;
         });
