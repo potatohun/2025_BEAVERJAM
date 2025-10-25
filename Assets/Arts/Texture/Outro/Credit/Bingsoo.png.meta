@@ -160,7 +160,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Bingsoo_0: -7258110856628295725
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
