@@ -4,8 +4,8 @@ public class Move : MonoBehaviour
 {
     public static Move Singleton_Move { get; private set; }
     [Header("Movement Settings")]
-    public float moveSpeed = 5f;
-    public float jumpForce = 10f;
+    public float moveSpeed = 10f;
+    public float jumpForce = 30f;
     
     [Header("Ground Check")]
     public Transform groundCheck;
@@ -16,7 +16,7 @@ public class Move : MonoBehaviour
     public bool isDead = false;
     public bool isInDialogue = false;
     
-    private Rigidbody2D rb;
+    public Rigidbody2D rb;
     private Animator animator;
     private bool isGrounded;
     private float horizontalInput;
@@ -119,6 +119,13 @@ public class Move : MonoBehaviour
             
             // Dead 상태 설정
             animator.SetBool("Dead", isDead);
+            
+            // 스킬 애니메이션 중이면 다른 상태는 건드리지 않음
+            bool isCocoSkillActive = animator.GetBool("CocoSkill");
+            if (isCocoSkillActive)
+            {
+                return; // 스킬 애니메이션 중이면 Walk와 Dead만 업데이트하고 종료
+            }
         }
     }
     
@@ -141,11 +148,12 @@ public class Move : MonoBehaviour
     }
     
     // Coco 스킬 애니메이션 제어
-    public void SetCocoSkill(bool isActive)
+    public void SetCocoSkill(bool isActive, int currentFriendID)
     {
         if (animator != null)
         {
             animator.SetBool("CocoSkill", isActive);
+            animator.SetInteger("FriendID", currentFriendID);
         }
     }
     
@@ -184,10 +192,14 @@ public class Move : MonoBehaviour
         
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayerMask);
         
-        // 지면에 착지했을 때 점프 상태 해제
+        // 지면에 착지했을 때 점프 상태 해제 (스킬 애니메이션 중이면 제외)
         if (isGrounded && animator != null)
         {
-            animator.SetBool("Jump", false);
+            bool isCocoSkillActive = animator.GetBool("CocoSkill");
+            if (!isCocoSkillActive)
+            {
+                animator.SetBool("Jump", false);
+            }
         }
         
         //Debug.Log("isGrounded: " + isGrounded);
