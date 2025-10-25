@@ -8,11 +8,9 @@ public class Move : MonoBehaviour
     public float jumpForce = 30f;
     
     [Header("Ground Check")]
-    public Transform groundCheckTrigger;
     public LayerMask groundLayerMask;
-    
-    // GroundCheckTrigger에서 접근하기 위한 프로퍼티
-    public LayerMask GroundLayerMask => groundLayerMask;
+    public float groundCheckDistance = 1f;
+    public Transform groundCheckPoint; // 레이캐스트 시작점
     
     [Header("State Management")]
     public bool isDead = false;
@@ -25,6 +23,10 @@ public class Move : MonoBehaviour
     private Animator animator;
     private bool isGrounded;
     private float horizontalInput;
+    
+    // 2단 점프 관련 변수
+    private int jumpCount = 0;
+    private int maxJumps = 2; // 최대 2단 점프
     
     void Start()
     {
@@ -48,23 +50,13 @@ public class Move : MonoBehaviour
             Debug.Log($"DeathLayerMask 자동 설정됨: {deathLayerMask.value} (Fire=6, Obstacle=7)");
         }
         
-        // Ground check 트리거 오브젝트가 없으면 자동으로 생성
-        if (groundCheckTrigger == null)
+        // Ground check 포인트가 없으면 자동으로 생성
+        if (groundCheckPoint == null)
         {
-            GameObject groundCheckObj = new GameObject("GroundCheckTrigger");
+            GameObject groundCheckObj = new GameObject("GroundCheckPoint");
             groundCheckObj.transform.SetParent(transform);
             groundCheckObj.transform.localPosition = new Vector3(0, -0.5f, 0);
-            
-            // BoxCollider2D 추가 (트리거로 설정)
-            BoxCollider2D triggerCollider = groundCheckObj.AddComponent<BoxCollider2D>();
-            triggerCollider.isTrigger = true;
-            triggerCollider.size = new Vector2(0.8f, 0.1f);
-            
-            // GroundCheckTrigger 스크립트 추가
-            GroundCheckTrigger groundCheckScript = groundCheckObj.AddComponent<GroundCheckTrigger>();
-            groundCheckScript.Initialize(this);
-            
-            groundCheckTrigger = groundCheckObj.transform;
+            groundCheckPoint = groundCheckObj.transform;
         }
     }
 
@@ -101,14 +93,16 @@ public class Move : MonoBehaviour
         // 캐릭터 방향 바꾸기
         FlipCharacter();
         
-        // 점프 입력 확인
-        if (Input.GetButtonDown("Jump") && isGrounded)
+        
+        if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
         {
             Jump();
         }
         
         // 애니메이터 파라미터 업데이트
         UpdateAnimator();
+        isGrounded = CheckGrounded();
+        Debug.Log(isGrounded);
     }
     
     void FlipCharacter()
@@ -204,39 +198,89 @@ public class Move : MonoBehaviour
         // 죽은 상태나 대화 중이면 점프 무시
         if (isDead || isInDialogue) return;
         
-        rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
-        
-        // 점프 애니메이션 트리거
-        if (animator != null)
+        // 점프 가능 조건: 땅에 있거나 점프 횟수가 최대보다 적을 때
+        if (isGrounded || jumpCount < maxJumps)
         {
-            animator.SetBool("Jump", true);
+            // 공중에서 점프할 때만 점프 횟수 증가
+            if (!isGrounded)
+            {
+                jumpCount++;
+                Debug.Log($"공중 점프! 점프 횟수: {jumpCount}/{maxJumps}");
+            }
+            else
+            {
+                Debug.Log("지면에서 점프!");
+            }
+            
+            // 점프 실행
+            rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
+            
+            // 점프 애니메이션 트리거
+            if (animator != null)
+            {
+                animator.SetBool("Jump", true);
+            }
+        }
+        else
+        {
+            Debug.Log($"점프 불가! 점프 횟수 초과: {jumpCount}/{maxJumps}");
         }
     }
     
-    // Ground 체크 상태 업데이트 (트리거에서 호출됨)
+    
+    // Ground 상태 확인 (외부에서 호출용)
+    public bool IsGrounded()
+    {
+        return CheckGrounded();
+    }
+    
+    // 레이캐스트 기반 지면 체크
+    private bool CheckGrounded()
+    {
+        if (groundCheckPoint == null) return false;
+        
+        // 발 아래로 레이캐스트 발사
+        Vector2 rayOrigin = groundCheckPoint.position;
+        Vector2 rayDirection = Vector2.down;
+        
+        RaycastHit2D hit = Physics2D.Raycast(rayOrigin, rayDirection, groundCheckDistance, groundLayerMask);
+        
+        bool grounded = hit.collider != null;
+        animator.SetBool("Jump", !grounded);
+        // 디버그용 레이캐스트 시각화
+        Debug.DrawRay(rayOrigin, rayDirection * groundCheckDistance, grounded ? Color.green : Color.red);
+        
+        return grounded;
+    }
+    
+    // Ground 체크 상태 업데이트 (GroundCH에서 호출됨)
     public void UpdateGroundedState(bool grounded)
     {
         // 죽은 상태나 대화 중이면 지면 체크 무시
         if (isDead || isInDialogue) return;
         
+        // 이미 같은 상태면 함수 호출 안함 (최적화)
+        if (isGrounded == grounded) return;
+        
         bool wasGrounded = isGrounded;
         isGrounded = grounded;
         
-        // 지면에 착지했을 때 점프 상태 해제 (스킬 애니메이션 중이면 제외)
-        if (isGrounded && !wasGrounded && animator != null)
+        // 땅에 착지했을 때 점프 횟수 리셋
+        if (isGrounded && !wasGrounded)
         {
-            bool isCocoSkillActive = animator.GetBool("CocoSkill");
-            if (!isCocoSkillActive)
+            jumpCount = 0;
+            Debug.Log("착지 - 점프 횟수 리셋");
+            
+            // 점프 애니메이션 해제 (스킬 애니메이션 중이면 제외)
+            if (animator != null)
             {
-                animator.SetBool("Jump", false);
+                bool isCocoSkillActive = animator.GetBool("CocoSkill");
+                if (!isCocoSkillActive)
+                {
+                    animator.SetBool("Jump", false);
+                }
             }
         }
-    }
-    
-    // Ground 상태 확인 (외부에서 호출용)
-    public bool IsGrounded()
-    {
-        return isGrounded;
     }
     
     // 죽음 트리거 처리 (상대편이 Fire(6번)나 Obstacle(7번) 레이어면 죽음)
@@ -368,16 +412,5 @@ public class Move : MonoBehaviour
     }
     
     // 디버그용 - 지면 체크 트리거 시각화
-    void OnDrawGizmosSelected()
-    {
-        if (groundCheckTrigger != null)
-        {
-            Gizmos.color = isGrounded ? Color.green : Color.red;
-            BoxCollider2D triggerCollider = groundCheckTrigger.GetComponent<BoxCollider2D>();
-            if (triggerCollider != null)
-            {
-                Gizmos.DrawWireCube(groundCheckTrigger.position, triggerCollider.size);
-            }
-        }
-    }
+
 }

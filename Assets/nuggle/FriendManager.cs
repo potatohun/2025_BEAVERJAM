@@ -65,19 +65,27 @@ public class FriendManager : MonoBehaviour
         // 스킬 사용 키 입력
         if (Input.GetKeyDown(KeyCode.Q))
         {
-            UseSkill(CharacterSkill.Coco);
+            if (skillUnlocked[0])
+                UseSkill(CharacterSkill.Coco);
+            else return;
         }
         else if (Input.GetKeyDown(KeyCode.W))
         {
-            UseSkill(CharacterSkill.Toto);
+            if (skillUnlocked[1])
+                UseSkill(CharacterSkill.Toto);
+            else return;
         }
         else if (Input.GetKeyDown(KeyCode.E))
         {
-            UseSkill(CharacterSkill.Galilei);
+            if (skillUnlocked[2])
+                UseSkill(CharacterSkill.Galilei);
+            else return;
         }
         else if (Input.GetKeyDown(KeyCode.R))
         {
-            UseSkill(CharacterSkill.Miu);
+            if (skillUnlocked[3])
+                UseSkill(CharacterSkill.Miu);
+            else return;
         }
         
         // 스킬 해금 키 입력 (테스트용)
@@ -162,12 +170,14 @@ public class FriendManager : MonoBehaviour
                 if (Move.Singleton_Move != null){
                     Move.Singleton_Move.moveSpeed = 60f;
                     Move.Singleton_Move.rb.constraints = RigidbodyConstraints2D.FreezePositionY;
+                    Move.Singleton_Move.rb.constraints = RigidbodyConstraints2D.FreezeRotation;
                 }
                 break;
             case CharacterSkill.Galilei:
                 StartCoroutine(GalileiSkillSequence());
                 break;
             case CharacterSkill.Miu:
+                Move.Singleton_Move.moveSpeed = 30f;
                 SetCocoAnimation(true, 4);
                 break;
         }
@@ -186,6 +196,15 @@ public class FriendManager : MonoBehaviour
             // 플레이어 오브젝트 안에 스킬 캐릭터 생성
             currentCharacterFM = Instantiate(characterPrefabList[skillIndex], Move.Singleton_Move.transform);
             currentCharacterFM.name = $"{skill}_SkillCharacter";
+            
+            // Miu일 경우 x 위치를 4.6으로 설정
+            if (skill == CharacterSkill.Miu)
+            {
+                Vector3 miuPosition = currentCharacterFM.transform.localPosition;
+                miuPosition.x = 4.6f;
+                currentCharacterFM.transform.localPosition = miuPosition;
+                Debug.Log($"Miu 스킬 캐릭터 생성 - x 위치: {miuPosition.x}");
+            }
         }
     }
     
@@ -213,9 +232,17 @@ public class FriendManager : MonoBehaviour
         // Galilei 애니메이션 상태 설정 (한 번만)
         SetCocoAnimation(true, (int)CharacterSkill.Galilei);
         
-        Debug.Log("Galilei 스킬 시작 - 애니메이션으로 코코 숨김");
+        // 물리 시스템 비활성화 (Galilei 스킬 중에는 완전히 코드로 제어)
+        Rigidbody2D rb = Move.Singleton_Move.rb;
+        bool wasKinematic = rb.isKinematic;
+        rb.isKinematic = true; // 물리 시뮬레이션 비활성화
         
-        // 2. 3초 대기
+        Debug.Log("Galilei 스킬 시작 - 물리 시스템 비활성화, 코드로 코코 숨김");
+        
+        // 1. 코코 숨기기
+        HideCoco();
+        
+        // 2. 1초 대기
         yield return new WaitForSeconds(1f);
         
         // 3. 지정된 위치와 각도로 스프라이트 켜기
@@ -225,7 +252,10 @@ public class FriendManager : MonoBehaviour
         Move.Singleton_Move.transform.position = targetPosition;
         Move.Singleton_Move.transform.rotation = targetRotation;
         
-        Debug.Log("Galilei 스킬 - 애니메이션으로 코코 재등장!");
+        // 4. 코코 다시 보이게 하기
+        ShowCoco();
+        
+        Debug.Log("Galilei 스킬 - 코코 재등장!");
         
         // 4. Z축 기준으로 뱅글뱅글 돌면서 Y:20까지 상승
         float rotationSpeed = 360f; // 초당 360도 회전
@@ -252,6 +282,8 @@ public class FriendManager : MonoBehaviour
         float descentSpeed = ascentSpeed; // 올라가는 속도와 동일
         float groundHeight = 0f; // 땅 높이
         
+        Debug.Log("Galilei 스킬 - 떨어지기 시작");
+        
         while (Move.Singleton_Move.transform.position.y > groundHeight)
         {
             // Y축 하강 (올라가는 속도와 동일)
@@ -261,6 +293,12 @@ public class FriendManager : MonoBehaviour
             
             yield return null;
         }
+        
+        // 정확히 땅 높이로 설정
+        Vector3 finalPos = Move.Singleton_Move.transform.position;
+        Move.Singleton_Move.transform.position = new Vector3(finalPos.x, groundHeight, finalPos.z);
+        
+        Debug.Log("Galilei 스킬 - 착지 완료");
         
         // 6. 착지 후 Z값을 자연스럽게 0으로 조절
         float rotationResetSpeed = 180f; // 초당 회전 속도 (자연스럽게)
@@ -282,7 +320,88 @@ public class FriendManager : MonoBehaviour
         // 최종적으로 정확히 0도로 설정
         Move.Singleton_Move.transform.rotation = Quaternion.Euler(0f, 0f, 0f);
         
-        Debug.Log("Galilei 스킬 완료 - 착지 및 회전 정리!");
+        // 물리 시스템 복원
+        rb.isKinematic = wasKinematic;
+        
+        Debug.Log("Galilei 스킬 완료 - 물리 시스템 복원!");
+    }
+    
+    // 코코 숨기기 함수 (자식 오브젝트들의 SpriteRenderer 제어)
+    void HideCoco()
+    {
+        if (Move.Singleton_Move == null) return;
+        
+        // Coco 오브젝트 찾기
+        Transform cocoTransform = Move.Singleton_Move.transform.Find("Coco");
+        if (cocoTransform != null)
+        {
+            // Coco의 모든 자식 오브젝트들의 SpriteRenderer 비활성화
+            SpriteRenderer[] childSpriteRenderers = cocoTransform.GetComponentsInChildren<SpriteRenderer>();
+            foreach (SpriteRenderer sr in childSpriteRenderers)
+            {
+                sr.enabled = false;
+                Debug.Log($"코코 자식 SpriteRenderer 숨김: {sr.gameObject.name}");
+            }
+            Debug.Log($"코코 숨김 완료 - {childSpriteRenderers.Length}개의 자식 SpriteRenderer 비활성화");
+        }
+        else
+        {
+            // 씬 전체에서 Coco 찾기
+            GameObject cocoObject = GameObject.Find("Coco");
+            if (cocoObject != null)
+            {
+                SpriteRenderer[] childSpriteRenderers = cocoObject.GetComponentsInChildren<SpriteRenderer>();
+                foreach (SpriteRenderer sr in childSpriteRenderers)
+                {
+                    sr.enabled = false;
+                    Debug.Log($"코코 자식 SpriteRenderer 숨김: {sr.gameObject.name}");
+                }
+                Debug.Log($"코코 숨김 완료 - {childSpriteRenderers.Length}개의 자식 SpriteRenderer 비활성화");
+            }
+            else
+            {
+                Debug.Log("코코 오브젝트를 찾을 수 없습니다!");
+            }
+        }
+    }
+    
+    // 코코 보이게 하기 함수 (자식 오브젝트들의 SpriteRenderer 제어)
+    void ShowCoco()
+    {
+        if (Move.Singleton_Move == null) return;
+        
+        // Coco 오브젝트 찾기
+        Transform cocoTransform = Move.Singleton_Move.transform.Find("Coco");
+        if (cocoTransform != null)
+        {
+            // Coco의 모든 자식 오브젝트들의 SpriteRenderer 활성화
+            SpriteRenderer[] childSpriteRenderers = cocoTransform.GetComponentsInChildren<SpriteRenderer>();
+            foreach (SpriteRenderer sr in childSpriteRenderers)
+            {
+                sr.enabled = true;
+                Debug.Log($"코코 자식 SpriteRenderer 재등장: {sr.gameObject.name}");
+            }
+            Debug.Log($"코코 재등장 완료 - {childSpriteRenderers.Length}개의 자식 SpriteRenderer 활성화");
+        }
+        else
+        {
+            // 씬 전체에서 Coco 찾기
+            GameObject cocoObject = GameObject.Find("Coco");
+            if (cocoObject != null)
+            {
+                SpriteRenderer[] childSpriteRenderers = cocoObject.GetComponentsInChildren<SpriteRenderer>();
+                foreach (SpriteRenderer sr in childSpriteRenderers)
+                {
+                    sr.enabled = true;
+                    Debug.Log($"코코 자식 SpriteRenderer 재등장: {sr.gameObject.name}");
+                }
+                Debug.Log($"코코 재등장 완료 - {childSpriteRenderers.Length}개의 자식 SpriteRenderer 활성화");
+            }
+            else
+            {
+                Debug.Log("코코 오브젝트를 찾을 수 없습니다!");
+            }
+        }
     }
     
     // 스킬 지속 시간 시작
@@ -308,7 +427,7 @@ public class FriendManager : MonoBehaviour
             case CharacterSkill.Toto:
                 if (Move.Singleton_Move != null){
                     Move.Singleton_Move.moveSpeed = 10f;
-                    Move.Singleton_Move.rb.constraints = RigidbodyConstraints2D.None;
+                    Move.Singleton_Move.rb.constraints = RigidbodyConstraints2D.FreezeRotation;
                 }
                 break;
             case CharacterSkill.Galilei:
@@ -342,6 +461,9 @@ public class FriendManager : MonoBehaviour
             case CharacterSkill.Galilei:
                 break;
             case CharacterSkill.Miu:
+                if (Move.Singleton_Move != null){
+                    Move.Singleton_Move.moveSpeed = 10f;
+                }
                 break;
         }
         // 스킬 해제
