@@ -1,5 +1,12 @@
 group_id,talk_id,start,talk,next_talk_id
-start,talk_id_1,player," hello my name is coco",talk_id_2
-start,talk_id_2,npc,i want to be a great npc,talk_id_3
-start,talk_id_3,player,nice to meet you,talk_id_4
-start,talk_id_4,npc,nic to meet you too,end
+toto,talk_toto_1,npc,...코코? 여기서 뭐하십니까?,talk_toto_2
+toto,talk_toto_2,player,보물을 찾으러 갈 거여! 사슴성으로 말여!,talk_toto_3
+toto,talk_toto_3,player,토토도 같이 갈 텨?,talk_toto_4
+toto,talk_toto_4,npc,<size=100>저는 싫습니다!</size> 위험한 일을 당하면 어쩌려고 그러십니까?,talk_toto_5
+toto,talk_toto_5,player,그런 겨...?,talk_toto_6
+toto,talk_toto_6,player,내는 모처럼 달리기가 하고 싶었는디.. 아쉽구먼...,talk_toto_7
+toto,talk_toto_7,npc,...큼큼.. 달리기 말씀이십니까?,talk_toto_8
+toto,talk_toto_8,npc,그렇다면... 따라 가겠습니다!,talk_toto_9
+toto,talk_toto_9,player,뭐어? 정말인겨?,talk_toto_10
+toto,talk_toto_10,player,그러면 나는 안심이구먼유!,talk_toto_11
+toto,talk_toto_11,npc,코코! 달리고 싶으시면 언제든지 제게 말씀하십쇼!,end

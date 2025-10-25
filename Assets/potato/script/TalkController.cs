@@ -2,10 +2,15 @@ using UnityEngine;
 using DG.Tweening;
 using TMPro;
 using UnityEngine.UI;
+using Unity.Cinemachine;
 
 public class TalkController : MonoBehaviour
 {
     public static TalkController instance;
+
+    [Header("Settings")]
+    [SerializeField] private float textSpeed = 0.05f;
+    [SerializeField] private float textOffset = 2f;
 
     [Header("Talk Targets")]
     public GameObject talkTarget_player;
@@ -16,9 +21,10 @@ public class TalkController : MonoBehaviour
     public TextMeshProUGUI ui_text_talk;
 
     [Header("Status")]
-    public bool isPlaying = false;
+    [SerializeField] private bool isPlaying = false;
 
     private TalkData currentTalkData;
+    private GameObject currentTalkTarget;
     private Tween talkTextTween;
 
     private void Awake() {
@@ -29,17 +35,32 @@ public class TalkController : MonoBehaviour
         }
     }
 
+    private void Start() {
+        talkTarget_player = GameObject.FindWithTag("Player");
+    }
+
     void Update() {
-        if(Input.GetKeyDown(KeyCode.S)) {
-            StartTalk("start");
+        if(Input.GetKeyDown(KeyCode.Space)) {
+            if(currentTalkData == null) {
+                return;
+            }
+
+            NextTalk();
         }
 
-        if(Input.GetKeyDown(KeyCode.Space)) {
-            NextTalk();
+        // 현재 타겟이 있으면 타겟 위치로 이동
+        if(currentTalkTarget != null)
+        {
+            ui_talk.anchoredPosition = GetTargetPositionToCanvas(currentTalkTarget);
         }
     }
 
-    public void StartTalk(string group_id) {
+    public void StartTalk(string group_id, GameObject npc) {
+        talkTarge_npc = npc;
+
+        // 카메라 줌인
+        CameraManager.instance.ZoomInToTarget(talkTarget_player, talkTarge_npc);
+
         TalkData talkData = TalkDataLoader.instance.GetTalkDataByGroup(group_id);
         if (talkData == null) {
             Debug.LogWarning($"그룹 ID '{group_id}'를 찾을 수 없습니다.");
@@ -63,18 +84,35 @@ public class TalkController : MonoBehaviour
         // 타겟 포지션 설정
         switch(talkData.start) {
             case "player":
-                Vector2 playerPosition = GetTargetPositionToCanvas(talkTarget_player);
-                ui_talk.anchoredPosition = playerPosition;
+                currentTalkTarget = talkTarget_player;
                 break;
             case "npc":
-                Vector2 npcPosition = GetTargetPositionToCanvas(talkTarge_npc);
-                ui_talk.anchoredPosition = npcPosition;
+                currentTalkTarget = talkTarge_npc;
                 break;
         }
 
         // 텍스트 표시
         int textLength = currentTalkData.talk.Length;
-        talkTextTween = ui_text_talk.DOText(currentTalkData.talk, textLength * 0.1f).OnComplete(() => {
+        
+        // "<" 와 ">" 사이의 글자 수를 length에서 빼기
+        string text = currentTalkData.talk;
+        int bracketCount = 0;
+        bool isOpenTag = false;
+        for (int i = 0; i < text.Length; i++) {
+            if (text[i] == '<') {
+                isOpenTag = true;
+                bracketCount++; // '<' 문자도 카운트
+            } else if (text[i] == '>') {
+                isOpenTag = false;
+                bracketCount++; // '>' 문자도 카운트
+            } else if (isOpenTag) {
+                bracketCount++; // 태그 안의 글자들도 카운트
+            }
+        }
+        textLength -= bracketCount;
+
+        // 텍스트 연출 표시
+        talkTextTween = ui_text_talk.DOText(currentTalkData.talk, textLength * textSpeed).OnComplete(() => {
             isPlaying = false;
             talkTextTween = null;
         });
@@ -105,45 +143,34 @@ public class TalkController : MonoBehaviour
     }
 
     public void EndTalk() {
+        currentTalkData = null;
+        currentTalkTarget = null;
         ui_talk.gameObject.SetActive(false);
+        CameraManager.instance.ZoomOut();
     }
 
     public Vector2 GetTargetPositionToCanvas(GameObject target)
     {
-        // Orthographic 카메라의 경우 직접 월드 좌표를 사용
-        Vector3 worldPosition = target.transform.position + new Vector3(0, 2, 0);
+        Camera playerCamera = CameraManager.instance.GetMainCamera();
         
-        // Orthographic 카메라의 월드 좌표를 스크린 좌표로 변환
-        Vector3 screenPosition = Camera.main.WorldToScreenPoint(worldPosition);
+        // 타겟 위치에 오프셋 적용
+        Vector3 worldPosition = target.transform.position + new Vector3(0, textOffset, 0);
         
         // Canvas 컴포넌트 찾기
         Canvas canvas = ui_talk.GetComponentInParent<Canvas>();
         RectTransform canvasRect = canvas.GetComponent<RectTransform>();
+        
+        // Cinemachine 카메라를 위한 좌표 변환
+        Vector3 screenPosition = playerCamera.WorldToScreenPoint(worldPosition);
         
         // 스크린 좌표를 Canvas 로컬 좌표로 변환
         Vector2 localPoint;
         RectTransformUtility.ScreenPointToLocalPointInRectangle(
             canvasRect,
             screenPosition,
-            canvas.renderMode == RenderMode.ScreenSpaceOverlay ? null : Camera.main,
+            canvas.renderMode == RenderMode.ScreenSpaceOverlay ? null : playerCamera,
             out localPoint
         );
-        
-        // Orthographic 카메라의 경우 추가 오프셋 적용
-        if (Camera.main.orthographic)
-        {
-            // 카메라의 orthographicSize를 고려한 스케일링
-            float orthoSize = Camera.main.orthographicSize;
-            float aspectRatio = (float)Screen.width / Screen.height;
-            
-            // 월드 좌표를 직접 Canvas 좌표로 변환
-            Vector2 worldToCanvas = new Vector2(
-                (worldPosition.x / (orthoSize * aspectRatio)) * canvasRect.rect.width * 0.5f,
-                (worldPosition.y / orthoSize) * canvasRect.rect.height * 0.5f
-            );
-            
-            return worldToCanvas;
-        }
         
         return localPoint;
     }

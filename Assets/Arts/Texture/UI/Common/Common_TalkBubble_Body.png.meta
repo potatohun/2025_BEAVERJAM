@@ -103,13 +103,13 @@ TextureImporter:
       name: Common_TalkBubble_Body_0
       rect:
         serializedVersion: 2
-        x: 2
-        y: 2
+        x: 1
+        y: 0
         width: 44
         height: 44
       alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 16, y: 16, z: 16, w: 16}
       customData: 
       outline: []
       physicsShape: []
@@ -125,7 +125,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: f9c1b66a90f861f42b1e8c87d36c7c52
     internalID: 0
     vertices: []
     indices: 
