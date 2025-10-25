@@ -82,6 +82,9 @@ MonoBehaviour:
   - {fileID: 975410161573131870, guid: 5d1060c1ba58e4a8882cb549b81fea83, type: 3}
   - {fileID: 975410161573131870, guid: 0688b6cbd172b468182462bebb1dcb40, type: 3}
   - {fileID: 975410161573131870, guid: 2e05113137a50417a8c3d55566c8d117, type: 3}
+  ParticlePrefab:
+  - {fileID: 2020661361868494885, guid: 895c6d094b6b213418cddcfb520298e9, type: 3}
+  - {fileID: 6403252182692130976, guid: 4e12b3c53c0f8ee4da83655d8d2770d5, type: 3}
   cocoSkillDuration: 3
   totoSkillDuration: 2
   galileiSkillDuration: 1

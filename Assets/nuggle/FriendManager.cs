@@ -23,6 +23,7 @@ public class FriendManager : MonoBehaviour
 
     [Header("Character Prefab List")]
     public GameObject[] characterPrefabList; // Toto, Galilei, Miu 순서
+    public GameObject[] ParticlePrefab;
     
     [Header("Skill Duration Settings")]
     public float cocoSkillDuration = 3f;
@@ -32,6 +33,8 @@ public class FriendManager : MonoBehaviour
     
     private GameObject currentCharacterFM;
     private Coroutine skillDurationCoroutine;
+
+    private GameObject Particle;
 
     [SerializeField] private CircleCollider2D WaterColliderObject;
     
@@ -169,8 +172,7 @@ public class FriendManager : MonoBehaviour
             case CharacterSkill.Toto:
                 if (Move.Singleton_Move != null){
                     Move.Singleton_Move.moveSpeed = 60f;
-                    Move.Singleton_Move.rb.constraints = RigidbodyConstraints2D.FreezePositionY;
-                    Move.Singleton_Move.rb.constraints = RigidbodyConstraints2D.FreezeRotation;
+                    Move.Singleton_Move.rb.constraints = RigidbodyConstraints2D.FreezePositionY | RigidbodyConstraints2D.FreezeRotation;
                 }
                 break;
             case CharacterSkill.Galilei:
@@ -196,7 +198,10 @@ public class FriendManager : MonoBehaviour
             // 플레이어 오브젝트 안에 스킬 캐릭터 생성
             currentCharacterFM = Instantiate(characterPrefabList[skillIndex], Move.Singleton_Move.transform);
             currentCharacterFM.name = $"{skill}_SkillCharacter";
-            
+
+            Particle = Instantiate(ParticlePrefab[0], currentCharacterFM.transform);
+
+
             // Miu일 경우 x 위치를 4.6으로 설정
             if (skill == CharacterSkill.Miu)
             {
@@ -442,11 +447,14 @@ public class FriendManager : MonoBehaviour
     // 스킬 지속 시간 코루틴
     System.Collections.IEnumerator SkillDurationCoroutine(CharacterSkill skill, float duration)
     {
+        float particletime = duration - 0.5f;
         if(skill == CharacterSkill.Coco)
         {
             WaterColliderObject.enabled = true;
         }
-        yield return new WaitForSeconds(duration);
+        yield return new WaitForSeconds(particletime);
+        Particle = Instantiate(ParticlePrefab[1], currentCharacterFM.transform);
+        yield return new WaitForSeconds(0.5f);
         WaterColliderObject.enabled = false;
         // 스킬 시간 종료
         Debug.Log($"{skill} 친구와의 시간이 끝났어요!");
@@ -455,7 +463,7 @@ public class FriendManager : MonoBehaviour
             case CharacterSkill.Toto:
                 if (Move.Singleton_Move != null){
                     Move.Singleton_Move.moveSpeed = 10f;
-                    Move.Singleton_Move.rb.constraints = RigidbodyConstraints2D.None;
+                    Move.Singleton_Move.rb.constraints = RigidbodyConstraints2D.FreezeRotation;
                 }
                 break;
             case CharacterSkill.Galilei:

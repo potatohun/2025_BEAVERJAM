@@ -429,6 +429,8 @@ public class Move : MonoBehaviour
         {
             animator.SetBool("Dead", false);
             animator.SetBool("Jump", false);
+            animator.SetBool("CocoSkill", false);
+            animator.SetBool("Walk", false);
         }
 
         this.GetComponent<CircleCollider2D>().enabled = true;
