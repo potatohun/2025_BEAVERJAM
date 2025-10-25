@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: fe2e5f585a65947bb925954c4bcd89df
+guid: 6d3befc53ab6b4bc895d502c5af214c1
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 3973517576370976934
-    second: backgroundDesert_0
+      213: -3843433751633978445
+    second: bg_layer1_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -46,7 +46,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: backgroundDesert_0
+      name: bg_layer1_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 1024
-        height: 1024
+        width: 2048
+        height: 2048
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 6a8fc50ee25c42730800000000000000
-      internalID: 3973517576370976934
+      spriteID: 3bb1c14cd5169aac0800000000000000
+      internalID: -3843433751633978445
       vertices: []
       indices: 
       edges: []
@@ -125,7 +125,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 5e97eb03825dee720800000000000000
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      backgroundDesert_0: 3973517576370976934
+      bg_layer1_0: -3843433751633978445
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
