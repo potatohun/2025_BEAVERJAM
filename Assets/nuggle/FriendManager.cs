@@ -3,7 +3,7 @@ using UnityEngine;
 public class FriendManager : MonoBehaviour
 {
     // 싱글톤 패턴
-    public static FriendManager Instance { get; private set; }
+    public static FriendManager FM { get; private set; }
     
     public enum CharacterSkill
     {
@@ -29,17 +29,17 @@ public class FriendManager : MonoBehaviour
     public float galileiSkillDuration = 3f;
     public float miuSkillDuration = 3f;
     
-    private GameObject currentCharacterInstance;
-    private Transform playerTransform;
-    private Move playerMove;
+    private GameObject currentCharacterFM;
     private Coroutine skillDurationCoroutine;
+
+    [SerializeField] private BoxCollider2D WaterColliderObject;
     
     void Awake()
     {
         // 싱글톤 설정
-        if (Instance == null)
+        if (FM == null)
         {
-            Instance = this;
+            FM = this;
             DontDestroyOnLoad(gameObject);
         }
         else
@@ -56,17 +56,10 @@ public class FriendManager : MonoBehaviour
         Debug.Log("지금은 도와주는 친구가 없어요.");
     }
     
-    // 플레이어 참조 설정 (Move.cs에서 호출)
-    public void SetPlayerReference(Move move)
-    {
-        playerMove = move;
-        playerTransform = move.transform;
-        Debug.Log("플레이어 참조가 설정되었습니다.");
-    }
-    
     void Update()
     {
-        if(playerMove == null || playerMove.isDead || playerMove.isInDialogue) return;
+        // Move 싱글톤 직접 참조로 최적화
+        if (Move.Singleton_Move == null || Move.Singleton_Move.isDead || Move.Singleton_Move.isInDialogue) return;
         
         // 스킬 사용 키 입력
         if (Input.GetKeyDown(KeyCode.Q))
@@ -168,32 +161,32 @@ public class FriendManager : MonoBehaviour
     // 스킬 캐릭터 생성
     void CreateSkillCharacter(CharacterSkill skill)
     {
-        if (playerTransform == null) return;
+        if (Move.Singleton_Move == null) return;
         
         int skillIndex = (int)skill - 2; // None=0, Coco=1이므로 -2 (Toto부터 시작)
         
         if (skillIndex >= 0 && skillIndex < characterPrefabList.Length && characterPrefabList[skillIndex] != null)
         {
             // 플레이어 오브젝트 안에 스킬 캐릭터 생성
-            currentCharacterInstance = Instantiate(characterPrefabList[skillIndex], playerTransform);
-            currentCharacterInstance.name = $"{skill}_SkillCharacter";
+            currentCharacterFM = Instantiate(characterPrefabList[skillIndex], Move.Singleton_Move.transform);
+            currentCharacterFM.name = $"{skill}_SkillCharacter";
         }
     }
     
     // 스킬 캐릭터만 제거
     void DestroySkillCharacter()
     {
-        if (currentCharacterInstance != null)
+        if (currentCharacterFM != null)
         {
-            Destroy(currentCharacterInstance);
-            currentCharacterInstance = null;
+            Destroy(currentCharacterFM);
+            currentCharacterFM = null;
         }
     }
     
     // Coco 애니메이션 제어
     void SetCocoAnimation(bool isActive)
     {
-        playerMove?.SetCocoSkill(isActive);
+        Move.Singleton_Move?.SetCocoSkill(isActive);
     }
     
     // 스킬 지속 시간 시작
@@ -222,8 +215,9 @@ public class FriendManager : MonoBehaviour
     // 스킬 지속 시간 코루틴
     System.Collections.IEnumerator SkillDurationCoroutine(CharacterSkill skill, float duration)
     {
+        WaterColliderObject.enabled = true;
         yield return new WaitForSeconds(duration);
-        
+        WaterColliderObject.enabled = false;
         // 스킬 시간 종료
         Debug.Log($"{skill} 친구와의 시간이 끝났어요!");
         

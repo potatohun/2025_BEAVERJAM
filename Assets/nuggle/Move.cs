@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class Move : MonoBehaviour
 {
+    public static Move Singleton_Move { get; private set; }
     [Header("Movement Settings")]
     public float moveSpeed = 5f;
     public float jumpForce = 10f;
@@ -22,11 +23,18 @@ public class Move : MonoBehaviour
     
     void Start()
     {
+        if (Singleton_Move == null)
+        {
+            Singleton_Move = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+            return;
+        }
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
-        
-        // FriendManager에 플레이어 참조 설정
-        FriendManager.Instance?.SetPlayerReference(this);
         
         // Ground check 오브젝트가 없으면 자동으로 생성
         if (groundCheck == null)
@@ -194,7 +202,7 @@ public class Move : MonoBehaviour
         SetIdleState();
         
         // FriendManager 싱글톤을 통해 스킬 중단
-        FriendManager.Instance?.OnDialogueStart();
+        FriendManager.FM?.OnDialogueStart();
         
         Debug.Log("대화 시작 - 모든 애니메이션 중단, Idle 상태로 전환");
     }
@@ -223,7 +231,7 @@ public class Move : MonoBehaviour
         SetIdleState();
 
         // FriendManager 싱글톤을 통해 스킬 중단
-        FriendManager.Instance?.OnDialogueStart();
+        FriendManager.FM?.OnDialogueStart();
 
         // 물리 효과 정지
         rb.linearVelocity = Vector2.zero;
