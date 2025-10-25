@@ -1,5 +1,6 @@
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Splines.ExtrusionShapes;
 
 public class Move : MonoBehaviour
 {
@@ -13,6 +14,10 @@ public class Move : MonoBehaviour
     public float groundCheckDistance = 1f;
     public Transform groundCheckPoint; // 레이캐스트 시작점
     
+    //public LayerMask waterLayerMask;
+    //public bool Playerinwater = false;
+
+
     [Header("State Management")]
     public bool isDead = false;
     public bool isInDialogue = false;
@@ -30,6 +35,8 @@ public class Move : MonoBehaviour
     private int maxJumps = 1; // 최대 2단 점프
 
     public GameObject WaterCol_Object;
+
+    float waterTimer = 0.0f;
     
     void Start()
     {
@@ -83,8 +90,10 @@ public class Move : MonoBehaviour
         }
         // 죽은 상태나 대화 중이면 입력 무시
         if (isDead || isInDialogue) return;
-        
 
+        //if (Playerinwater) waterTimer += Time.deltaTime * 1f;
+        //else if (!Playerinwater && waterTimer != 0) waterTimer = 0;
+        //if (waterTimer > 4 && !isDead) SetDead();
 
         // 입력 받기 (화살표 키)
         horizontalInput = 0f;
@@ -181,6 +190,7 @@ public class Move : MonoBehaviour
     {
         if (animator != null)
         {
+            animator.SetBool("Jump", false);
             animator.SetBool("CocoSkill", isActive);
             animator.SetInteger("FriendID", currentFriendID);
         }
@@ -203,7 +213,7 @@ public class Move : MonoBehaviour
     void Jump()
     {
         // 죽은 상태나 대화 중이면 점프 무시
-        if (isDead || isInDialogue) return;
+        if (isDead || isInDialogue || FriendManager.FM.currentSkill == FriendManager.CharacterSkill.Galilei) return;
         
         // 점프 가능 조건: 땅에 있거나 점프 횟수가 최대보다 적을 때
         if (isGrounded || jumpCount < maxJumps)
@@ -251,45 +261,53 @@ public class Move : MonoBehaviour
         Vector2 rayDirection = Vector2.down;
         
         RaycastHit2D hit = Physics2D.Raycast(rayOrigin, rayDirection, groundCheckDistance, groundLayerMask);
-        
+
         bool grounded = hit.collider != null;
-        animator.SetBool("Jump", !grounded);
+        if(FriendManager.FM.currentSkill != FriendManager.CharacterSkill.Miu)
+            animator.SetBool("Jump", !grounded);
         // 디버그용 레이캐스트 시각화
         Debug.DrawRay(rayOrigin, rayDirection * groundCheckDistance, grounded ? Color.green : Color.red);
 
         if (grounded) jumpCount = 0;
+        //else
+        //{
+        //    RaycastHit2D hit_water = Physics2D.Raycast(rayOrigin, rayDirection, groundCheckDistance, waterLayerMask);
+        //    Playerinwater = hit_water.collider != null;
+        //}
+
+
         return grounded;
     }
     
-    // Ground 체크 상태 업데이트 (GroundCH에서 호출됨)
-    public void UpdateGroundedState(bool grounded)
-    {
-        // 죽은 상태나 대화 중이면 지면 체크 무시
-        if (isDead || isInDialogue) return;
+    //// Ground 체크 상태 업데이트 (GroundCH에서 호출됨)
+    //public void UpdateGroundedState(bool grounded)
+    //{
+    //    // 죽은 상태나 대화 중이면 지면 체크 무시
+    //    if (isDead || isInDialogue) return;
         
-        // 이미 같은 상태면 함수 호출 안함 (최적화)
-        if (isGrounded == grounded) return;
+    //    // 이미 같은 상태면 함수 호출 안함 (최적화)
+    //    if (isGrounded == grounded) return;
         
-        bool wasGrounded = isGrounded;
-        isGrounded = grounded;
+    //    bool wasGrounded = isGrounded;
+    //    isGrounded = grounded;
         
-        // 땅에 착지했을 때 점프 횟수 리셋
-        if (isGrounded && !wasGrounded)
-        {
-            jumpCount = 0;
-            Debug.Log("착지 - 점프 횟수 리셋");
+    //    // 땅에 착지했을 때 점프 횟수 리셋
+    //    if (isGrounded && !wasGrounded)
+    //    {
+    //        jumpCount = 0;
+    //        Debug.Log("착지 - 점프 횟수 리셋");
             
-            // 점프 애니메이션 해제 (스킬 애니메이션 중이면 제외)
-            if (animator != null)
-            {
-                bool isCocoSkillActive = animator.GetBool("CocoSkill");
-                if (!isCocoSkillActive)
-                {
-                    animator.SetBool("Jump", false);
-                }
-            }
-        }
-    }
+    //        // 점프 애니메이션 해제 (스킬 애니메이션 중이면 제외)
+    //        if (animator != null)
+    //        {
+    //            bool isCocoSkillActive = animator.GetBool("CocoSkill");
+    //            if (!isCocoSkillActive)
+    //            {
+    //                animator.SetBool("Jump", false);
+    //            }
+    //        }
+    //    }
+    //}
 
     // 죽음 트리거 처리 (상대편이 Fire(6번)나 Obstacle(7번) 레이어면 죽음)
     void OnTriggerEnter2D(Collider2D other)

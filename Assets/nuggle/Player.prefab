@@ -2592,7 +2592,7 @@ GameObject:
   - component: {fileID: 5529829441454456566}
   - component: {fileID: 735225403890041691}
   - component: {fileID: 2855084387424322068}
-  m_Layer: 4
+  m_Layer: 0
   m_Name: Watercol
   m_TagString: Untagged
   m_Icon: {fileID: 0}
