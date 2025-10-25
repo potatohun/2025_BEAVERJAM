@@ -3,6 +3,8 @@ using DG.Tweening;
 
 public class FadeInOutController : MonoBehaviour
 {
+    public static FadeInOutController instance;
+
     [Header("Settings")]
     [SerializeField] private float fadeDuration = 1f;
     [SerializeField] private float targetScale = 200f;
@@ -16,6 +18,12 @@ public class FadeInOutController : MonoBehaviour
     private Tween fadeTween;
 
     private void Awake() {
+        if(instance == null) {
+            instance = this;
+        } else {
+            Destroy(gameObject);
+        }
+        
         player = GameObject.FindWithTag("Player");
     }
 
@@ -72,5 +80,9 @@ public class FadeInOutController : MonoBehaviour
             holeCanvas.gameObject.SetActive(false);
             fadeTween = null;
         });
+    }
+
+    public float GetPlayTime() {
+        return fadeDuration;
     }
 }

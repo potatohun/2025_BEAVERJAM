@@ -251,6 +251,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FadeInOutController
   fadeDuration: 1.5
+  targetScale: 200
   backgroundCanvas: {fileID: 3512771949296135503}
   holeCanvas: {fileID: 2404405393338188980}
   holeRectTransform: {fileID: 2422075636888045337}
@@ -394,7 +395,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 7819013693891684255, guid: e5c72da7405d5dc44963856652a6f9de, type: 3}
+  m_Sprite: {fileID: 21300000, guid: d97e87004c074ef42aed9d6186487e76, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
