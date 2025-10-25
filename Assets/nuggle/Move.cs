@@ -94,11 +94,15 @@ public class Move : MonoBehaviour
         FlipCharacter();
         
         
-        if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             Jump();
         }
-        
+        //if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
+        //{
+        //    Jump();
+        //}
+
         // 애니메이터 파라미터 업데이트
         UpdateAnimator();
         isGrounded = CheckGrounded();
@@ -224,6 +228,7 @@ public class Move : MonoBehaviour
         else
         {
             Debug.Log($"점프 불가! 점프 횟수 초과: {jumpCount}/{maxJumps}");
+            jumpCount = 0;
         }
     }
     
