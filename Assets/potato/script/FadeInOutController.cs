@@ -85,4 +85,30 @@ public class FadeInOutController : MonoBehaviour
     public float GetPlayTime() {
         return fadeDuration;
     }
+    
+    public void FadeOutIn() {
+        // 배경 캔버스와 구멍 캔버스 활성화
+        backgroundCanvas.gameObject.SetActive(true);
+        holeCanvas.gameObject.SetActive(true);
+
+        if(fadeTween != null) {
+            fadeTween.Complete();
+            fadeTween = null;
+        }
+        
+        holeRectTransform.localScale = new Vector3(targetScale, targetScale, targetScale);
+        holeRectTransform.DOScale(1, fadeDuration).OnUpdate(() => {
+            holeRectTransform.anchoredPosition = TalkController.instance.GetPlayerPositionToCanvas(player);
+        }).OnComplete(() => {
+            holeRectTransform.localScale = new Vector3(1, 1, 1);
+            fadeTween = holeRectTransform.DOScale(targetScale, fadeDuration).OnUpdate(() => {
+                holeRectTransform.anchoredPosition = TalkController.instance.GetPlayerPositionToCanvas(player);
+            }).OnComplete(() => {
+                // 배경 캔버스와 구멍 캔버스 비활성화
+                backgroundCanvas.gameObject.SetActive(false);
+                holeCanvas.gameObject.SetActive(false);
+                fadeTween = null;
+            });
+        });
+    }
 }

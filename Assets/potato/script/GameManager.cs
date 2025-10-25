@@ -17,16 +17,12 @@ public class GameManager : MonoBehaviour
     }
 
     public void GameOver() {
-        FadeInOutController.instance.FadeOut();
-        Invoke("Restart", FadeInOutController.instance.GetPlayTime());
-    }
-
-    public void Restart() {
-        Move.Singleton_Move.Respawn();
+        FadeInOutController.instance.FadeOutIn();
         Invoke("Respawn", FadeInOutController.instance.GetPlayTime());
     }
 
     public void Respawn() {
-        FadeInOutController.instance.FadeIn();
+        Move.Singleton_Move.transform.position = SavePointManager.instance.GetCurrentSavePoint().transform.position;
+        Move.Singleton_Move.Respawn();
     }
 }

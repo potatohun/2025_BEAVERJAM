@@ -414,7 +414,8 @@ public class Move : MonoBehaviour
         FriendManager.FM?.OnDialogueStart();
         GameManager.instance.GameOver();
 
-
+        this.GetComponent<CircleCollider2D>().enabled = false;
+        this.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Kinematic;
     }
     
     // 플레이어 리스폰
@@ -429,6 +430,9 @@ public class Move : MonoBehaviour
             animator.SetBool("Dead", false);
             animator.SetBool("Jump", false);
         }
+
+        this.GetComponent<CircleCollider2D>().enabled = true;
+        this.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
     }
     
     // 디버그용 - 지면 체크 트리거 시각화

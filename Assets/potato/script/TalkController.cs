@@ -73,6 +73,9 @@ public class TalkController : MonoBehaviour
         // UI 표시
         ui_talk.gameObject.SetActive(true);
 
+        // 플레이어 제어
+        Move.Singleton_Move.StartDialogue();
+
         ShowTalk(talkData);
     }
 
@@ -151,15 +154,26 @@ public class TalkController : MonoBehaviour
     }
 
     public void EndTalk() {
+        // 대화 종료 시, 캐릭터 스킬 해금
+        if(currentTalkTarget != null && currentTalkTarget.GetComponentInParent<NpcController>() != null) {
+            Debug.Log("대화 종료 시, 캐릭터 스킬 해금");
+            NpcController npcController = currentTalkTarget.GetComponentInParent<NpcController>();
+            if(npcController.GetCanUnlock()) {
+                Debug.Log("캐릭터 스킬 해금");
+                FriendManager.FM.UnlockSkill(npcController.GetSkill());
+            }
+        } else {
+            Debug.Log("대화 종료 시, 캐릭터 스킬 해금 불가");   
+        }
+            
+
         currentTalkData = null;
         currentTalkTarget = null;
         ui_talk.gameObject.SetActive(false);
         CameraManager.instance.ZoomOut();
 
-        // 대화 종료 시, 캐릭터 스킬 해금
-        if(talkTarge_npc.GetComponent<NpcController>().GetCanUnlock()) {
-            FriendManager.FM.UnlockSkill(talkTarge_npc.GetComponent<NpcController>().GetSkill());
-        }
+        // 플레이어 제어
+        Move.Singleton_Move.EndDialogue();
     }
 
     public Vector2 GetTargetPositionToCanvas(GameObject target)
