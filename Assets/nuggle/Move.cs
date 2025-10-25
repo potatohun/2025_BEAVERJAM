@@ -26,7 +26,7 @@ public class Move : MonoBehaviour
     
     // 2단 점프 관련 변수
     private int jumpCount = 0;
-    private int maxJumps = 2; // 최대 2단 점프
+    private int maxJumps = 1; // 최대 2단 점프
     
     void Start()
     {
@@ -94,11 +94,15 @@ public class Move : MonoBehaviour
         FlipCharacter();
         
         
-        if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             Jump();
         }
-        
+        //if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
+        //{
+        //    Jump();
+        //}
+
         // 애니메이터 파라미터 업데이트
         UpdateAnimator();
         isGrounded = CheckGrounded();
@@ -249,7 +253,8 @@ public class Move : MonoBehaviour
         animator.SetBool("Jump", !grounded);
         // 디버그용 레이캐스트 시각화
         Debug.DrawRay(rayOrigin, rayDirection * groundCheckDistance, grounded ? Color.green : Color.red);
-        
+
+        if (grounded) jumpCount = 0;
         return grounded;
     }
     
