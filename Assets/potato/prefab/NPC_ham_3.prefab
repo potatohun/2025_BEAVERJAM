@@ -168,7 +168,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 10, y: 1.85}
+  m_Size: {x: 5, y: 1.85}
   m_EdgeRadius: 0
 --- !u!114 &4467912900707742412
 MonoBehaviour:
@@ -185,4 +185,6 @@ MonoBehaviour:
   isTalkable: 1
   reUseable: 0
   group_id: toto
+  canUnlock: 0
+  skill: 0
   textBubble: {fileID: 114847051801654007}
