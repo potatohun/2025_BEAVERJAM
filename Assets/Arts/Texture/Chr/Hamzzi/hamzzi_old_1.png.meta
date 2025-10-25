@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: f6911d20532cb4f14bd892fc8c3da6ba
+guid: 27e7936337b8fca4d8cd1cf96d8e5dc4
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 3907721248601932646
-    second: GameTitle_0
+      213: -985334995326916010
+    second: hamzzi_old_1_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -126,13 +126,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: GameTitle_0
+      name: hamzzi_old_1_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 554
-        height: 372
+        x: 4
+        y: 5
+        width: 194
+        height: 251
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -141,8 +141,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 6630a2885c30b3630800000000000000
-      internalID: 3907721248601932646
+      spriteID: 65a27c2da036352f0800000000000000
+      internalID: -985334995326916010
       vertices: []
       indices: 
       edges: []
@@ -160,8 +160,7 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable:
-      GameTitle_0: 3907721248601932646
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
