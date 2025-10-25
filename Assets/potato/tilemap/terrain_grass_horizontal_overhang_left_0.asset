@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 13312, guid: 0000000000000000e000000000000000, type: 0}
   m_Name: terrain_grass_horizontal_overhang_left_0
   m_EditorClassIdentifier: UnityEngine.dll::UnityEngine.Tilemaps.Tile
-  m_Sprite: {fileID: 3986865518952223350, guid: 7e62b06e36dff416fa2fff3ca11e9ece, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 7e62b06e36dff416fa2fff3ca11e9ece, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Transform:
     e00: 1
