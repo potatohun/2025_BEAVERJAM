@@ -43,6 +43,7 @@ GameObject:
   - component: {fileID: 152459159253338762}
   - component: {fileID: 4019470090496229950}
   - component: {fileID: 4467912900707742412}
+  - component: {fileID: 7952199286987121945}
   m_Layer: 0
   m_Name: NPC_ham_1
   m_TagString: Npc
@@ -188,3 +189,25 @@ MonoBehaviour:
   canUnlock: 0
   skill: 0
   textBubble: {fileID: 114847051801654007}
+--- !u!95 &7952199286987121945
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 950257643184976838}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: b87eacac88f62493c9ef103b63ceb25e, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
