@@ -38,16 +38,17 @@ public class SkillManager : MonoBehaviour
     IEnumerator CoolTimeCoroutine(int skillIndex) {
         Debug.Log(skillList[skillIndex].name + " CoolTimeCoroutine");
         SlicedFilledImage filledImage = skillList[skillIndex].GetComponentInChildren<SlicedFilledImage>();
-        float coolTime = 10f; // 쿨타임 시작 시 fillAmount를 1로 설정
+        float coolTime = 5f;
+        float elapsedTime = 0f;
         
         // fillAmount를 1로 설정
         filledImage.fillAmount = 1f;
         
-        while(coolTime > 0) {
-            coolTime -= Time.deltaTime;
+        while(elapsedTime < coolTime) {
+            elapsedTime += Time.deltaTime;
             
             // fillAmount를 쿨타임 비율에 따라 1에서 0으로 줄여나감
-            filledImage.fillAmount = coolTime;
+            filledImage.fillAmount = 1f - (elapsedTime / coolTime);
             
             yield return null;
         }
@@ -58,6 +59,9 @@ public class SkillManager : MonoBehaviour
     }
 
     public bool IsEndCoolTime(int skillIndex) {
+        if(skillList[skillIndex].activeSelf == false)
+            return false;
+
         return isEndCoolTime[skillIndex];
     }
 }

@@ -54,9 +54,40 @@ public class TalkDataLoader : MonoBehaviour
     }
     
     private void ParseCSVData(string csvContent) {
-        string[] lines = csvContent.Split('\n');
+        // 쿼트 처리하여 여러 줄에 걸친 데이터를 올바르게 파싱
+        List<string> lines = new List<string>();
+        bool inQuotes = false;
+        string currentLine = "";
         
-        for (int i = 1; i < lines.Length; i++) {
+        for (int i = 0; i < csvContent.Length; i++)
+        {
+            char c = csvContent[i];
+            
+            if (c == '"')
+            {
+                inQuotes = !inQuotes;
+            }
+            else if (c == '\n' && !inQuotes)
+            {
+                if (!string.IsNullOrEmpty(currentLine.Trim()))
+                {
+                    lines.Add(currentLine);
+                }
+                currentLine = "";
+            }
+            else
+            {
+                currentLine += c;
+            }
+        }
+        
+        if (!string.IsNullOrEmpty(currentLine.Trim()))
+        {
+            lines.Add(currentLine);
+        }
+        
+        // 첫 번째 줄은 헤더이므로 건너뜀
+        for (int i = 1; i < lines.Count; i++) {
             if (string.IsNullOrEmpty(lines[i].Trim())) continue;
             
             string[] values = ParseCSVLine(lines[i]);            

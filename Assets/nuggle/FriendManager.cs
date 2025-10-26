@@ -104,6 +104,7 @@ public class FriendManager : MonoBehaviour
         {
             skillUnlocked[skillIndex] = true;
             Debug.Log($"{skill} 친구와 함께 달릴 수 있어요!");
+            SkillManager.instance.UnLockSkill(skillIndex);
         }
     }
     
