@@ -1,13 +1,13 @@
 ﻿group_id,talk_id,start,talk,next_talk_id
-toto,talk_toto_1,npc,…코코? 어딜 그리 급하게 가십니까?,talk_toto_2
+toto,talk_toto_1,npc,···코코? 어딜 그리 급하게 가십니까?,talk_toto_2
 toto,talk_toto_2,player,내는 보물을 찾으러 가유!,talk_toto_3
 toto,talk_toto_3,player,아! 토토두 같이 갈래유~?,talk_toto_4
 toto,talk_toto_4,npc,으잉? 어디로 말입니까?,talk_toto_5
-toto,talk_toto_5,player,"사슴성으로 가유! ",talk_toto_6
+toto,talk_toto_5,player,사슴성으로 가유! ,talk_toto_6
 toto,talk_toto_6,npc,<size=80>예? 저는 싫습니다!</size>,talk_toto_7
-toto,talk_toto_7,npc,거기는…거기는 정말 위험한 곳이지 않습니까!,talk_toto_8
+toto,talk_toto_7,npc,거기는···거기는 정말 위험한 곳이지 않습니까!,talk_toto_8
 toto,talk_toto_8,player,같이 안 갈 겨유?,talk_toto_9
-toto,talk_toto_9,player,"내는 모처럼 달리기가 하고 싶었는디, 아쉽구만유···.",talk_toto_10
+toto,talk_toto_9,player,내는 모처럼 달리기가 하고 싶었는디···.,talk_toto_10
 toto,talk_toto_10,npc,···큼큼. 달리기 말씀이십니까?,talk_toto_11
 toto,talk_toto_11,npc,그렇다면 어쩔 수 없지요···.,talk_toto_12
 toto,talk_toto_12,npc,따라 가겠습니다!,talk_toto_13
@@ -17,23 +17,24 @@ galilei,talk_galilei_2,npc,F=ma.,talk_galilei_3
 galilei,talk_galilei_3,player,호앙?,talk_galilei_4
 galilei,talk_galilei_4,npc,사과 자유낙하 실험 중.,talk_galilei_5
 galilei,talk_galilei_5,player,대체 무슨 말인지 알 수가 없슈···.,talk_galilei_6
-galilei,talk_galilei_6,player,"“갈릴레이, 우리 사슴산 갈 건데 같이 갈래유?”",talk_galilei_7
+galilei,talk_galilei_6,player,갈릴레이~ 우리 사슴산 갈 건데 같이 갈래유?,talk_galilei_7
 galilei,talk_galilei_7,npc,···!,talk_galilei_8
 galilei,talk_galilei_8,npc,사슴산이라면···. 내가 법칙을 <증명>하던 곳···!,talk_galilei_9
 galilei,talk_galilei_9,player,어홍?,talk_galilei_10
 galilei,talk_galilei_10,npc,좋아. 나도 같이 데려가 줘.,talk_galilei_11
 galilei,talk_galilei_11,npc,오늘은 어떤 과학이 나를 기다리고 있을지 궁금하군.,end
-miu,talk_toto_25,npc,코코! 또 뭐하고 다니는 거야?,talk_toto_26
-miu,talk_miu_1,player,보물을 찾으러 가고 있슈!,talk_miu_2
-miu,talk_miu_2,player,엄청나게 좋은 거 말이유~,talk_miu_3
+miu,talk_toto_25,npc,코코? 니가 여기까진 어쩐 일이냐?,talk_toto_26
+miu,talk_miu_1,player,미우! 여기서 보니까 반갑구먼유~,talk_miu_2
+miu,talk_miu_2,player,내는 보물을 찾으러 가고 있는겨!,talk_miu_3
 miu,talk_miu_3,npc,···보물? 너 아직도 보물이 있다고 믿냐?,talk_miu_4
-miu,talk_miu_4,npc,그런 일을 겪고도?,talk_miu_5
-miu,talk_miu_5,player,이번에는 진짜유!,talk_miu_6
-miu,talk_miu_6,player,사슴성에 가면 분명히 찾을 수 있을 거유~,talk_miu_7
-miu,talk_miu_7,npc,···.,talk_miu_8
-miu,talk_miu_8,npc,"""뭐, 좋아. 내가 같이 가주지.""",talk_miu_9
-miu,talk_miu_9,npc,너는 수영을 못하니까 내가 도움이 될 거야!,talk_miu_10
-miu,talk_miu_10,npc,···근데 보물이 뭔지는 안 적혀 있었어?,end
+miu,talk_miu_4,npc,그런 일을 겪고도? 바보 아냐?,talk_miu_5
+miu,talk_miu_5,player,그치만···.,talk_miu_6
+miu,talk_miu_6,,보물이 없다고 생각하는 것보다,talk_miu_7
+miu,talk_miu_7,player,어딘가에 있다고 믿는 게 더 행복한 일이잖유!,talk_miu_8
+miu,talk_miu_8,npc,···.,talk_miu_9
+miu,talk_miu_9,npc,그럼 나도 같이 갈게.,talk_miu_10
+miu,talk_miu_10,npc,사슴성으로 간다고 했지?,talk_miu_11
+miu,talk_miu_11,npc,얼른 앞장 서!,end
 ham_1_1,talk_ham_1_1,npc,"""수호신이시여, 제발 물을 내려주소서···!""",end
 ham_1_2,talk_ham_1_2,npc,"“빠르게 달려가 보시지요, 수호신 님.”",end
 ham_1_3,talk_ham_1_3,npc,과학의 힘을 빌려야 할 때가 온 겐가···.,end
