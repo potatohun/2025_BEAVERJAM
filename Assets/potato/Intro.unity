@@ -577,14 +577,6 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1522564163}
-    - target: {fileID: 2223900430509374954, guid: 3ae215f122aff4919876d8ae6ba1cc32, type: 3}
-      propertyPath: m_text
-      value: "\uCD9C\uBC1C\uD558\uAE30"
-      objectReference: {fileID: 0}
-    - target: {fileID: 2223900430509374954, guid: 3ae215f122aff4919876d8ae6ba1cc32, type: 3}
-      propertyPath: m_fontSize
-      value: 40
-      objectReference: {fileID: 0}
     - target: {fileID: 4256834396922643588, guid: 3ae215f122aff4919876d8ae6ba1cc32, type: 3}
       propertyPath: m_Name
       value: Prologue
@@ -673,14 +665,13 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8410123985092050288, guid: 3ae215f122aff4919876d8ae6ba1cc32, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -344
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4256834396922643588, guid: 3ae215f122aff4919876d8ae6ba1cc32, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1422831710}
   m_SourcePrefab: {fileID: 100100000, guid: 3ae215f122aff4919876d8ae6ba1cc32, type: 3}
 --- !u!224 &113911778 stripped
 RectTransform:
@@ -732,7 +723,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: 03aeac479d3f54a0bacfb976677207ca, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.5
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -1752,6 +1743,24 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 4256834396922643588, guid: 3ae215f122aff4919876d8ae6ba1cc32, type: 3}
   m_PrefabInstance: {fileID: 113911777}
   m_PrefabAsset: {fileID: 0}
+--- !u!82 &1422831709 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 4642996496944798273, guid: 3ae215f122aff4919876d8ae6ba1cc32, type: 3}
+  m_PrefabInstance: {fileID: 113911777}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1422831710
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1422831707}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af22cf3148e2945f0ae06a7a15e13df2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AnimationAudioTrigger
+  audioSource: {fileID: 1422831709}
 --- !u!1 &1435288123 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4256834396922643588, guid: 6e9454f55086a4da3aeb94326d2d6c9e, type: 3}
