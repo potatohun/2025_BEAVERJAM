@@ -10,6 +10,9 @@ public class CameraManager : MonoBehaviour
     [SerializeField] private CinemachineCamera playerCamera;
     [SerializeField] private CinemachineCamera zoomInCamera;
 
+    [SerializeField] private CinemachineConfiner2D playerConfiner;
+    [SerializeField] private CinemachineConfiner2D zoomInConfiner;
+
     private void Awake() {
         if(instance == null)
             instance = this;
@@ -40,4 +43,13 @@ public class CameraManager : MonoBehaviour
     public void ZoomOut() {
         zoomInCamera.gameObject.SetActive(false);
     }
+
+    public void SetPlayerConfiner(BoxCollider2D collider) {
+        if(playerConfiner != null) {
+            playerConfiner.BoundingShape2D = collider;
+        }
+        if(zoomInConfiner != null) {
+            zoomInConfiner.BoundingShape2D = collider;
+        }
+    } 
 }

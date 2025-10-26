@@ -68,41 +68,31 @@ public class FriendManager : MonoBehaviour
         // 스킬 사용 키 입력
         if (Input.GetKeyDown(KeyCode.Q))
         {
-            if (skillUnlocked[0])
+            if (skillUnlocked[0] && SkillManager.instance.IsEndCoolTime(0))
                 UseSkill(CharacterSkill.Coco);
-            else return;
+            else 
+                return;
         }
         else if (Input.GetKeyDown(KeyCode.W))
         {
-            if (skillUnlocked[1])
+            if (skillUnlocked[1] && SkillManager.instance.IsEndCoolTime(1))
                 UseSkill(CharacterSkill.Toto);
-            else return;
+            else 
+                return;
         }
         else if (Input.GetKeyDown(KeyCode.E))
         {
-            if (skillUnlocked[2] && Move.Singleton_Move.IsGrounded())
+            if (skillUnlocked[2] && Move.Singleton_Move.IsGrounded() && SkillManager.instance.IsEndCoolTime(2))
                 UseSkill(CharacterSkill.Galilei);
-            else return;
+            else 
+                return;
         }
         else if (Input.GetKeyDown(KeyCode.R))
         {
-            if (skillUnlocked[3])
+            if (skillUnlocked[3] && SkillManager.instance.IsEndCoolTime(3))
                 UseSkill(CharacterSkill.Miu);
-            else return;
-        }
-        
-        // 스킬 해금 키 입력 (테스트용)
-        if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            UnlockSkill(CharacterSkill.Toto);
-        }
-        else if (Input.GetKeyDown(KeyCode.Alpha3))
-        {
-            UnlockSkill(CharacterSkill.Galilei);
-        }
-        else if (Input.GetKeyDown(KeyCode.Alpha4))
-        {
-            UnlockSkill(CharacterSkill.Miu);
+            else 
+                return;
         }
     }
     
@@ -120,23 +110,6 @@ public class FriendManager : MonoBehaviour
     // 스킬 사용
     public void UseSkill(CharacterSkill skill)
     {
-        //if(currentSkill == CharacterSkill.None)
-        //{
-        //    StopCurrentSkill();
-
-        //    switch (skill)
-        //    {
-        //        case CharacterSkill.None:
-        //            UseNoneSkill();
-        //            break;
-        //        case CharacterSkill.Coco:
-        //            UseCocoSkill();
-        //            break;
-        //        default:
-        //            UsePrefabSkill(skill);
-        //            break;
-        //    }
-        //}
         StopCurrentSkill();
 
         switch (skill)
@@ -164,6 +137,7 @@ public class FriendManager : MonoBehaviour
     // Coco 스킬 사용 (애니메이션)
     void UseCocoSkill()
     {
+        SkillManager.instance.PlaySkill();
         currentSkill = CharacterSkill.Coco;
         SetCocoAnimation(true, 1);
         StartSkillDuration(CharacterSkill.Coco, cocoSkillDuration);
@@ -185,10 +159,11 @@ public class FriendManager : MonoBehaviour
         CreateSkillCharacter(skill);
         StartSkillDuration(skill, GetSkillDuration(skill));
         Debug.Log($"{skill} 친구와 함께 해요! - {GetSkillDuration(skill)}초");
+        SkillManager.instance.PlaySkill();
         switch(skill){
             case CharacterSkill.Toto:
                 if (Move.Singleton_Move != null){
-                    Move.Singleton_Move.moveSpeed = 60f;
+                    Move.Singleton_Move.moveSpeed = 30f;
                     Move.Singleton_Move.rb.constraints = RigidbodyConstraints2D.FreezePositionY | RigidbodyConstraints2D.FreezeRotation;
                 }
                 break;
@@ -255,196 +230,32 @@ public class FriendManager : MonoBehaviour
         Move.Singleton_Move?.SetCocoSkill(isActive, currentFriendID);
     }
     
-    // Galilei 스킬 시퀀스 코루틴
+    // Galilei 스킬 시퀀스 코루틴 - 단순하게 위로 던지기
     IEnumerator GalileiSkillSequence()
     {
         if (Move.Singleton_Move == null) yield break;
         
-        // Galilei 애니메이션 상태 설정
-        SetCocoAnimation(true, (int)CharacterSkill.Galilei);
+        Debug.Log("Galilei 스킬 시작 - 1초 후 던지기!");
         
-        // 물리 시스템 상태 저장 및 비활성화
+        // 1초 대기
+        yield return new WaitForSeconds(1f);
+        
+        Debug.Log("Galilei 스킬 - 위로 던지기 실행!");
+        
+        // Rigidbody 가져오기
         Rigidbody2D rb = Move.Singleton_Move.rb;
-        RigidbodyType2D wasBodyType = rb.bodyType;
-        bool wasSimulated = rb.simulated;
         
-        rb.bodyType = RigidbodyType2D.Kinematic;
-        rb.simulated = false;
+        // Gravity Scale이 10이므로 매우 강한 힘 필요
+        float throwForce = 30f; // 높은 속도
+        float forceMultiplier = 100f; // 충분히 큰 힘
         
-        Debug.Log("Galilei 스킬 시작 - 물리 시스템 비활성화");
+        // 즉각적인 속도 적용
+        rb.linearVelocity = new Vector2(rb.linearVelocity.x, throwForce);
         
-        try
-        {
-            // 1. 코코 숨기기
-            HideCoco();
-            
-            // 2. 1초 대기
-            yield return new WaitForSeconds(1f);
-            
-            // 3. 지정된 위치와 각도로 설정
-            Vector3 targetPosition = Move.Singleton_Move.transform.position + new Vector3(0f, 20f, 0f);
-            Quaternion targetRotation = Quaternion.Euler(0f, 0f, 93.201f);
-            
-            Move.Singleton_Move.transform.position = targetPosition;
-            Move.Singleton_Move.transform.rotation = targetRotation;
-
-            
-            
-            // 4. 코코 다시 보이게 하기
-            ShowCoco();
-            
-            Debug.Log("Galilei 스킬 - 코코 재등장!");
-            
-            // 5. 상승 단계
-            yield return StartCoroutine(AscentPhase(targetPosition, targetHeight: 20f));
-            
-            // 6. 하강 단계
-            yield return StartCoroutine(DescentPhase(groundHeight: 0f));
-            
-            // 7. 회전 리셋 단계
-            yield return StartCoroutine(RotationResetPhase());
-        }
-        finally
-        {
-            // 물리 시스템 복원 (예외 발생 시에도 실행)
-            rb.bodyType = wasBodyType;
-            rb.simulated = wasSimulated;
-            
-            // 애니메이션 상태 복원
-            SetCocoAnimation(false, 0);
-            
-            // 캐릭터 상태 완전 초기화
-            if (Move.Singleton_Move != null)
-            {
-                // 속도 초기화
-                rb.linearVelocity = Vector2.zero;
-                rb.angularVelocity = 0f;
-                
-                // 제약 조건 복원
-                rb.constraints = RigidbodyConstraints2D.FreezeRotation;
-                
-                // 이동 속도 복원
-                Move.Singleton_Move.moveSpeed = 10f;
-            }
-            
-            Debug.Log("Galilei 스킬 완료 - 모든 상태 복원!");
-        }
-    }
-    
-    // 상승 단계 코루틴
-    IEnumerator AscentPhase(Vector3 startPosition, float targetHeight)
-    {
-        float rotationSpeed = 360f; // 초당 360도 회전
-        float ascentSpeed = 10f; // 초당 상승 속도
-        float currentHeight = startPosition.y;
+        // 강한 힘 적용 (Gravity Scale 10에 맞춰)
+        rb.AddForce(new Vector2(0, throwForce * forceMultiplier), ForceMode2D.Force);
         
-        Debug.Log("Galilei 스킬 - 상승 시작");
-        
-        while (currentHeight < targetHeight)
-        {
-            // Z축 회전
-            Move.Singleton_Move.transform.Rotate(0f, 0f, rotationSpeed * Time.deltaTime);
-            
-            // Y축 상승
-            currentHeight += ascentSpeed * Time.deltaTime;
-            Vector3 currentPos = Move.Singleton_Move.transform.position;
-            Move.Singleton_Move.transform.position = new Vector3(currentPos.x, currentHeight, currentPos.z);
-            
-            yield return null;
-        }
-        
-        Debug.Log("Galilei 스킬 - 최고점 도달!");
-    }
-    
-    // 하강 단계 코루틴
-    IEnumerator DescentPhase(float groundHeight)
-    {
-        float descentSpeed = 10f; // 하강 속도
-        float currentHeight = Move.Singleton_Move.transform.position.y;
-        
-        Debug.Log("Galilei 스킬 - 하강 시작");
-        
-        while (currentHeight > groundHeight)
-        {
-            // Y축 하강
-            currentHeight -= descentSpeed * Time.deltaTime;
-            Vector3 currentPos = Move.Singleton_Move.transform.position;
-            Move.Singleton_Move.transform.position = new Vector3(currentPos.x, currentHeight, currentPos.z);
-            
-            yield return null;
-        }
-        
-        // 정확히 땅 높이로 설정
-        Vector3 finalPos = Move.Singleton_Move.transform.position;
-        Move.Singleton_Move.transform.position = new Vector3(finalPos.x, groundHeight, finalPos.z);
-        
-        Debug.Log("Galilei 스킬 - 착지 완료");
-    }
-    
-    // 회전 리셋 단계 코루틴
-    IEnumerator RotationResetPhase()
-    {
-        float rotationResetSpeed = 180f; // 초당 회전 속도
-        float currentZRotation = Move.Singleton_Move.transform.eulerAngles.z;
-        
-        // Z값을 0에 가깝게 정규화
-        if (currentZRotation > 180f)
-            currentZRotation -= 360f;
-        
-        Debug.Log("Galilei 스킬 - 회전 리셋 시작");
-        
-        while (Mathf.Abs(currentZRotation) > 1f) // 1도 이하가 될 때까지
-        {
-            // 자연스럽게 Z값을 0으로 회전
-            currentZRotation = Mathf.MoveTowards(currentZRotation, 0f, rotationResetSpeed * Time.deltaTime);
-            Move.Singleton_Move.transform.rotation = Quaternion.Euler(0f, 0f, currentZRotation);
-            
-            yield return null;
-        }
-        
-        // 최종적으로 정확히 0도로 설정
-        Move.Singleton_Move.transform.rotation = Quaternion.Euler(0f, 0f, 0f);
-        
-        Debug.Log("Galilei 스킬 - 회전 리셋 완료");
-    }
-    
-    // 코코 숨기기 함수 (자식 오브젝트들의 SpriteRenderer 제어)
-    void HideCoco()
-    {
-        if (Move.Singleton_Move == null) return;
-        
-        // Coco 오브젝트 찾기
-        Transform cocoTransform = Move.Singleton_Move.transform.Find("Coco");
-        if (cocoTransform != null)
-        {
-            // Coco의 모든 자식 오브젝트들의 SpriteRenderer 비활성화
-            SpriteRenderer[] childSpriteRenderers = cocoTransform.GetComponentsInChildren<SpriteRenderer>();
-            foreach (SpriteRenderer sr in childSpriteRenderers)
-            {
-                sr.enabled = false;
-                Debug.Log($"코코 자식 SpriteRenderer 숨김: {sr.gameObject.name}");
-            }
-            Debug.Log($"코코 숨김 완료 - {childSpriteRenderers.Length}개의 자식 SpriteRenderer 비활성화");
-        }
-        else
-        {
-            // 씬 전체에서 Coco 찾기
-            GameObject cocoObject = GameObject.Find("Coco");
-            if (cocoObject != null)
-            {
-                SpriteRenderer[] childSpriteRenderers = cocoObject.GetComponentsInChildren<SpriteRenderer>();
-                foreach (SpriteRenderer sr in childSpriteRenderers)
-                {
-                    sr.enabled = false;
-                    Debug.Log($"코코 자식 SpriteRenderer 숨김: {sr.gameObject.name}");
-                }
-                Debug.Log($"코코 숨김 완료 - {childSpriteRenderers.Length}개의 자식 SpriteRenderer 비활성화");
-            }
-            else
-            {
-                Debug.Log("코코 오브젝트를 찾을 수 없습니다!");
-            }
-        }
+        Debug.Log($"Galilei 스킬 - 위로 던졌습니다! (속도: {throwForce}, 힘: {throwForce * forceMultiplier})");
     }
     
     // 코코 보이게 하기 함수 (자식 오브젝트들의 SpriteRenderer 제어)

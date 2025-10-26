@@ -72,28 +72,8 @@ public class Move : MonoBehaviour
 
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Z))
-        {
-            StartDialogue();
-        }
-        else if(Input.GetKeyDown(KeyCode.X))
-        {
-            EndDialogue();
-        }
-        //if(Input.GetKeyDown(KeyCode.C))
-        //{
-        //    SetDead();
-        //}
-        else if(Input.GetKeyDown(KeyCode.V))
-        {
-            Respawn();
-        }
         // 죽은 상태나 대화 중이면 입력 무시
         if (isDead || isInDialogue) return;
-
-        //if (Playerinwater) waterTimer += Time.deltaTime * 1f;
-        //else if (!Playerinwater && waterTimer != 0) waterTimer = 0;
-        //if (waterTimer > 4 && !isDead) SetDead();
 
         // 입력 받기 (화살표 키)
         horizontalInput = 0f;
@@ -110,15 +90,10 @@ public class Move : MonoBehaviour
         {
             Jump();
         }
-        //if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
-        //{
-        //    Jump();
-        //}
 
         // 애니메이터 파라미터 업데이트
         UpdateAnimator();
         isGrounded = CheckGrounded();
-        Debug.Log(isGrounded);
     }
     
     void FlipCharacter()
@@ -223,9 +198,12 @@ public class Move : MonoBehaviour
             {
                 jumpCount++;
                 Debug.Log($"공중 점프! 점프 횟수: {jumpCount}/{maxJumps}");
+
+                SoundManager.instance.PlaySound("jump");
             }
             else
             {
+                SoundManager.instance.PlaySound("jump");
                 Debug.Log("지면에서 점프!");
             }
             
@@ -278,36 +256,6 @@ public class Move : MonoBehaviour
 
         return grounded;
     }
-    
-    //// Ground 체크 상태 업데이트 (GroundCH에서 호출됨)
-    //public void UpdateGroundedState(bool grounded)
-    //{
-    //    // 죽은 상태나 대화 중이면 지면 체크 무시
-    //    if (isDead || isInDialogue) return;
-        
-    //    // 이미 같은 상태면 함수 호출 안함 (최적화)
-    //    if (isGrounded == grounded) return;
-        
-    //    bool wasGrounded = isGrounded;
-    //    isGrounded = grounded;
-        
-    //    // 땅에 착지했을 때 점프 횟수 리셋
-    //    if (isGrounded && !wasGrounded)
-    //    {
-    //        jumpCount = 0;
-    //        Debug.Log("착지 - 점프 횟수 리셋");
-            
-    //        // 점프 애니메이션 해제 (스킬 애니메이션 중이면 제외)
-    //        if (animator != null)
-    //        {
-    //            bool isCocoSkillActive = animator.GetBool("CocoSkill");
-    //            if (!isCocoSkillActive)
-    //            {
-    //                animator.SetBool("Jump", false);
-    //            }
-    //        }
-    //    }
-    //}
 
     // 죽음 트리거 처리 (상대편이 Fire(6번)나 Obstacle(7번) 레이어면 죽음)
     void OnTriggerEnter2D(Collider2D other)
@@ -336,35 +284,6 @@ public class Move : MonoBehaviour
         }
 
     }
-
-    //// 일반 충돌 처리 (상대편이 Fire(6번)나 Obstacle(7번) 레이어면 죽음)
-    //void OnCollisionEnter2D(Collision2D collision)
-    //{
-    //    if (!WaterCol_Object.GetComponent<CircleCollider2D>().enabled)
-    //    {
-    //        Debug.Log($"[충돌 감지] 플레이어와 충돌한 오브젝트: {collision.gameObject.name}, 레이어: {collision.gameObject.layer}");
-
-    //        // 이미 죽었거나 대화 중이면 무시
-    //        if (isDead || isInDialogue)
-    //        {
-    //            Debug.Log("[무시] 이미 죽었거나 대화 중");
-    //            return;
-    //        }
-
-    //        // 상대편이 Fire나 Obstacle 레이어인지 확인
-    //        if (IsDeathLayer(collision.gameObject))
-    //        {
-    //            Debug.Log($"[죽음] 플레이어가 {collision.gameObject.name}({GetLayerName(collision.gameObject.layer)})과 충돌하여 죽었습니다!");
-    //            SetDead();
-    //        }
-    //        else
-    //        {
-    //            Debug.Log($"[안전] 충돌한 오브젝트는 안전한 레이어입니다: {GetLayerName(collision.gameObject.layer)}");
-    //        }
-    //    }
-
-
-    //}
 
     // 죽음 레이어인지 확인 (상대편이 Fire(6번)나 Obstacle(7번) 레이어인지 체크)
     private bool IsDeathLayer(GameObject obj)
@@ -418,6 +337,7 @@ public class Move : MonoBehaviour
         
         isDead = true;
         Debug.Log("플레이어가 죽었습니다!");
+        SoundManager.instance.PlaySound("gameover");
 
         // 물리 효과 정지
         rb.linearVelocity = Vector2.zero;
