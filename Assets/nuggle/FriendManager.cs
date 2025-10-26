@@ -105,6 +105,7 @@ public class FriendManager : MonoBehaviour
             skillUnlocked[skillIndex] = true;
             Debug.Log($"{skill} 친구와 함께 달릴 수 있어요!");
             SkillManager.instance.UnLockSkill(skillIndex);
+            NotiManager.instance.ShowNoti(0);
         }
     }
     
@@ -139,6 +140,7 @@ public class FriendManager : MonoBehaviour
     void UseCocoSkill()
     {
         SkillManager.instance.PlaySkill();
+        SoundManager.instance.PlaySound("skill");
         currentSkill = CharacterSkill.Coco;
         SetCocoAnimation(true, 1);
         StartSkillDuration(CharacterSkill.Coco, cocoSkillDuration);
@@ -164,6 +166,7 @@ public class FriendManager : MonoBehaviour
         switch(skill){
             case CharacterSkill.Toto:
                 if (Move.Singleton_Move != null){
+                    SoundManager.instance.PlaySound("skill");
                     Move.Singleton_Move.moveSpeed = 30f;
                     Move.Singleton_Move.rb.constraints = RigidbodyConstraints2D.FreezePositionY | RigidbodyConstraints2D.FreezeRotation;
                 }
@@ -235,11 +238,13 @@ public class FriendManager : MonoBehaviour
     IEnumerator GalileiSkillSequence()
     {
         if (Move.Singleton_Move == null) yield break;
+
+        SoundManager.instance.PlaySound("skill");
         
         Debug.Log("Galilei 스킬 시작 - 1초 후 던지기!");
         
         // 1초 대기
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.75f);
         
         Debug.Log("Galilei 스킬 - 위로 던지기 실행!");
         

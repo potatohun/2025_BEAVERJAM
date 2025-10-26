@@ -26,5 +26,6 @@ public class PortalController : MonoBehaviour
         CameraManager.instance.SetPlayerConfiner(nextMapCollider);
         Move.Singleton_Move.transform.position = nextMapPoint.position;
         BGMController.instance.PlayBGM(2);
+        NotiManager.instance.ShowNoti(2);
     }
 }
