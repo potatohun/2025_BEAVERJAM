@@ -37,7 +37,7 @@ public class ParticleHitDestroy : MonoBehaviour
             }
         } else if (other.gameObject.layer == pondLayer)
         {
-            other.GetComponent<PondController>().FillPond();
+            other.GetComponent<PondController>()?.FillPond();
         }
     }
     

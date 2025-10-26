@@ -253,7 +253,7 @@ public class FriendManager : MonoBehaviour
         
         // Gravity Scale이 10이므로 매우 강한 힘 필요
         float throwForce = 30f; // 높은 속도
-        float forceMultiplier = 100f; // 충분히 큰 힘
+        float forceMultiplier = 80f; // 충분히 큰 힘
         
         // 즉각적인 속도 적용
         rb.linearVelocity = new Vector2(rb.linearVelocity.x, throwForce);

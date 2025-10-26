@@ -11,6 +11,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/potato/InGame.unity
     guid: 03b29168fddb6cd4b8e0b450c9e8c3a3
+  - enabled: 1
+    path: Assets/potato/Ending.unity
+    guid: 241cb3673e4e44cfd9f508f73c21fdeb
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0
