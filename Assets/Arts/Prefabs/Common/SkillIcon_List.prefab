@@ -32,8 +32,8 @@ RectTransform:
   m_Children:
   - {fileID: 6636789181442384793}
   - {fileID: 9171084184463726501}
-  - {fileID: 5754188173737812315}
   - {fileID: 6772356791576090447}
+  - {fileID: 5754188173737812315}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -189,6 +189,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: SkillIcon_Galilei
       objectReference: {fileID: 0}
+    - target: {fileID: 1179365210346016038, guid: 3434e4ba656794ba998b1d642a906e07, type: 3}
+      propertyPath: m_text
+      value: E
+      objectReference: {fileID: 0}
+    - target: {fileID: 1179365210346016038, guid: 3434e4ba656794ba998b1d642a906e07, type: 3}
+      propertyPath: m_fontSize
+      value: 45.65
+      objectReference: {fileID: 0}
     - target: {fileID: 8645325240374681394, guid: 3434e4ba656794ba998b1d642a906e07, type: 3}
       propertyPath: m_FillAmount
       value: 0
@@ -294,6 +302,10 @@ PrefabInstance:
     - target: {fileID: 912296756387113785, guid: 901814bf2178b426ca93e4df66f73ab1, type: 3}
       propertyPath: m_Name
       value: SkillIcon_Miu
+      objectReference: {fileID: 0}
+    - target: {fileID: 1179365210346016038, guid: 901814bf2178b426ca93e4df66f73ab1, type: 3}
+      propertyPath: m_text
+      value: R
       objectReference: {fileID: 0}
     - target: {fileID: 9104226072343541549, guid: 901814bf2178b426ca93e4df66f73ab1, type: 3}
       propertyPath: m_Pivot.x
