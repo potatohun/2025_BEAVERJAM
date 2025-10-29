@@ -70,7 +70,7 @@ public class Move : MonoBehaviour
         }
     }
 
-    void Update()
+    void LateUpdate()
     {
         // 죽은 상태나 대화 중이면 입력 무시
         if (isDead || isInDialogue) return;
@@ -312,7 +312,8 @@ public class Move : MonoBehaviour
         // 모든 애니메이션 중단 (Idle 상태로)
         SetIdleState();
         rb.linearVelocity = Vector2.zero;
-        rb.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezeRotation;
+        //rb.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezePositionY | RigidbodyConstraints2D.FreezeRotation;
+        rb.constraints = RigidbodyConstraints2D.FreezeAll;
 
         // FriendManager 싱글톤을 통해 스킬 중단
         FriendManager.FM?.OnDialogueStart();
@@ -320,9 +321,13 @@ public class Move : MonoBehaviour
         Debug.Log("대화 시작 - 모든 애니메이션 중단, Idle 상태로 전환");
     }
     
-    public void EndDialogue()
+    void DelayDialogue()
     {
         isInDialogue = false;
+    }
+    public void EndDialogue()
+    {
+        Invoke("DelayDialogue", 0.1f);
         rb.constraints = RigidbodyConstraints2D.FreezeRotation;
         Debug.Log("대화 종료 - 캐릭터 움직임 재개");
     }
