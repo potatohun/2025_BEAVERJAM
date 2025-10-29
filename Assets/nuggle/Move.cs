@@ -311,7 +311,9 @@ public class Move : MonoBehaviour
         
         // 모든 애니메이션 중단 (Idle 상태로)
         SetIdleState();
-        
+        rb.linearVelocity = Vector2.zero;
+        rb.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezeRotation;
+
         // FriendManager 싱글톤을 통해 스킬 중단
         FriendManager.FM?.OnDialogueStart();
         
@@ -321,6 +323,7 @@ public class Move : MonoBehaviour
     public void EndDialogue()
     {
         isInDialogue = false;
+        rb.constraints = RigidbodyConstraints2D.FreezeRotation;
         Debug.Log("대화 종료 - 캐릭터 움직임 재개");
     }
     
