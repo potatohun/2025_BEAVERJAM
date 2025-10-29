@@ -120,11 +120,12 @@ public class FriendManager : MonoBehaviour
                 UseNoneSkill();
                 break;
             case CharacterSkill.Coco:
-                UseCocoSkill();
+            case CharacterSkill.Toto:
+            case CharacterSkill.Galilei:
+            case CharacterSkill.Miu:
+                UseFriendsSkill(skill);
                 break;
-            default:
-                UsePrefabSkill(skill);
-                break;
+            default: break;
         }
     }
     
@@ -135,20 +136,10 @@ public class FriendManager : MonoBehaviour
         SetCocoAnimation(false, 0);
         Debug.Log("지금은 도와주는 친구가 없어요.");
     }
-    
-    // Coco 스킬 사용 (애니메이션)
-    void UseCocoSkill()
-    {
-        SkillManager.instance.PlaySkill();
-        SoundManager.instance.PlaySound("skill");
-        currentSkill = CharacterSkill.Coco;
-        SetCocoAnimation(true, 1);
-        StartSkillDuration(CharacterSkill.Coco, cocoSkillDuration);
-        Debug.Log($"Coco 친구와 함께 해요! (애니메이션) - {cocoSkillDuration}초");
-    }
+   
     
     // 프리팹 스킬 사용 (Toto, Galilei, Miu)
-    void UsePrefabSkill(CharacterSkill skill)
+    void UseFriendsSkill(CharacterSkill skill)
     {
         SetCocoAnimation(true, (int)skill);
         
@@ -159,11 +150,17 @@ public class FriendManager : MonoBehaviour
         }
         
         currentSkill = skill;
-        CreateSkillCharacter(skill);
+        if(skill != CharacterSkill.Coco)
+            CreateSkillCharacter(skill);
         StartSkillDuration(skill, GetSkillDuration(skill));
         Debug.Log($"{skill} 친구와 함께 해요! - {GetSkillDuration(skill)}초");
         SkillManager.instance.PlaySkill();
         switch(skill){
+            case CharacterSkill.Coco:
+                SoundManager.instance.PlaySound("skill");
+                StartSkillDuration(CharacterSkill.Coco, cocoSkillDuration);
+                Debug.Log($"Coco 친구와 함께 해요! (애니메이션) - {cocoSkillDuration}초");
+                break;
             case CharacterSkill.Toto:
                 if (Move.Singleton_Move != null){
                     SoundManager.instance.PlaySound("skill");
@@ -240,14 +237,14 @@ public class FriendManager : MonoBehaviour
         if (Move.Singleton_Move == null) yield break;
 
         SoundManager.instance.PlaySound("skill");
-        
+
         Debug.Log("Galilei 스킬 시작 - 1초 후 던지기!");
         
         // 1초 대기
         yield return new WaitForSeconds(0.75f);
         
         Debug.Log("Galilei 스킬 - 위로 던지기 실행!");
-        
+
         // Rigidbody 가져오기
         Rigidbody2D rb = Move.Singleton_Move.rb;
         

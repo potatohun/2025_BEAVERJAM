@@ -86,7 +86,7 @@ MonoBehaviour:
   - {fileID: 2020661361868494885, guid: 895c6d094b6b213418cddcfb520298e9, type: 3}
   - {fileID: 6403252182692130976, guid: 4e12b3c53c0f8ee4da83655d8d2770d5, type: 3}
   cocoSkillDuration: 3
-  totoSkillDuration: 2
+  totoSkillDuration: 2.2
   galileiSkillDuration: 1
   miuSkillDuration: 5
   WaterColliderObject: {fileID: 0}
