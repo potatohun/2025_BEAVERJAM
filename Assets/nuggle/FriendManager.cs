@@ -27,14 +27,18 @@ public class FriendManager : MonoBehaviour
     
     [Header("Skill Duration Settings")]
     public float cocoSkillDuration = 3f;
-    public float totoSkillDuration = 3f;
-    public float galileiSkillDuration = 3f;
-    public float miuSkillDuration = 3f;
+    public float totoSkillDuration = 2f;
+    public float galileiSkillDuration = 1f;
+    public float miuSkillDuration = 5f;
     
     private GameObject currentCharacterFM;
     private Coroutine skillDurationCoroutine;
 
     private GameObject Particle;
+
+    [Header("Galilei Skill Settings")]
+    public float throwForceX = 7f;   // 수평 던지는 힘
+    public float throwForceY = 14f;  // 수직 던지는 힘
 
     [SerializeField] private CircleCollider2D WaterColliderObject;
     
@@ -128,7 +132,13 @@ public class FriendManager : MonoBehaviour
             default: break;
         }
     }
-    
+
+    public void Finish_GalileiSkill()
+    {
+        StopCurrentSkill();
+        SetCocoAnimation(false, 0);
+    }
+
     // None 스킬 사용
     void UseNoneSkill()
     {
@@ -141,6 +151,8 @@ public class FriendManager : MonoBehaviour
     // 프리팹 스킬 사용 (Toto, Galilei, Miu)
     void UseFriendsSkill(CharacterSkill skill)
     {
+        currentSkill = skill;
+
         SetCocoAnimation(true, (int)skill);
         
         if (!IsSkillUnlocked(skill))
@@ -148,12 +160,10 @@ public class FriendManager : MonoBehaviour
             Debug.Log($"{skill} 친구는 아직 함께하지 못했어요.");
             return;
         }
-        
-        currentSkill = skill;
         if(skill != CharacterSkill.Coco)
-            CreateSkillCharacter(skill);
-        StartSkillDuration(skill, GetSkillDuration(skill));
-        Debug.Log($"{skill} 친구와 함께 해요! - {GetSkillDuration(skill)}초");
+            CreateSkillCharacter(skill); // 스킬 사용시 파티클 생성
+        StartSkillDuration(skill, GetSkillDuration(skill));  // 스킬 지속시간 지나면 종료 파티클 생성
+         Debug.Log($"{skill} 친구와 함께 해요! - {GetSkillDuration(skill)}초");
         SkillManager.instance.PlaySkill();
         switch(skill){
             case CharacterSkill.Coco:
@@ -169,6 +179,7 @@ public class FriendManager : MonoBehaviour
                 }
                 break;
             case CharacterSkill.Galilei:
+                Move.Singleton_Move.rb.constraints = RigidbodyConstraints2D.FreezeAll;
                 StartCoroutine(GalileiSkillSequence());
                 break;
             case CharacterSkill.Miu:
@@ -185,25 +196,36 @@ public class FriendManager : MonoBehaviour
     {
         if (Move.Singleton_Move == null) return;
         
-        int skillIndex = (int)skill - 2; // None=0, Coco=1이므로 -2 (Toto부터 시작)
-        
-        if (skillIndex >= 0 && skillIndex < characterPrefabList.Length && characterPrefabList[skillIndex] != null)
+        int skillIndex = -1;
+
+        switch (skill)
+        {
+            case CharacterSkill.None:
+            case CharacterSkill.Coco:
+                skillIndex = -1;
+                break;
+            case CharacterSkill.Galilei: skillIndex = 0; break;
+            case CharacterSkill.Toto: skillIndex = 1; break;
+            case CharacterSkill.Miu: skillIndex = 2; break;
+        }
+
+        if (skillIndex > 0)
         {
             // 플레이어 오브젝트 안에 스킬 캐릭터 생성
-            currentCharacterFM = Instantiate(characterPrefabList[skillIndex], Move.Singleton_Move.transform);
+            currentCharacterFM = Instantiate(characterPrefabList[skillIndex-1], Move.Singleton_Move.transform);
             currentCharacterFM.name = $"{skill}_SkillCharacter";
 
             Particle = Instantiate(ParticlePrefab[0], currentCharacterFM.transform);
 
 
-            // Galilei일 경우 x 위치를 -2으로 설정
-            if (skill == CharacterSkill.Galilei)
-            {
-                Vector3 GalileiPosition = currentCharacterFM.transform.localPosition;
-                GalileiPosition.y = -2f;
-                currentCharacterFM.transform.localPosition = GalileiPosition;
-                Debug.Log($"Galilei 스킬 캐릭터 생성 - y 위치: {GalileiPosition.y}");
-            }
+            //// Galilei일 경우 x 위치를 -2으로 설정
+            //if (skill == CharacterSkill.Galilei)
+            //{
+            //    Vector3 GalileiPosition = currentCharacterFM.transform.localPosition;
+            //    GalileiPosition.y = -2f;
+            //    currentCharacterFM.transform.localPosition = GalileiPosition;
+            //    Debug.Log($"Galilei 스킬 캐릭터 생성 - y 위치: {GalileiPosition.y}");
+            //}
             // Miu일 경우 x 위치를 4.6으로 설정
             if (skill == CharacterSkill.Miu)
             {
@@ -212,7 +234,11 @@ public class FriendManager : MonoBehaviour
                 currentCharacterFM.transform.localPosition = miuPosition;
                 Debug.Log($"Miu 스킬 캐릭터 생성 - x 위치: {miuPosition.x}");
             }
+
         }
+        else if(skillIndex == 0) { Particle = Instantiate(ParticlePrefab[0], Move.Singleton_Move.transform); }
+
+
     }
     
     // 스킬 캐릭터만 제거
@@ -230,7 +256,7 @@ public class FriendManager : MonoBehaviour
     {
         Move.Singleton_Move?.SetCocoSkill(isActive, currentFriendID);
     }
-    
+
     // Galilei 스킬 시퀀스 코루틴 - 단순하게 위로 던지기
     IEnumerator GalileiSkillSequence()
     {
@@ -239,66 +265,37 @@ public class FriendManager : MonoBehaviour
         SoundManager.instance.PlaySound("skill");
 
         Debug.Log("Galilei 스킬 시작 - 1초 후 던지기!");
+
         
         // 1초 대기
-        yield return new WaitForSeconds(0.75f);
+        yield return new WaitForSeconds(0.7f);
         
         Debug.Log("Galilei 스킬 - 위로 던지기 실행!");
+        Vector3 pos = Move.Singleton_Move.transform.position;
+        Move.Singleton_Move.transform.position = pos + new Vector3(0f, 2f, 0f);
+        Move.Singleton_Move.isThrown = true;
+        Move.Singleton_Move.rb.constraints = RigidbodyConstraints2D.FreezeRotation;
 
-        // Rigidbody 가져오기
         Rigidbody2D rb = Move.Singleton_Move.rb;
-        
-        // Gravity Scale이 10이므로 매우 강한 힘 필요
-        float throwForce = 30f; // 높은 속도
-        float forceMultiplier = 80f; // 충분히 큰 힘
-        
-        // 즉각적인 속도 적용
-        rb.linearVelocity = new Vector2(rb.linearVelocity.x, throwForce);
-        
-        // 강한 힘 적용 (Gravity Scale 10에 맞춰)
-        rb.AddForce(new Vector2(0, throwForce * forceMultiplier), ForceMode2D.Force);
-        
-        Debug.Log($"Galilei 스킬 - 위로 던졌습니다! (속도: {throwForce}, 힘: {throwForce * forceMultiplier})");
+        rb.linearVelocity = Vector2.zero;
+
+        float direction = transform.localScale.x > 0 ? 1 : -1;
+        Vector2 throwVelocity = new Vector2(throwForceX * direction, throwForceY);
+        rb.linearVelocity = throwVelocity;
+
+        //// Gravity Scale이 10이므로 매우 강한 힘 필요
+        //float throwForce = 30f; // 높은 속도
+        //float forceMultiplier = 80f; // 충분히 큰 힘
+
+        //// 즉각적인 속도 적용
+        //rb.linearVelocity = new Vector2(rb.linearVelocity.x, throwForce);
+
+        //// 강한 힘 적용 (Gravity Scale 10에 맞춰)
+        //rb.AddForce(new Vector2(0, throwForce * forceMultiplier), ForceMode2D.Force);
+
+        //Debug.Log($"Galilei 스킬 - 위로 던졌습니다! (속도: {throwForce}, 힘: {throwForce * forceMultiplier})");
     }
     
-    // 코코 보이게 하기 함수 (자식 오브젝트들의 SpriteRenderer 제어)
-    void ShowCoco()
-    {
-        if (Move.Singleton_Move == null) return;
-        
-        // Coco 오브젝트 찾기
-        Transform cocoTransform = Move.Singleton_Move.transform.Find("Coco");
-        if (cocoTransform != null)
-        {
-            // Coco의 모든 자식 오브젝트들의 SpriteRenderer 활성화
-            SpriteRenderer[] childSpriteRenderers = cocoTransform.GetComponentsInChildren<SpriteRenderer>();
-            foreach (SpriteRenderer sr in childSpriteRenderers)
-            {
-                sr.enabled = true;
-                Debug.Log($"코코 자식 SpriteRenderer 재등장: {sr.gameObject.name}");
-            }
-            Debug.Log($"코코 재등장 완료 - {childSpriteRenderers.Length}개의 자식 SpriteRenderer 활성화");
-        }
-        else
-        {
-            // 씬 전체에서 Coco 찾기
-            GameObject cocoObject = GameObject.Find("Coco");
-            if (cocoObject != null)
-            {
-                SpriteRenderer[] childSpriteRenderers = cocoObject.GetComponentsInChildren<SpriteRenderer>();
-                foreach (SpriteRenderer sr in childSpriteRenderers)
-                {
-                    sr.enabled = true;
-                    Debug.Log($"코코 자식 SpriteRenderer 재등장: {sr.gameObject.name}");
-                }
-                Debug.Log($"코코 재등장 완료 - {childSpriteRenderers.Length}개의 자식 SpriteRenderer 활성화");
-            }
-            else
-            {
-                Debug.Log("코코 오브젝트를 찾을 수 없습니다!");
-            }
-        }
-    }
     
     // 스킬 지속 시간 시작
     void StartSkillDuration(CharacterSkill skill, float duration)
@@ -327,20 +324,21 @@ public class FriendManager : MonoBehaviour
                 }
                 break;
             case CharacterSkill.Galilei:
-                // Galilei 스킬 중단 시 특별 처리
-                if (Move.Singleton_Move != null)
-                {
-                    Rigidbody2D rb = Move.Singleton_Move.rb;
-                    rb.bodyType = RigidbodyType2D.Dynamic;
-                    rb.simulated = true;
-                    rb.linearVelocity = Vector2.zero;
-                    rb.angularVelocity = 0f;
-                    rb.constraints = RigidbodyConstraints2D.FreezeRotation;
-                    Move.Singleton_Move.moveSpeed = 10f;
-                    
-                    // 애니메이션 상태 복원
-                    SetCocoAnimation(false, 0);
-                }
+                //// Galilei 스킬 중단 시 특별 처리
+                //if (Move.Singleton_Move != null)
+                //{
+                //    Rigidbody2D rb = Move.Singleton_Move.rb;
+                //    rb.bodyType = RigidbodyType2D.Dynamic;
+                //    rb.simulated = true;
+                //    rb.linearVelocity = Vector2.zero;
+                //    rb.angularVelocity = 0f;
+                //    rb.constraints = RigidbodyConstraints2D.FreezeRotation;
+                //    Move.Singleton_Move.moveSpeed = 10f;
+
+                //    // 애니메이션 상태 복원
+                //    SetCocoAnimation(false, 0);
+                //}
+                SetCocoAnimation(false, 0);
                 break;
             case CharacterSkill.Miu:
                 break;
@@ -361,7 +359,8 @@ public class FriendManager : MonoBehaviour
         Debug.Log(particletime);
 
         yield return new WaitForSeconds(particletime);
-        if(currentSkill != CharacterSkill.Coco)
+        if(currentSkill == CharacterSkill.Galilei) Particle = Instantiate(ParticlePrefab[1], Move.Singleton_Move.transform);
+        else if(currentSkill != CharacterSkill.Coco)
             Particle = Instantiate(ParticlePrefab[1], currentCharacterFM.transform);
         yield return new WaitForSeconds(0.5f);
         WaterColliderObject.enabled = false;
@@ -369,36 +368,39 @@ public class FriendManager : MonoBehaviour
         Debug.Log($"{skill} 친구와의 시간이 끝났어요!");
         
         switch(skill){
+            case CharacterSkill.Coco: UseSkill(CharacterSkill.None); break;
             case CharacterSkill.Toto:
                 if (Move.Singleton_Move != null){
                     Move.Singleton_Move.moveSpeed = 10f;
                     Move.Singleton_Move.rb.constraints = RigidbodyConstraints2D.FreezeRotation;
                 }
+                UseSkill(CharacterSkill.None);
                 break;
             case CharacterSkill.Galilei:
-                // Galilei 스킬 종료 시 특별 처리
-                if (Move.Singleton_Move != null)
-                {
-                    Rigidbody2D rb = Move.Singleton_Move.rb;
-                    rb.bodyType = RigidbodyType2D.Dynamic;
-                    rb.simulated = true;
-                    rb.linearVelocity = Vector2.zero;
-                    rb.angularVelocity = 0f;
-                    rb.constraints = RigidbodyConstraints2D.FreezeRotation;
-                    Move.Singleton_Move.moveSpeed = 10f;
-                    
-                    // 애니메이션 상태 복원
-                    SetCocoAnimation(false, 0);
-                }
+                //// Galilei 스킬 종료 시 특별 처리
+                //if (Move.Singleton_Move != null)
+                //{
+                //    Rigidbody2D rb = Move.Singleton_Move.rb;
+                //    rb.bodyType = RigidbodyType2D.Dynamic;
+                //    rb.simulated = true;
+                //    rb.linearVelocity = Vector2.zero;
+                //    rb.angularVelocity = 0f;
+                //    rb.constraints = RigidbodyConstraints2D.FreezeRotation;
+                //    Move.Singleton_Move.moveSpeed = 10f;
+
+                //    // 애니메이션 상태 복원
+                //    SetCocoAnimation(false, 0);
+                //}
+                Finish_GalileiSkill();
                 break;
             case CharacterSkill.Miu:
                 if (Move.Singleton_Move != null){
                     Move.Singleton_Move.moveSpeed = 10f;
                 }
+                UseSkill(CharacterSkill.None);
                 break;
         }
-        // 스킬 해제
-        UseSkill(CharacterSkill.None);
+
     }
     
     // 스킬별 지속 시간 가져오기
@@ -444,14 +446,4 @@ public class FriendManager : MonoBehaviour
         }
     }
     
-    // 편의 함수들
-    public void UnlockToto() => UnlockSkill(CharacterSkill.Toto);
-    public void UnlockGalilei() => UnlockSkill(CharacterSkill.Galilei);
-    public void UnlockMiu() => UnlockSkill(CharacterSkill.Miu);
-    
-    public void UseNone() => UseSkill(CharacterSkill.None);
-    public void UseCoco() => UseSkill(CharacterSkill.Coco);
-    public void UseToto() => UseSkill(CharacterSkill.Toto);
-    public void UseGalilei() => UseSkill(CharacterSkill.Galilei);
-    public void UseMiu() => UseSkill(CharacterSkill.Miu);
 }

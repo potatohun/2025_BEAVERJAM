@@ -1298,14 +1298,6 @@ PrefabInstance:
       propertyPath: WaterColliderObject
       value: 
       objectReference: {fileID: 1353543586}
-    - target: {fileID: 8455244931974197593, guid: e74f601366be9244ca262bb199368fa9, type: 3}
-      propertyPath: 'skillUnlocked.Array.data[1]'
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8455244931974197593, guid: e74f601366be9244ca262bb199368fa9, type: 3}
-      propertyPath: 'skillUnlocked.Array.data[2]'
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2128,9 +2120,13 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 2158570112579568133, guid: fcfdbf5e4df1dd7499135ebf7683adea, type: 3}
-      propertyPath: m_TagString
-      value: Player
+    - target: {fileID: 6397464402330979136, guid: fcfdbf5e4df1dd7499135ebf7683adea, type: 3}
+      propertyPath: m_Size.x
+      value: 7.95
+      objectReference: {fileID: 0}
+    - target: {fileID: 6397464402330979136, guid: fcfdbf5e4df1dd7499135ebf7683adea, type: 3}
+      propertyPath: m_Size.y
+      value: 7.9
       objectReference: {fileID: 0}
     - target: {fileID: 8138504452482484803, guid: fcfdbf5e4df1dd7499135ebf7683adea, type: 3}
       propertyPath: m_LocalPosition.x

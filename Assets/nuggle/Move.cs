@@ -1,6 +1,7 @@
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Splines.ExtrusionShapes;
+using static FriendManager;
 
 public class Move : MonoBehaviour
 {
@@ -36,6 +37,11 @@ public class Move : MonoBehaviour
 
     public GameObject WaterCol_Object;
 
+    private float defaultGravityScale;
+    public float airControl = 5f;    // 공중에서 좌우 조정 속도
+
+    public bool isThrown = false;
+
     float waterTimer = 0.0f;
     
     void Start()
@@ -52,7 +58,8 @@ public class Move : MonoBehaviour
         }
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
-        
+        defaultGravityScale = rb.gravityScale;
+
         // DeathLayerMask 자동 설정 (Fire=6, Obstacle=7)
         if (deathLayerMask.value == 0)
         {
@@ -94,25 +101,62 @@ public class Move : MonoBehaviour
         // 애니메이터 파라미터 업데이트
         UpdateAnimator();
         isGrounded = CheckGrounded();
+        if (isGrounded && isThrown) Land();
     }
     
     void FlipCharacter()
     {
         // 죽은 상태나 대화 중이면 방향 전환 무시
         if (isDead || isInDialogue) return;
-        
-        if (horizontalInput > 0f)
+
+        if (isThrown)
         {
-            // 오른쪽으로 이동 - 정방향 (scale.x = 1)
+            HandleAirControl();
+        }
+        else
+        {
+            if (horizontalInput > 0f)
+            {
+                // 오른쪽으로 이동 - 정방향 (scale.x = 1)
+                transform.localScale = new Vector3(1f, 1f, 1f);
+            }
+            else if (horizontalInput < 0f)
+            {
+                // 왼쪽으로 이동 - 뒤집기 (scale.x = -1)
+                transform.localScale = new Vector3(-1f, 1f, 1f);
+            }
+        }
+
+    }
+
+    private void HandleAirControl()
+    {
+        float move = Input.GetAxis("Horizontal");
+        Vector2 velocity = rb.linearVelocity;
+
+        velocity.x += move * airControl * Time.deltaTime;
+        rb.linearVelocity = velocity;
+
+        if (move > 0.01f)
+        {
             transform.localScale = new Vector3(1f, 1f, 1f);
         }
-        else if (horizontalInput < 0f)
+        else if (move < -0.01f)
         {
-            // 왼쪽으로 이동 - 뒤집기 (scale.x = -1)
             transform.localScale = new Vector3(-1f, 1f, 1f);
         }
     }
-    
+
+    private void Land()
+    {
+        isThrown = false;
+
+        // 속도 초기화 및 애니메이션 전환
+        rb.linearVelocity = Vector2.zero;
+        rb.gravityScale = defaultGravityScale;
+        FriendManager.FM.UseSkill(CharacterSkill.None);
+    }
+
     void UpdateAnimator()
     {
         if (animator != null)
@@ -188,10 +232,10 @@ public class Move : MonoBehaviour
     void Jump()
     {
         // 죽은 상태나 대화 중이면 점프 무시
-        if (isDead || isInDialogue || FriendManager.FM.currentSkill == FriendManager.CharacterSkill.Galilei) return;
+        if (isDead || isInDialogue || (int)FriendManager.FM.currentSkill > 1) return;
         
         // 점프 가능 조건: 땅에 있거나 점프 횟수가 최대보다 적을 때
-        if (isGrounded || jumpCount < maxJumps)
+         if (isGrounded || jumpCount < maxJumps)
         {
             // 공중에서 점프할 때만 점프 횟수 증가
             if (!isGrounded)
@@ -312,8 +356,7 @@ public class Move : MonoBehaviour
         // 모든 애니메이션 중단 (Idle 상태로)
         SetIdleState();
         rb.linearVelocity = Vector2.zero;
-        //rb.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezePositionY | RigidbodyConstraints2D.FreezeRotation;
-        rb.constraints = RigidbodyConstraints2D.FreezeAll;
+        //rb.constraints = RigidbodyConstraints2D.FreezeAll;
 
         // FriendManager 싱글톤을 통해 스킬 중단
         FriendManager.FM?.OnDialogueStart();
