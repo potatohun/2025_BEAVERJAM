@@ -86,8 +86,9 @@ MonoBehaviour:
   - {fileID: 6403252182692130976, guid: 4e12b3c53c0f8ee4da83655d8d2770d5, type: 3}
   cocoSkillDuration: 3
   totoSkillDuration: 2
-  galileiSkillDuration: 0.7
+  galileiSkillDuration: 0.5
   miuSkillDuration: 5
   throwForceX: 45
   throwForceY: 65
   WaterColliderObject: {fileID: 0}
+  isPlayerInWater: 0

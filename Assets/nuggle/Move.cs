@@ -33,7 +33,7 @@ public class Move : MonoBehaviour
     
     // 2단 점프 관련 변수
     private int jumpCount = 0;
-    private int maxJumps = 1; // 최대 2단 점프
+    public int maxJumps = 1; // 최대 2단 점프
 
     public GameObject WaterCol_Object;
 
@@ -41,8 +41,6 @@ public class Move : MonoBehaviour
     public float airControl = 5f;    // 공중에서 좌우 조정 속도
 
     public bool isThrown = false;
-
-    float waterTimer = 0.0f;
     
     void Start()
     {
@@ -77,6 +75,23 @@ public class Move : MonoBehaviour
         }
     }
 
+    //private void Update()
+    //{
+    //    if (FriendManager.FM.isPlayerInWater)
+    //    {
+    //        rb.gravityScale = 0.5f;
+    //        jumpForce = 10f;
+    //        maxJumps = 100;
+    //        rb.linearDamping = 1.5f;
+    //    }
+    //    else
+    //    {
+    //        rb.gravityScale = 10f;
+    //        jumpForce = 30f;
+    //        maxJumps = 1;
+    //        rb.linearDamping = 0f;
+    //    }
+    //}
     void LateUpdate()
     {
         // 죽은 상태나 대화 중이면 입력 무시
@@ -232,7 +247,7 @@ public class Move : MonoBehaviour
     void Jump()
     {
         // 죽은 상태나 대화 중이면 점프 무시
-        if (isDead || isInDialogue || (int)FriendManager.FM.currentSkill > 1) return;
+        if (isDead || isInDialogue || (int)FriendManager.FM.currentSkill > 1 && (int)FriendManager.FM.currentSkill < 4) return;
         
         // 점프 가능 조건: 땅에 있거나 점프 횟수가 최대보다 적을 때
          if (isGrounded || jumpCount < maxJumps)
@@ -356,7 +371,7 @@ public class Move : MonoBehaviour
         // 모든 애니메이션 중단 (Idle 상태로)
         SetIdleState();
         rb.linearVelocity = Vector2.zero;
-        //rb.constraints = RigidbodyConstraints2D.FreezeAll;
+        rb.constraints = RigidbodyConstraints2D.FreezePositionX;
 
         // FriendManager 싱글톤을 통해 스킬 중단
         FriendManager.FM?.OnDialogueStart();

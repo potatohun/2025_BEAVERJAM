@@ -185,6 +185,6 @@ MonoBehaviour:
   isTalkable: 1
   reUseable: 0
   group_id: miu
-  canUnlock: 1
+  canUnlock: 0
   skill: 4
   textBubble: {fileID: 1745615611884621213}

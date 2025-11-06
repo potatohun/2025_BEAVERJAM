@@ -41,7 +41,8 @@ public class FriendManager : MonoBehaviour
     public float throwForceY = 14f;  // 수직 던지는 힘
 
     [SerializeField] private CircleCollider2D WaterColliderObject;
-    
+    public bool isPlayerInWater = false;
+
     void Awake()
     {
         // 싱글톤 설정
@@ -72,21 +73,21 @@ public class FriendManager : MonoBehaviour
         // 스킬 사용 키 입력
         if (Input.GetKeyDown(KeyCode.Q))
         {
-            if (skillUnlocked[0] && SkillManager.instance.IsEndCoolTime(0))
+            if (skillUnlocked[0] && SkillManager.instance.IsEndCoolTime(0) && !isPlayerInWater)
                 UseSkill(CharacterSkill.Coco);
             else 
                 return;
         }
         else if (Input.GetKeyDown(KeyCode.W))
         {
-            if (skillUnlocked[1] && SkillManager.instance.IsEndCoolTime(1))
+            if (skillUnlocked[1] && SkillManager.instance.IsEndCoolTime(1) && !isPlayerInWater)
                 UseSkill(CharacterSkill.Toto);
             else 
                 return;
         }
         else if (Input.GetKeyDown(KeyCode.E))
         {
-            if (skillUnlocked[2] && Move.Singleton_Move.IsGrounded() && SkillManager.instance.IsEndCoolTime(2))
+            if (skillUnlocked[2] && Move.Singleton_Move.IsGrounded() && SkillManager.instance.IsEndCoolTime(2) && !isPlayerInWater)
                 UseSkill(CharacterSkill.Galilei);
             else 
                 return;
@@ -97,6 +98,11 @@ public class FriendManager : MonoBehaviour
                 UseSkill(CharacterSkill.Miu);
             else 
                 return;
+        }
+
+        if(currentSkill == CharacterSkill.Miu && isPlayerInWater)
+        {
+            Move.Singleton_Move.moveSpeed = 30f;
         }
     }
     
@@ -183,7 +189,7 @@ public class FriendManager : MonoBehaviour
                 StartCoroutine(GalileiSkillSequence());
                 break;
             case CharacterSkill.Miu:
-                Move.Singleton_Move.moveSpeed = 30f;
+                //Move.Singleton_Move.moveSpeed = 30f;
                 //Move.Singleton_Move.Playerinwater = false;
                 SetCocoAnimation(true, 4);
                 break;
@@ -268,7 +274,7 @@ public class FriendManager : MonoBehaviour
 
         
         // 1초 대기
-        yield return new WaitForSeconds(0.7f);
+        yield return new WaitForSeconds(GetSkillDuration(CharacterSkill.Galilei));
         
         Debug.Log("Galilei 스킬 - 위로 던지기 실행!");
         Vector3 pos = Move.Singleton_Move.transform.position;
@@ -341,6 +347,10 @@ public class FriendManager : MonoBehaviour
                 SetCocoAnimation(false, 0);
                 break;
             case CharacterSkill.Miu:
+                if (Move.Singleton_Move != null)
+                {
+                    Move.Singleton_Move.moveSpeed = 10f;
+                }
                 break;
         }
         // 기존 스킬 캐릭터 제거
@@ -373,6 +383,7 @@ public class FriendManager : MonoBehaviour
                 if (Move.Singleton_Move != null){
                     Move.Singleton_Move.moveSpeed = 10f;
                     Move.Singleton_Move.rb.constraints = RigidbodyConstraints2D.FreezeRotation;
+                    if (Move.Singleton_Move.rb.IsSleeping()) Move.Singleton_Move.rb.WakeUp();
                 }
                 UseSkill(CharacterSkill.None);
                 break;

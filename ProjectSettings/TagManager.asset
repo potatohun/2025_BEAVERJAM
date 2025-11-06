@@ -7,6 +7,7 @@ TagManager:
   - Npc
   - NpcBubble
   - MapCollider
+  - EyeSensor
   layers:
   - Default
   - TransparentFX
