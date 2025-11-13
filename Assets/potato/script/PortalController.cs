@@ -25,6 +25,7 @@ public class PortalController : MonoBehaviour
     public void MovePlayerToNextMap() {
         CameraManager.instance.SetPlayerConfiner(nextMapCollider);
         Move.Singleton_Move.transform.position = nextMapPoint.position;
+        CameraManager.instance.ForceFollowPlayer();
         BGMController.instance.PlayBGM(2);
         NotiManager.instance.ShowNoti(2);
     }

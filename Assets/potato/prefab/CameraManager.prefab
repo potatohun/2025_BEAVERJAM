@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4932087214665993439}
   - component: {fileID: 183805353462757056}
-  - component: {fileID: 1588519587001399119}
   - component: {fileID: 1089757855766855595}
   m_Layer: 0
   m_Name: PlayerCamera
@@ -77,25 +76,6 @@ MonoBehaviour:
       BarrelClipping: 0.25
       Anamorphism: 0
   BlendHint: 0
---- !u!114 &1588519587001399119
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3495280461675808417}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b617507da6d07e749b7efdb34e1173e1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.Cinemachine::Unity.Cinemachine.CinemachineFollow
-  TrackerSettings:
-    BindingMode: 4
-    PositionDamping: {x: 1, y: 1, z: 1}
-    AngularDampingMode: 0
-    RotationDamping: {x: 1, y: 1, z: 1}
-    QuaternionDamping: 1
-  FollowOffset: {x: 0, y: 3, z: -10}
 --- !u!114 &1089757855766855595
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -411,3 +391,5 @@ MonoBehaviour:
   mainCamera: {fileID: 8721443997168316321}
   playerCamera: {fileID: 183805353462757056}
   zoomInCamera: {fileID: 6000146441043661179}
+  playerConfiner: {fileID: 0}
+  zoomInConfiner: {fileID: 0}

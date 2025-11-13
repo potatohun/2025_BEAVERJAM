@@ -201,8 +201,8 @@ public class TalkController : MonoBehaviour
         
         return localPoint;
     }
-
-    public Vector2 GetPlayerPositionToCanvas(GameObject player)
+    
+    public Vector2 GetPlayerPositionToCanvas(GameObject player, Vector2 offset)
     {
         Camera playerCamera = CameraManager.instance.GetMainCamera();
         
@@ -211,7 +211,7 @@ public class TalkController : MonoBehaviour
         RectTransform canvasRect = canvas.GetComponent<RectTransform>();
         
         // Cinemachine 카메라를 위한 좌표 변환
-        Vector3 screenPosition = playerCamera.WorldToScreenPoint(player.transform.position);
+        Vector3 screenPosition = playerCamera.WorldToScreenPoint(player.transform.position + new Vector3(offset.x, offset.y, 0));
         
         // 스크린 좌표를 Canvas 로컬 좌표로 변환
         Vector2 localPoint;
@@ -225,7 +225,8 @@ public class TalkController : MonoBehaviour
         return localPoint;
     }
 
-    public bool IsTalking() {
+    public bool IsTalking()
+    {
         return currentTalkData != null;
     }
 }

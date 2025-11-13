@@ -21,8 +21,10 @@ public class GameManager : MonoBehaviour
         Invoke("Respawn", FadeInOutController.instance.GetPlayTime());
     }
 
-    public void Respawn() {
+    public void Respawn()
+    {
         Move.Singleton_Move.transform.position = SavePointManager.instance.GetCurrentSavePoint().transform.position;
         Move.Singleton_Move.Respawn();
+        CameraManager.instance.ForceFollowPlayer();
     }
 }

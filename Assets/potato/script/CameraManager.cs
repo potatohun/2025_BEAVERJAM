@@ -13,26 +13,31 @@ public class CameraManager : MonoBehaviour
     [SerializeField] private CinemachineConfiner2D playerConfiner;
     [SerializeField] private CinemachineConfiner2D zoomInConfiner;
 
-    private void Awake() {
-        if(instance == null)
+    private void Awake()
+    {
+        if (instance == null)
             instance = this;
         else
             Destroy(gameObject);
     }
 
-    public Camera GetMainCamera() {
+    public Camera GetMainCamera()
+    {
         return mainCamera;
     }
 
-    public CinemachineCamera GetPlayerCamera() {
+    public CinemachineCamera GetPlayerCamera()
+    {
         return playerCamera;
     }
 
-    public CinemachineCamera GetZoomInCamera() {
+    public CinemachineCamera GetZoomInCamera()
+    {
         return zoomInCamera;
     }
 
-    public void ZoomInToTarget(GameObject target1, GameObject target2) {
+    public void ZoomInToTarget(GameObject target1, GameObject target2)
+    {
         // 두 타겟의 평균 위치에 zoomInCamera를 위치
         Vector3 averagePosition = (target1.transform.position + target2.transform.position) / 2;
         zoomInCamera.transform.position = new Vector3(averagePosition.x, averagePosition.y, zoomInCamera.transform.position.z);
@@ -40,16 +45,25 @@ public class CameraManager : MonoBehaviour
         zoomInCamera.gameObject.SetActive(true);
     }
 
-    public void ZoomOut() {
+    public void ZoomOut()
+    {
         zoomInCamera.gameObject.SetActive(false);
     }
 
-    public void SetPlayerConfiner(BoxCollider2D collider) {
-        if(playerConfiner != null) {
+    public void SetPlayerConfiner(BoxCollider2D collider)
+    {
+        if (playerConfiner != null)
+        {
             playerConfiner.BoundingShape2D = collider;
         }
-        if(zoomInConfiner != null) {
+        if (zoomInConfiner != null)
+        {
             zoomInConfiner.BoundingShape2D = collider;
         }
-    } 
+    }
+
+    public void ForceFollowPlayer()
+    {
+        playerCamera.transform.position = Move.Singleton_Move.transform.position;
+    }
 }

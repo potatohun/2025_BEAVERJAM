@@ -7,7 +7,10 @@ public class FadeInOutController : MonoBehaviour
 
     [Header("Settings")]
     [SerializeField] private float fadeDuration = 1f;
-    [SerializeField] private float targetScale = 200f;
+    [SerializeField] private float fadeDelay = 2f;
+    [SerializeField] private float targetMinScale = 0.1f;
+    [SerializeField] private float targetMaxScale = 200f;
+    [SerializeField] private Vector2 holeOffset = new Vector2(0, 0);
 
     [Header("UI Object")]
     public GameObject backgroundCanvas;
@@ -50,9 +53,9 @@ public class FadeInOutController : MonoBehaviour
             fadeTween = null;
         }
 
-        holeRectTransform.localScale = new Vector3(1, 1, 1);
-        fadeTween = holeRectTransform.DOScale(targetScale, fadeDuration).OnUpdate(() => {
-            holeRectTransform.anchoredPosition = TalkController.instance.GetPlayerPositionToCanvas(player);
+        holeRectTransform.localScale = new Vector3(targetMinScale, targetMinScale, targetMinScale);
+        fadeTween = holeRectTransform.DOScale(targetMaxScale, fadeDuration).OnUpdate(() => {
+            holeRectTransform.anchoredPosition = TalkController.instance.GetPlayerPositionToCanvas(player, holeOffset);
         }).OnComplete(() => {
             // 배경 캔버스와 구멍 캔버스 비활성화
             backgroundCanvas.gameObject.SetActive(false);
@@ -71,9 +74,9 @@ public class FadeInOutController : MonoBehaviour
             fadeTween = null;
         }
         
-        holeRectTransform.localScale = new Vector3(targetScale, targetScale, targetScale);
+        holeRectTransform.localScale = new Vector3(targetMaxScale, targetMaxScale, targetMaxScale);
         holeRectTransform.DOScale(1, fadeDuration).OnUpdate(() => {
-            holeRectTransform.anchoredPosition = TalkController.instance.GetPlayerPositionToCanvas(player);
+            holeRectTransform.anchoredPosition = TalkController.instance.GetPlayerPositionToCanvas(player, holeOffset);
         }).OnComplete(() => {
             // 배경 캔버스와 구멍 캔버스 비활성화
             backgroundCanvas.gameObject.SetActive(false);
@@ -96,14 +99,14 @@ public class FadeInOutController : MonoBehaviour
             fadeTween = null;
         }
         
-        holeRectTransform.localScale = new Vector3(targetScale, targetScale, targetScale);
-        holeRectTransform.DOScale(1, fadeDuration).OnUpdate(() => {
-            holeRectTransform.anchoredPosition = TalkController.instance.GetPlayerPositionToCanvas(player);
+        holeRectTransform.localScale = new Vector3(targetMaxScale, targetMaxScale, targetMaxScale);
+        holeRectTransform.DOScale(targetMinScale, fadeDuration).OnUpdate(() => {
+            holeRectTransform.anchoredPosition = TalkController.instance.GetPlayerPositionToCanvas(player, holeOffset);
         }).OnComplete(() => {
-            holeRectTransform.localScale = new Vector3(1, 1, 1);
-            fadeTween = holeRectTransform.DOScale(targetScale, fadeDuration).OnUpdate(() => {
-                holeRectTransform.anchoredPosition = TalkController.instance.GetPlayerPositionToCanvas(player);
-            }).OnComplete(() => {
+            holeRectTransform.localScale = new Vector3(targetMinScale, targetMinScale, targetMinScale);
+            fadeTween = holeRectTransform.DOScale(targetMaxScale, fadeDuration).OnUpdate(() => {
+                holeRectTransform.anchoredPosition = TalkController.instance.GetPlayerPositionToCanvas(player, holeOffset);
+            }).SetDelay(fadeDelay).OnComplete(() => {
                 // 배경 캔버스와 구멍 캔버스 비활성화
                 backgroundCanvas.gameObject.SetActive(false);
                 holeCanvas.gameObject.SetActive(false);
