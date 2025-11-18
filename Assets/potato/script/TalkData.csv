@@ -37,13 +37,14 @@ miu,talk_miu_11,npc,사슴성으로 간다고 했지?,talk_miu_12
 miu,talk_miu_12,npc,얼른 앞장 서!,end
 ham_1_1,talk_ham_1_1,npc,수호신이시여. 제발 물을 내려주소서...!,end
 ham_1_2,talk_ham_1_2,npc,빠르게 달려가 보시지요. 수호신 님.,end
-ham_1_3,talk_ham_1_3,npc,과학의 힘을 빌려야 할 때가 온 겐가...,end
+ham_1_3,talk_ham_1_3,npc,악어에게 물리면 우린 죽고 말걸세...,end
 ham_2_1,talk_ham_2_1,npc,으악. 햄찌 살려!,end
 ham_2_2,talk_ham_2_2,npc,물이 좀만 더 많았더라면....,end
 ham_2_3,talk_ham_2_3,npc,날 던지면 저 위까지 날아가겠는걸!,end
 ham_2_4,talk_ham_2_4,npc,달려! 달려!,end
+ham_2_5,talk_ham_2_5,npc,할짝...할짝... 어라. 이거 소금같은데?,end
 ham_3_1,talk_ham_3_1,npc,와. 낭떠러지다!,end
 ham_3_2,talk_ham_3_2,npc,우와. 힘 완전 쎄 보여.,end
 ham_3_3,talk_ham_3_3,npc,"하늘이 바로 눈 앞에 있어!
 닿으면 어떤 일이 일어날까?",end
-ham_3_4,talk_ham_3_4,npc,갇혀버렸다!,end
+ham_3_4,talk_ham_3_4,npc,아래에서 물소리가 들리는 것 같아!,end
