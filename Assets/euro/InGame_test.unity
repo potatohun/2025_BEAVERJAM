@@ -695,6 +695,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 867ea547845152c42b9af42299bb68cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SavePointController
+  index: 0
 --- !u!61 &149884777
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1071,6 +1072,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 867ea547845152c42b9af42299bb68cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SavePointController
+  index: 0
 --- !u!61 &175615341
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1932,6 +1934,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 867ea547845152c42b9af42299bb68cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SavePointController
+  index: 0
 --- !u!1001 &295064265
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3179,11 +3182,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8138504452482484803, guid: fcfdbf5e4df1dd7499135ebf7683adea, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 482.5
+      value: 483
       objectReference: {fileID: 0}
     - target: {fileID: 8138504452482484803, guid: fcfdbf5e4df1dd7499135ebf7683adea, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -42.9
+      value: -40.1
       objectReference: {fileID: 0}
     - target: {fileID: 8138504452482484803, guid: fcfdbf5e4df1dd7499135ebf7683adea, type: 3}
       propertyPath: m_LocalPosition.z
@@ -5030,6 +5033,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 867ea547845152c42b9af42299bb68cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SavePointController
+  index: 0
 --- !u!61 &759846509
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -5180,6 +5184,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 867ea547845152c42b9af42299bb68cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SavePointController
+  index: 0
 --- !u!61 &845827801
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -7079,6 +7084,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 867ea547845152c42b9af42299bb68cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SavePointController
+  index: 0
 --- !u!61 &1167605600
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -8043,6 +8049,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 867ea547845152c42b9af42299bb68cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SavePointController
+  index: 0
 --- !u!61 &1374770759
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -64199,6 +64206,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 867ea547845152c42b9af42299bb68cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SavePointController
+  index: 0
 --- !u!61 &1768771004
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -64348,14 +64356,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59c1387e7e9860d44a63b5e165ff970e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SavePointManager
-  savePointObject:
-  - {fileID: 286858170}
-  - {fileID: 149884774}
-  - {fileID: 175615338}
-  - {fileID: 1374770756}
-  - {fileID: 1167605597}
-  - {fileID: 1768771001}
-  currentSavePoint: {fileID: 0}
+  _savePointList: []
+  _currentSavePoint: {fileID: 0}
+  _firstSavePoint: {fileID: 0}
 --- !u!1 &1843457489
 GameObject:
   m_ObjectHideFlags: 0
@@ -65477,7 +65480,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 53.509243, y: -13.159485}
+  m_Offset: {x: 63.000656, y: -14.920189}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -65487,7 +65490,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 32.433556, y: 6.4671326}
+  m_Size: {x: 50.558685, y: 11.71962}
   m_EdgeRadius: 0
 --- !u!114 &1899545641
 MonoBehaviour:
@@ -67304,7 +67307,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 53.509243, y: -13.159485}
+  m_Offset: {x: 241.79694, y: -10}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -67314,7 +67317,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 32.433556, y: 6.4671326}
+  m_Size: {x: 57.352905, y: 21.559998}
   m_EdgeRadius: 0
 --- !u!114 &2038252453
 MonoBehaviour:
@@ -67328,7 +67331,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f91ab753381b7ac41a076f3076aa4b9a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PondController
-  drownTime: 20
+  drownTime: 6
   pond_object: {fileID: 1643683679}
 --- !u!50 &2038252454
 Rigidbody2D:
