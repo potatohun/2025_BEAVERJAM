@@ -78,18 +78,18 @@ Tilemap:
   m_AnimatedTiles: {}
   m_TileAssetArray:
   - m_RefCount: 1
-    m_Data: {fileID: 11400000, guid: ae0884f1584a35e45940865a82e31aec, type: 2}
+    m_Data: {fileID: 11400000, guid: 0a522ef9c805a7244be5b25510174966, type: 2}
   - m_RefCount: 1
-    m_Data: {fileID: 11400000, guid: 6d13428aa44a1d349a380a89e8b956bf, type: 2}
+    m_Data: {fileID: 11400000, guid: 550e80836a73e2e448d30dba7cf7ab88, type: 2}
   - m_RefCount: 1
-    m_Data: {fileID: 11400000, guid: 58b5cddaec3a2c24583bed4d1ec6334b, type: 2}
+    m_Data: {fileID: 11400000, guid: 6946dbca7e4dc7c41adf83e311a559f5, type: 2}
   m_TileSpriteArray:
   - m_RefCount: 1
-    m_Data: {fileID: 21300000, guid: c9bfdd454228e464ea070b992b8432a3, type: 3}
+    m_Data: {fileID: 21300000, guid: 89e143d960a7248d88493689a9212429, type: 3}
   - m_RefCount: 1
-    m_Data: {fileID: 21300000, guid: ac26130df4b2547c8bb04569201d9a45, type: 3}
+    m_Data: {fileID: 21300000, guid: ad9b9d29f667f4b87ad994735e7d0b09, type: 3}
   - m_RefCount: 1
-    m_Data: {fileID: 21300000, guid: 3f95cbb901e68495a9519938b06d36ea, type: 3}
+    m_Data: {fileID: 21300000, guid: af8399b5a379e40e5be65799fc1a9bd9, type: 3}
   m_TileMatrixArray:
   - m_RefCount: 3
     m_Data:
@@ -117,7 +117,7 @@ Tilemap:
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Origin: {x: -2, y: -1, z: 0}
   m_Size: {x: 3, y: 1, z: 1}
-  m_TileAnchor: {x: 0.5, y: 0.5, z: 0}
+  m_TileAnchor: {x: 1, y: 1, z: 1}
   m_TileOrientation: 0
   m_TileOrientationMatrix:
     e00: 1
@@ -297,34 +297,38 @@ CompositeCollider2D:
   m_ColliderPaths:
   - m_Collider: {fileID: 2717274080146775557}
     m_ColliderPaths:
-    - - X: 25300000
-        Y: -23699998
-      - X: 25300000
-        Y: -1700000
-      - X: 24299998
-        Y: 299999
-      - X: -48700000
-        Y: 299999
-      - X: -50299996
-        Y: -1300000
-      - X: -50299996
-        Y: -23899998
-      - X: -47900000
-        Y: -25300000
-      - X: 23699998
-        Y: -25300000
+    - - X: 37800000
+        Y: -12200000
+      - X: 37800000
+        Y: 11400000
+      - X: 35600000
+        Y: 12800000
+      - X: -36200000
+        Y: 12800000
+      - X: -37800000
+        Y: 11000000
+      - X: -37800000
+        Y: -11200000
+      - X: -35800000
+        Y: -12800000
+      - X: 36200000
+        Y: -12800000
   m_CompositePaths:
     m_Paths:
-    - - {x: 2.369989, y: -2.53}
-      - {x: 2.53, y: -2.369989}
-      - {x: 2.529997, y: -0.1699945}
-      - {x: 2.4299831, y: 0.0299999}
-      - {x: -4.8700075, y: 0.029992301}
-      - {x: -5.0299997, y: -0.1300108}
-      - {x: -5.0299864, y: -2.3900077}
-      - {x: -4.789993, y: -2.53}
+    - - {x: 3.78, y: -1.1042641}
+      - {x: 3.78, y: 1.0522435}
+      - {x: 3.705964, y: 1.1871135}
+      - {x: 3.5976017, y: 1.2560718}
+      - {x: 3.5154316, y: 1.28}
+      - {x: -3.604264, y: 1.28}
+      - {x: -3.78, y: 1.1042641}
+      - {x: -3.78, y: -1.0441643}
+      - {x: -3.7207813, y: -1.1673754}
+      - {x: -3.6222777, y: -1.2461776}
+      - {x: -3.5258565, y: -1.28}
+      - {x: 3.604264, y: -1.28}
   m_VertexDistance: 0.0005
-  m_OffsetDistance: 0.00005
+  m_OffsetDistance: 0.3
   m_UseDelaunayMesh: 0
   m_CompositeGameObject: {fileID: 2494409816987930528}
 --- !u!1 &8292860955623408721
@@ -337,9 +341,9 @@ GameObject:
   m_Component:
   - component: {fileID: 945431216408550396}
   - component: {fileID: 7423173175881279825}
-  - component: {fileID: 413440032592411124}
+  - component: {fileID: 4462998271109198022}
   m_Layer: 0
-  m_Name: MovingFlatform
+  m_Name: block_moving
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -373,7 +377,7 @@ Grid:
   m_CellGap: {x: 0, y: 0, z: 0}
   m_CellLayout: 0
   m_CellSwizzle: 0
---- !u!114 &413440032592411124
+--- !u!114 &4462998271109198022
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -382,102 +386,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 8292860955623408721}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4d0390bd8b8ffd640b34fe25065ff1df, type: 3}
+  m_Script: {fileID: 11500000, guid: 2793a376b1583de4e88b99c9578cc247, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp-firstpass::DG.Tweening.DOTweenAnimation
-  updateType: 0
-  isSpeedBased: 0
-  hasOnStart: 0
-  hasOnPlay: 0
-  hasOnUpdate: 0
-  hasOnStepComplete: 0
-  hasOnComplete: 0
-  hasOnTweenCreated: 0
-  hasOnRewind: 0
-  onStart:
-    m_PersistentCalls:
-      m_Calls: []
-  onPlay:
-    m_PersistentCalls:
-      m_Calls: []
-  onUpdate:
-    m_PersistentCalls:
-      m_Calls: []
-  onStepComplete:
-    m_PersistentCalls:
-      m_Calls: []
-  onComplete:
-    m_PersistentCalls:
-      m_Calls: []
-  onTweenCreated:
-    m_PersistentCalls:
-      m_Calls: []
-  onRewind:
-    m_PersistentCalls:
-      m_Calls: []
-  targetIsSelf: 1
-  targetGO: {fileID: 0}
-  tweenTargetIsTargetGO: 1
-  delay: 0
-  duration: 5
-  easeType: 1
-  easeCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  loopType: 1
-  loops: -1
-  id: 
-  isRelative: 0
-  isFrom: 0
-  isIndependentUpdate: 0
-  autoKill: 1
-  autoGenerate: 1
-  isActive: 1
-  isValid: 1
-  target: {fileID: 945431216408550396}
-  animationType: 2
-  targetType: 11
-  forcedTargetType: 0
-  autoPlay: 1
-  useTargetAsV3: 0
-  endValueFloat: 0
-  endValueV3: {x: 0, y: 0, z: 0}
-  endValueV2: {x: 0, y: 0}
-  endValueColor: {r: 1, g: 1, b: 1, a: 1}
-  endValueString: 
-  endValueRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 0
-    height: 0
-  endValueTransform: {fileID: 0}
-  optionalBool0: 0
-  optionalBool1: 0
-  optionalFloat0: 0
-  optionalInt0: 0
-  optionalRotationMode: 0
-  optionalScrambleMode: 0
-  optionalShakeRandomnessMode: 0
-  optionalString: 
+  m_EditorClassIdentifier: Assembly-CSharp::SquareMovePlatform
+  moveSpeed: 5
+  waitTime: 1
+  moveEase: 1
+  movePoints:
+  - {x: 404.5, y: -97.5, z: 0}
+  - {x: 404.5, y: -102.5, z: 0}
+  - {x: 394.5, y: -102.5, z: 0}
+  - {x: 394.5, y: -97.5, z: 0}
+  loopPath: 1

@@ -7,19 +7,30 @@ public class NotiManager : MonoBehaviour
 
     public List<GameObject> notiList;
 
-    private void Awake() {
-        if(instance == null) {
+    private void Awake()
+    {
+        if (instance == null)
+        {
             instance = this;
-        } else {
+        }
+        else
+        {
             Destroy(gameObject);
         }
     }
 
-    private void Start() {
+    private void Start()
+    {
         ShowNoti(1);
     }
-    
-    public void ShowNoti(int index) {
+
+    public void ShowNoti(int index)
+    {
         notiList[index].SetActive(true);
+    }
+    
+    public void ShowMapNoti(int index)
+    {
+        notiList[index + 1].SetActive(true);
     }
 }

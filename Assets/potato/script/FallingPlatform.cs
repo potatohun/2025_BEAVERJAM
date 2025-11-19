@@ -3,6 +3,10 @@ using DG.Tweening;
 
 public class FallingPlatform : MonoBehaviour
 {
+    [Header("Settings")]
+    [SerializeField] private float fallDistance = 10f;
+    [SerializeField] private float fallTime = 1f;
+    [SerializeField] private Ease fallEase = Ease.InSine;
     private Tween moveDownTween;
     private Vector3 originalPosition;
 
@@ -28,7 +32,7 @@ public class FallingPlatform : MonoBehaviour
             moveDownTween = null;
         }
 
-        moveDownTween = transform.DOMoveY(originalPosition.y - 10f, 1f).SetEase(Ease.InSine);
+        moveDownTween = transform.DOMoveY(originalPosition.y - fallDistance, fallTime).SetEase(fallEase);
     }
     
     private void MoveUp() {
@@ -37,6 +41,6 @@ public class FallingPlatform : MonoBehaviour
             moveDownTween = null;
         }
 
-        moveDownTween = transform.DOMoveY(originalPosition.y, 1f).SetEase(Ease.InSine);
+        moveDownTween = transform.DOMoveY(originalPosition.y, fallTime).SetEase(fallEase);
     }
 }

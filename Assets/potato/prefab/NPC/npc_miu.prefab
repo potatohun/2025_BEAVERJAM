@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &114847051801654007
+--- !u!1 &1745615611884621213
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,7 +8,7 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 5308903900245594003}
+  - component: {fileID: 4659719660110221417}
   m_Layer: 0
   m_Name: Pos_NpcBubble
   m_TagString: NpcBubble
@@ -16,22 +16,22 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &5308903900245594003
+--- !u!4 &4659719660110221417
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 114847051801654007}
+  m_GameObject: {fileID: 1745615611884621213}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -1, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 6249286129635477822}
+  m_Father: {fileID: 555894258803288802}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &950257643184976838
+--- !u!1 &3459220197241277635
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -39,40 +39,40 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 6249286129635477822}
-  - component: {fileID: 152459159253338762}
-  - component: {fileID: 4019470090496229950}
-  - component: {fileID: 4467912900707742412}
+  - component: {fileID: 555894258803288802}
+  - component: {fileID: 2947830333167404955}
+  - component: {fileID: 7701616974332519761}
+  - component: {fileID: 2401439923130418956}
   m_Layer: 0
-  m_Name: NPC_ham_3
+  m_Name: npc_miu
   m_TagString: Npc
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &6249286129635477822
+--- !u!4 &555894258803288802
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 950257643184976838}
+  m_GameObject: {fileID: 3459220197241277635}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5, y: -3, z: 0}
+  m_LocalPosition: {x: 0, y: 3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 5308903900245594003}
+  - {fileID: 4659719660110221417}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!212 &152459159253338762
+--- !u!212 &2947830333167404955
 SpriteRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 950257643184976838}
+  m_GameObject: {fileID: 3459220197241277635}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -113,24 +113,24 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 9c1b258aeabcb4de2a7f806ff2d8c1b4, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 37b7d73bc86f2b243827efb5b54b9c21, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 3.28, y: 4.42}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!61 &4019470090496229950
+--- !u!61 &7701616974332519761
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 950257643184976838}
+  m_GameObject: {fileID: 3459220197241277635}
   m_Enabled: 1
   serializedVersion: 3
   m_Density: 1
@@ -158,25 +158,25 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0.86823773}
+  m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0}
-    oldSize: {x: 1.1714286, y: 1.5428572}
-    newSize: {x: 1, y: 1}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 3.28, y: 4.42}
+    newSize: {x: 3.28, y: 4.42}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 5, y: 1.85}
+  m_Size: {x: 10, y: 4.5}
   m_EdgeRadius: 0
---- !u!114 &4467912900707742412
+--- !u!114 &2401439923130418956
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 950257643184976838}
+  m_GameObject: {fileID: 3459220197241277635}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3c2a6b547d622f7478b102a3509741c4, type: 3}
@@ -184,7 +184,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::NpcController
   isTalkable: 1
   reUseable: 0
-  group_id: toto
+  group_id: miu
   canUnlock: 0
-  skill: 0
-  textBubble: {fileID: 114847051801654007}
+  skill: 4
+  textBubble: {fileID: 1745615611884621213}
