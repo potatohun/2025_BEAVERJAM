@@ -80,7 +80,7 @@ public class FriendManager : MonoBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.W))
         {
-            if (skillUnlocked[1] && SkillManager.instance.IsEndCoolTime(1) && !isPlayerInWater)
+            if (skillUnlocked[1] && Move.Singleton_Move.IsGrounded() && SkillManager.instance.IsEndCoolTime(1) && !isPlayerInWater)
                 UseSkill(CharacterSkill.Toto);
             else 
                 return;
@@ -94,7 +94,7 @@ public class FriendManager : MonoBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.R))
         {
-            if (skillUnlocked[3] && SkillManager.instance.IsEndCoolTime(3))
+            if (skillUnlocked[3] && isPlayerInWater && SkillManager.instance.IsEndCoolTime(3))
                 UseSkill(CharacterSkill.Miu);
             else 
                 return;
