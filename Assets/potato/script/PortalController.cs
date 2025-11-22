@@ -28,7 +28,7 @@ public class PortalController : MonoBehaviour
         CameraManager.instance.ForceFollowPlayer();
 
         // 이전 맵 초기화
-        currentMap.ClearMap();
+        //currentMap.ClearMap();
 
         // 다음 맵 초기화
         nextMap.InitMap();

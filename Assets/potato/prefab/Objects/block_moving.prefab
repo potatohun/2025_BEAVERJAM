@@ -252,7 +252,7 @@ Rigidbody2D:
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
-  m_Interpolate: 0
+  m_Interpolate: 2
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
@@ -291,7 +291,7 @@ CompositeCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_GeometryType: 0
+  m_GeometryType: 1
   m_GenerationType: 0
   m_EdgeRadius: 0
   m_ColliderPaths:
@@ -315,20 +315,16 @@ CompositeCollider2D:
         Y: -12800000
   m_CompositePaths:
     m_Paths:
-    - - {x: 3.78, y: -1.1042641}
-      - {x: 3.78, y: 1.0522435}
-      - {x: 3.705964, y: 1.1871135}
-      - {x: 3.5976017, y: 1.2560718}
-      - {x: 3.5154316, y: 1.28}
-      - {x: -3.604264, y: 1.28}
-      - {x: -3.78, y: 1.1042641}
-      - {x: -3.78, y: -1.0441643}
-      - {x: -3.7207813, y: -1.1673754}
-      - {x: -3.6222777, y: -1.2461776}
-      - {x: -3.5258565, y: -1.28}
-      - {x: 3.604264, y: -1.28}
+    - - {x: 3.78, y: -1.0574012}
+      - {x: 3.78, y: 1.0574012}
+      - {x: 3.5574012, y: 1.28}
+      - {x: -3.5574012, y: 1.28}
+      - {x: -3.78, y: 1.0574012}
+      - {x: -3.78, y: -1.0574012}
+      - {x: -3.5574012, y: -1.28}
+      - {x: 3.5574012, y: -1.28}
   m_VertexDistance: 0.0005
-  m_OffsetDistance: 0.3
+  m_OffsetDistance: 0.38
   m_UseDelaunayMesh: 0
   m_CompositeGameObject: {fileID: 2494409816987930528}
 --- !u!1 &8292860955623408721

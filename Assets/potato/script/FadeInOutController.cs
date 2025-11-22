@@ -44,14 +44,18 @@ public class FadeInOutController : MonoBehaviour
         }
     }
     public void FadeIn() {
+        if(fadeTween != null) {
+            fadeTween.Kill();
+            
+            // 배경 캔버스와 구멍 캔버스 비활성화
+            backgroundCanvas.gameObject.SetActive(false);
+            holeCanvas.gameObject.SetActive(false);
+            fadeTween = null;
+        }
+
         // 배경 캔버스와 구멍 캔버스 활성화
         backgroundCanvas.gameObject.SetActive(true);
         holeCanvas.gameObject.SetActive(true);
-
-        if(fadeTween != null) {
-            fadeTween.Complete();
-            fadeTween = null;
-        }
 
         holeRectTransform.localScale = new Vector3(targetMinScale, targetMinScale, targetMinScale);
         fadeTween = holeRectTransform.DOScale(targetMaxScale, fadeDuration).OnUpdate(() => {
@@ -65,14 +69,18 @@ public class FadeInOutController : MonoBehaviour
     }
 
     public void FadeOut() {
+        if(fadeTween != null) {
+            fadeTween.Kill();
+            
+            // 배경 캔버스와 구멍 캔버스 비활성화
+            backgroundCanvas.gameObject.SetActive(false);
+            holeCanvas.gameObject.SetActive(false);
+            fadeTween = null;
+        }
+
         // 배경 캔버스와 구멍 캔버스 활성화
         backgroundCanvas.gameObject.SetActive(true);
         holeCanvas.gameObject.SetActive(true);
-
-        if(fadeTween != null) {
-            fadeTween.Complete();
-            fadeTween = null;
-        }
         
         holeRectTransform.localScale = new Vector3(targetMaxScale, targetMaxScale, targetMaxScale);
         holeRectTransform.DOScale(1, fadeDuration).OnUpdate(() => {
@@ -90,17 +98,21 @@ public class FadeInOutController : MonoBehaviour
     }
     
     public void FadeOutIn() {
+        if(fadeTween != null) {
+            fadeTween.Kill();
+
+            // 배경 캔버스와 구멍 캔버스 비활성화
+            backgroundCanvas.gameObject.SetActive(false);
+            holeCanvas.gameObject.SetActive(false);
+            fadeTween = null;
+        }
+
         // 배경 캔버스와 구멍 캔버스 활성화
         backgroundCanvas.gameObject.SetActive(true);
         holeCanvas.gameObject.SetActive(true);
-
-        if(fadeTween != null) {
-            fadeTween.Complete();
-            fadeTween = null;
-        }
         
         holeRectTransform.localScale = new Vector3(targetMaxScale, targetMaxScale, targetMaxScale);
-        holeRectTransform.DOScale(targetMinScale, fadeDuration).OnUpdate(() => {
+        fadeTween = holeRectTransform.DOScale(targetMinScale, fadeDuration).OnUpdate(() => {
             holeRectTransform.anchoredPosition = TalkController.instance.GetPlayerPositionToCanvas(player, holeOffset);
         }).OnComplete(() => {
             holeRectTransform.localScale = new Vector3(targetMinScale, targetMinScale, targetMinScale);
