@@ -198,6 +198,8 @@ public class Move : MonoBehaviour
             {
                 return; // 스킬 애니메이션 중이면 Walk와 Dead만 업데이트하고 종료
             }
+
+            animator.SetBool("Jump", FriendManager.FM.isPlayerInWater);
         }
     }
     
@@ -292,6 +294,7 @@ public class Move : MonoBehaviour
     private bool CheckGrounded()
     {
         if (groundCheckPoint == null) return false;
+        if (FriendManager.FM.isPlayerInWater) return false;
         
         // 발 아래로 레이캐스트 발사
         Vector2 rayOrigin = groundCheckPoint.position;
