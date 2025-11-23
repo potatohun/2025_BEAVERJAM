@@ -1037,9 +1037,14 @@ MonoBehaviour:
   jumpForce: 30
   groundLayerMask:
     serializedVersion: 2
-    m_Bits: 8
+    m_Bits: 136
   groundCheckDistance: 1.5
   groundCheckPoint: {fileID: 0}
+  OverheadLayerMask:
+    serializedVersion: 2
+    m_Bits: 136
+  OverheadCheckDistance: 1
+  OverheadCheckPoint: {fileID: 0}
   isDead: 0
   isInDialogue: 0
   deathLayerMask:
@@ -2454,7 +2459,7 @@ BoxCollider2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 8
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
