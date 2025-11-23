@@ -15,12 +15,10 @@ public class Move : MonoBehaviour
     public float groundCheckDistance = 1f;
     public Transform groundCheckPoint; // 레이캐스트 시작점
 
-    //public LayerMask waterLayerMask;
-    //public bool Playerinwater = false;
-    [Header("Overhead Check")]
-    public LayerMask OverheadLayerMask;
-    public float OverheadCheckDistance = 1f;
-    public Transform OverheadCheckPoint; // 레이캐스트 시작점
+    //[Header("Overhead Check")]
+    //public LayerMask OverheadLayerMask;
+    //public float OverheadCheckDistance = 1f;
+    //public Transform OverheadCheckPoint; // 레이캐스트 시작점
 
     [Header("State Management")]
     public bool isDead = false;
@@ -77,13 +75,13 @@ public class Move : MonoBehaviour
             groundCheckPoint = groundCheckObj.transform;
         }
 
-        if (OverheadCheckPoint == null)
-        {
-            GameObject OverheadCheckObj = new GameObject("OverheadCheckPoint");
-            OverheadCheckObj.transform.SetParent(transform);
-            OverheadCheckObj.transform.localPosition = new Vector3(0, 0.5f, 0);
-            OverheadCheckPoint = OverheadCheckObj.transform;
-        }
+        //if (OverheadCheckPoint == null)
+        //{
+        //    GameObject OverheadCheckObj = new GameObject("OverheadCheckPoint");
+        //    OverheadCheckObj.transform.SetParent(transform);
+        //    OverheadCheckObj.transform.localPosition = new Vector3(0, 0.5f, 0);
+        //    OverheadCheckPoint = OverheadCheckObj.transform;
+        //}
         
     }
 
@@ -106,7 +104,7 @@ public class Move : MonoBehaviour
     //}
     void LateUpdate()
     {
-        if (CheckOverhead()) SetDead();
+        //if (CheckOverhead()) SetDead();  // 위로 충돌 시 사망
         // 죽은 상태나 대화 중이면 입력 무시
         if (isDead || isInDialogue) return;
 
@@ -332,25 +330,25 @@ public class Move : MonoBehaviour
         return grounded;
     }
 
-    private bool CheckOverhead()
-    {
-        if (groundCheckPoint == null) return false;
-        if (FriendManager.FM.isPlayerInWater) return false;
+    //private bool CheckOverhead()
+    //{
+    //    if (groundCheckPoint == null) return false;
+    //    if (FriendManager.FM.isPlayerInWater) return false;
 
-        // 발 아래로 레이캐스트 발사
-        Vector2 rayOrigin = OverheadCheckPoint.position;
-        Vector2 rayDirection = Vector2.up;
+    //    // 발 아래로 레이캐스트 발사
+    //    Vector2 rayOrigin = OverheadCheckPoint.position;
+    //    Vector2 rayDirection = Vector2.up;
 
-        RaycastHit2D hit = Physics2D.Raycast(rayOrigin, rayDirection, OverheadCheckDistance, OverheadLayerMask);
+    //    RaycastHit2D hit = Physics2D.Raycast(rayOrigin, rayDirection, OverheadCheckDistance, OverheadLayerMask);
 
-        bool overhead = hit.collider != null;
-        // 디버그용 레이캐스트 시각화
-        Debug.DrawRay(rayOrigin, rayDirection * OverheadCheckDistance, overhead ? Color.green : Color.red);
+    //    bool overhead = hit.collider != null;
+    //    // 디버그용 레이캐스트 시각화
+    //    Debug.DrawRay(rayOrigin, rayDirection * OverheadCheckDistance, overhead ? Color.green : Color.red);
 
 
 
-        return overhead;
-    }
+    //    return overhead;
+    //}
 
     // 죽음 트리거 처리 (상대편이 Fire(6번)나 Obstacle(7번) 레이어면 죽음)
     void OnTriggerEnter2D(Collider2D other)
