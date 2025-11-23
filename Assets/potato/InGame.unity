@@ -3569,33 +3569,9 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 5920445669654191883, guid: 40b106487e57706468966b6cf31915d7, type: 3}
-      propertyPath: m_TranslationOffset.x
-      value: 203.85727
-      objectReference: {fileID: 0}
-    - target: {fileID: 5920445669654191883, guid: 40b106487e57706468966b6cf31915d7, type: 3}
-      propertyPath: m_TranslationOffset.y
-      value: -99.107216
-      objectReference: {fileID: 0}
-    - target: {fileID: 5920445669654191883, guid: 40b106487e57706468966b6cf31915d7, type: 3}
-      propertyPath: m_TranslationOffset.z
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 5920445669654191883, guid: 40b106487e57706468966b6cf31915d7, type: 3}
       propertyPath: m_Sources.Array.data[0].sourceTransform
       value: 
       objectReference: {fileID: 16471678}
-    - target: {fileID: 6436724995925806245, guid: 40b106487e57706468966b6cf31915d7, type: 3}
-      propertyPath: m_TranslationOffset.x
-      value: 203.85727
-      objectReference: {fileID: 0}
-    - target: {fileID: 6436724995925806245, guid: 40b106487e57706468966b6cf31915d7, type: 3}
-      propertyPath: m_TranslationOffset.y
-      value: -102.00722
-      objectReference: {fileID: 0}
-    - target: {fileID: 6436724995925806245, guid: 40b106487e57706468966b6cf31915d7, type: 3}
-      propertyPath: m_TranslationOffset.z
-      value: 10
-      objectReference: {fileID: 0}
     - target: {fileID: 6436724995925806245, guid: 40b106487e57706468966b6cf31915d7, type: 3}
       propertyPath: m_Sources.Array.data[0].sourceTransform
       value: 
@@ -3641,33 +3617,9 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8613844245134372936, guid: 40b106487e57706468966b6cf31915d7, type: 3}
-      propertyPath: m_TranslationOffset.x
-      value: 203.85727
-      objectReference: {fileID: 0}
-    - target: {fileID: 8613844245134372936, guid: 40b106487e57706468966b6cf31915d7, type: 3}
-      propertyPath: m_TranslationOffset.y
-      value: -98.00722
-      objectReference: {fileID: 0}
-    - target: {fileID: 8613844245134372936, guid: 40b106487e57706468966b6cf31915d7, type: 3}
-      propertyPath: m_TranslationOffset.z
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 8613844245134372936, guid: 40b106487e57706468966b6cf31915d7, type: 3}
       propertyPath: m_Sources.Array.data[0].sourceTransform
       value: 
       objectReference: {fileID: 16471678}
-    - target: {fileID: 8760768788577548242, guid: 40b106487e57706468966b6cf31915d7, type: 3}
-      propertyPath: m_TranslationOffset.x
-      value: 203.85727
-      objectReference: {fileID: 0}
-    - target: {fileID: 8760768788577548242, guid: 40b106487e57706468966b6cf31915d7, type: 3}
-      propertyPath: m_TranslationOffset.y
-      value: -104.00722
-      objectReference: {fileID: 0}
-    - target: {fileID: 8760768788577548242, guid: 40b106487e57706468966b6cf31915d7, type: 3}
-      propertyPath: m_TranslationOffset.z
-      value: 10
-      objectReference: {fileID: 0}
     - target: {fileID: 8760768788577548242, guid: 40b106487e57706468966b6cf31915d7, type: 3}
       propertyPath: m_Sources.Array.data[0].sourceTransform
       value: 
