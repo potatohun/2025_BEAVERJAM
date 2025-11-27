@@ -107,6 +107,9 @@ public class FadeInOutController : MonoBehaviour
             fadeTween = null;
         }
 
+        // 플레이어 정지 및 무적
+        Move.Singleton_Move.StopPlayer();
+
         // 배경 캔버스와 구멍 캔버스 활성화
         backgroundCanvas.gameObject.SetActive(true);
         holeCanvas.gameObject.SetActive(true);
@@ -115,10 +118,14 @@ public class FadeInOutController : MonoBehaviour
         fadeTween = holeRectTransform.DOScale(targetMinScale, fadeDuration).OnUpdate(() => {
             holeRectTransform.anchoredPosition = TalkController.instance.GetPlayerPositionToCanvas(player, holeOffset);
         }).OnComplete(() => {
+            // 플레이어 재생
+            Move.Singleton_Move.ResumePlayer();
+
             holeRectTransform.localScale = new Vector3(targetMinScale, targetMinScale, targetMinScale);
             fadeTween = holeRectTransform.DOScale(targetMaxScale, fadeDuration).OnUpdate(() => {
                 holeRectTransform.anchoredPosition = TalkController.instance.GetPlayerPositionToCanvas(player, holeOffset);
-            }).SetDelay(fadeDelay).OnComplete(() => {
+            }).SetDelay(fadeDelay).OnComplete(() =>
+            {
                 // 배경 캔버스와 구멍 캔버스 비활성화
                 backgroundCanvas.gameObject.SetActive(false);
                 holeCanvas.gameObject.SetActive(false);

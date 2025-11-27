@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using DG.Tweening;
+using System;
 
 public class PondController : MonoBehaviour
 {
@@ -38,13 +39,13 @@ public class PondController : MonoBehaviour
         // 물이 채워지지 않았으면 리턴
         if (isFilled == false)
             return;
-            
+
         // EyeSensor가 아니면 리턴
         if (other.gameObject.tag != "EyeSensor")
             return;
-            
+
         // 스킬이 활성화되어 있으면 익사하지 않음
-        if (FriendManager.FM.currentSkill != FriendManager.CharacterSkill.None)
+        if (FriendManager.FM.currentSkill == FriendManager.CharacterSkill.Miu)
         {
             // 코루틴이 실행 중이면 중지
             if (drownCoroutine != null)
@@ -56,11 +57,16 @@ public class PondController : MonoBehaviour
         }
 
         // 스킬이 None이고 플레이어가 물에 있으면 코루틴 시작
-        if (FriendManager.FM.isPlayerInWater && drownCoroutine == null)
+        if (drownCoroutine == null)
         {
             Debug.Log("플레이어가 물 속에 있습니다!");
             drownCoroutine = StartCoroutine("DrownPlayer");
+
+            // 플레이어 물에 빠지기
+            Move.Singleton_Move.StartDrownPlayer();
         }
+        
+        Debug.Log("STAY : 플레이어가 물 속에 있습니다!");
     }
 
     private void OnTriggerEnter2D(Collider2D other) {
@@ -70,19 +76,11 @@ public class PondController : MonoBehaviour
 
         if (other.gameObject.tag == "EyeSensor")
         {
-            Debug.Log("플레이어가 물에 빠졌습니다!");
-            FriendManager.FM.isPlayerInWater = true;
-            Move.Singleton_Move.rb.gravityScale = 1.5f;
-            Move.Singleton_Move.jumpForce = 10f;
-            Move.Singleton_Move.maxJumps = 100;
-            Move.Singleton_Move.rb.linearDamping = 1.5f;
-
-            Vector2 vel = Move.Singleton_Move.rb.linearVelocity;
-            vel.y *= 0.3f;
-            Move.Singleton_Move.rb.linearVelocity = vel;
+            // 플레이어 물에 빠지기
+            Move.Singleton_Move.StartDrownPlayer();
 
             // 스킬이 활성화되어 있으면 익사 코루틴 시작하지 않음
-            if (FriendManager.FM.currentSkill != FriendManager.CharacterSkill.None)
+            if (FriendManager.FM.currentSkill == FriendManager.CharacterSkill.Miu)
             {
                 return;
             }
@@ -102,19 +100,8 @@ public class PondController : MonoBehaviour
 
         if (other.gameObject.tag == "EyeSensor")
         {
-            Debug.Log("플레이어가 물에서 나왔습니다!");
-            FriendManager.FM.isPlayerInWater = false;
-            Move.Singleton_Move.rb.gravityScale = 10f;
-            Move.Singleton_Move.jumpForce = 30f;
-            Move.Singleton_Move.maxJumps = 1;
-            Move.Singleton_Move.rb.linearDamping = 0f;
-
-            Vector2 vel = Move.Singleton_Move.rb.linearVelocity;
-
-            if (vel.y > 0) vel.y *= 1.5f;
-            else vel.y = Mathf.Clamp(vel.y, -10f, 0f);
-
-            Move.Singleton_Move.rb.linearVelocity = vel;
+            // 플레이어 물에서 나오기
+            Move.Singleton_Move.StopDrownPlayer();
 
             // 익사 코루틴 중지
             if (drownCoroutine != null)
@@ -147,11 +134,9 @@ public class PondController : MonoBehaviour
         if(isFilled == true || fillable == false)
             return;
 
-        
-        pond_object.transform.DOMove(pond_object.transform.position + new Vector3(0f, fillAmount, 0f), fillTime).OnComplete(() => {
-            isFilled = true;
-            Debug.Log("물이 채워졌습니다!");
-        });
+        isFilled = true;
+
+        pond_object.transform.DOMove(pond_object.transform.position + new Vector3(0f, fillAmount, 0f), fillTime);
     }
 
 }

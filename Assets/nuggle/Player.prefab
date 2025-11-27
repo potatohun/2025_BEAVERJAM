@@ -1040,11 +1040,6 @@ MonoBehaviour:
     m_Bits: 136
   groundCheckDistance: 1.5
   groundCheckPoint: {fileID: 0}
-  OverheadLayerMask:
-    serializedVersion: 2
-    m_Bits: 136
-  OverheadCheckDistance: 1
-  OverheadCheckPoint: {fileID: 0}
   isDead: 0
   isInDialogue: 0
   deathLayerMask:
@@ -2437,7 +2432,7 @@ Transform:
   m_GameObject: {fileID: 7166599669839912767}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.25, z: 0}
+  m_LocalPosition: {x: 0, y: -0.26, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2459,7 +2454,7 @@ BoxCollider2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 8
+    m_Bits: 0
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
@@ -2477,7 +2472,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0.066841125, y: 0.790964}
+  m_Offset: {x: -0.066841125, y: 0.79}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}

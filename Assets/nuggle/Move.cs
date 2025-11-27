@@ -9,29 +9,32 @@ public class Move : MonoBehaviour
     [Header("Movement Settings")]
     public float moveSpeed = 10f;
     public float jumpForce = 30f;
-    
+
     [Header("Ground Check")]
     public LayerMask groundLayerMask;
     public float groundCheckDistance = 1f;
     public Transform groundCheckPoint; // 레이캐스트 시작점
 
-    //[Header("Overhead Check")]
-    //public LayerMask OverheadLayerMask;
-    //public float OverheadCheckDistance = 1f;
-    //public Transform OverheadCheckPoint; // 레이캐스트 시작점
+    [Header("Overhead Check")]
+    public LayerMask OverheadLayerMask;
+    public float OverheadCheckDistance = 1f;
+    public Transform OverheadCheckPoint; // 레이캐스트 시작점
 
     [Header("State Management")]
     public bool isDead = false;
     public bool isInDialogue = false;
-    
+
     [Header("Death Layers")]
     public LayerMask deathLayerMask; // Fire(6번), Obstacle(7번) 레이어들
-    
+
+    [Header("Stop")]
+    public bool isStop = false;
+
     public Rigidbody2D rb;
     private Animator animator;
     private bool isGrounded;
     private float horizontalInput;
-    
+
     // 2단 점프 관련 변수
     private int jumpCount = 0;
     public int maxJumps = 1; // 최대 2단 점프
@@ -42,8 +45,8 @@ public class Move : MonoBehaviour
     public float airControl = 5f;    // 공중에서 좌우 조정 속도
 
     public bool isThrown = false;
-    
-    void Start()
+
+    void Awake()
     {
         if (Singleton_Move == null)
         {
@@ -55,17 +58,21 @@ public class Move : MonoBehaviour
             Destroy(gameObject);
             return;
         }
+
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         defaultGravityScale = rb.gravityScale;
+    }
 
+    void Start()
+    {
         // DeathLayerMask 자동 설정 (Fire=6, Obstacle=7)
         if (deathLayerMask.value == 0)
         {
             deathLayerMask = (1 << 6) | (1 << 7); // Fire(6번) + Obstacle(7번)
             Debug.Log($"DeathLayerMask 자동 설정됨: {deathLayerMask.value} (Fire=6, Obstacle=7)");
         }
-        
+
         // Ground check 포인트가 없으면 자동으로 생성
         if (groundCheckPoint == null)
         {
@@ -75,14 +82,14 @@ public class Move : MonoBehaviour
             groundCheckPoint = groundCheckObj.transform;
         }
 
-        //if (OverheadCheckPoint == null)
-        //{
-        //    GameObject OverheadCheckObj = new GameObject("OverheadCheckPoint");
-        //    OverheadCheckObj.transform.SetParent(transform);
-        //    OverheadCheckObj.transform.localPosition = new Vector3(0, 0.5f, 0);
-        //    OverheadCheckPoint = OverheadCheckObj.transform;
-        //}
-        
+        if (OverheadCheckPoint == null)
+        {
+           GameObject OverheadCheckObj = new GameObject("OverheadCheckPoint");
+           OverheadCheckObj.transform.SetParent(transform);
+           OverheadCheckObj.transform.localPosition = new Vector3(0, 0.5f, 0);
+           OverheadCheckPoint = OverheadCheckObj.transform;
+        }
+
     }
 
     //private void Update()
@@ -104,9 +111,11 @@ public class Move : MonoBehaviour
     //}
     void LateUpdate()
     {
-        //if (CheckOverhead()) SetDead();  // 위로 충돌 시 사망
+        if (CheckOverhead())
+            SetDead();  // 위로 충돌 시 사망
+
         // 죽은 상태나 대화 중이면 입력 무시
-        if (isDead || isInDialogue) return;
+        if (isDead || isInDialogue || isStop) return;
 
         // 입력 받기 (화살표 키)
         horizontalInput = 0f;
@@ -114,11 +123,11 @@ public class Move : MonoBehaviour
             horizontalInput = -1f;
         else if (Input.GetKey(KeyCode.RightArrow))
             horizontalInput = 1f;
-        
+
         // 캐릭터 방향 바꾸기
         FlipCharacter();
-        
-        
+
+
         if (Input.GetKeyDown(KeyCode.Space))
         {
             Jump();
@@ -129,7 +138,7 @@ public class Move : MonoBehaviour
         isGrounded = CheckGrounded();
         if (isGrounded && isThrown) Land();
     }
-    
+
     void FlipCharacter()
     {
         // 죽은 상태나 대화 중이면 방향 전환 무시
@@ -195,14 +204,14 @@ public class Move : MonoBehaviour
                 animator.SetBool("Dead", true);
                 return; // 죽은 상태면 다른 애니메이션 업데이트 중단
             }
-            
+
             // Walk 상태: 이동이 있으면 true, 없으면 false (대화 중이면 false)
             bool isWalking = horizontalInput != 0f && !isInDialogue;
             animator.SetBool("Walk", isWalking);
-            
+
             // Dead 상태 설정
             animator.SetBool("Dead", isDead);
-            
+
             // 스킬 애니메이션 중이면 다른 상태는 건드리지 않음
             bool isCocoSkillActive = animator.GetBool("CocoSkill");
             if (isCocoSkillActive)
@@ -213,7 +222,7 @@ public class Move : MonoBehaviour
             animator.SetBool("Jump", FriendManager.FM.isPlayerInWater);
         }
     }
-    
+
     // 모든 애니메이션 중앙 관리
     public void SetAllAnimations(bool walk, bool jump, bool cocoSkill, bool dead)
     {
@@ -225,13 +234,13 @@ public class Move : MonoBehaviour
             animator.SetBool("Dead", dead);
         }
     }
-    
+
     // Idle 상태로 설정 (모든 애니메이션 false)
     public void SetIdleState()
     {
         SetAllAnimations(false, false, false, false);
     }
-    
+
     // Coco 스킬 애니메이션 제어
     public void SetCocoSkill(bool isActive, int currentFriendID)
     {
@@ -242,28 +251,28 @@ public class Move : MonoBehaviour
             animator.SetInteger("FriendID", currentFriendID);
         }
     }
-    
+
     void FixedUpdate()
     {
         // 죽은 상태나 대화 중이면 이동 무시
         if (isDead || isInDialogue) return;
-        
+
         // 좌우 이동
         MoveHorizontal();
     }
-    
+
     void MoveHorizontal()
     {
         rb.linearVelocity = new Vector2(horizontalInput * moveSpeed, rb.linearVelocity.y);
     }
-    
+
     void Jump()
     {
         // 죽은 상태나 대화 중이면 점프 무시
         if (isDead || isInDialogue || (int)FriendManager.FM.currentSkill > 1 && (int)FriendManager.FM.currentSkill < 4) return;
-        
+
         // 점프 가능 조건: 땅에 있거나 점프 횟수가 최대보다 적을 때
-         if (isGrounded || jumpCount < maxJumps)
+        if (isGrounded || jumpCount < maxJumps)
         {
             // 공중에서 점프할 때만 점프 횟수 증가
             if (!isGrounded)
@@ -278,10 +287,10 @@ public class Move : MonoBehaviour
                 SoundManager.instance.PlaySound("jump");
                 Debug.Log("지면에서 점프!");
             }
-            
+
             // 점프 실행
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
-            
+
             // 점프 애니메이션 트리거
             if (animator != null)
             {
@@ -293,28 +302,28 @@ public class Move : MonoBehaviour
             Debug.Log($"점프 불가! 점프 횟수 초과: {jumpCount}/{maxJumps}");
         }
     }
-    
-    
+
+
     // Ground 상태 확인 (외부에서 호출용)
     public bool IsGrounded()
     {
         return CheckGrounded();
     }
-    
+
     // 레이캐스트 기반 지면 체크
     private bool CheckGrounded()
     {
         if (groundCheckPoint == null) return false;
         if (FriendManager.FM.isPlayerInWater) return false;
-        
+
         // 발 아래로 레이캐스트 발사
         Vector2 rayOrigin = groundCheckPoint.position;
         Vector2 rayDirection = Vector2.down;
-        
+
         RaycastHit2D hit = Physics2D.Raycast(rayOrigin, rayDirection, groundCheckDistance, groundLayerMask);
 
         bool grounded = hit.collider != null;
-        if(FriendManager.FM.currentSkill != FriendManager.CharacterSkill.Miu)
+        if (FriendManager.FM.currentSkill != FriendManager.CharacterSkill.Miu)
             animator.SetBool("Jump", !grounded);
         // 디버그용 레이캐스트 시각화
         Debug.DrawRay(rayOrigin, rayDirection * groundCheckDistance, grounded ? Color.green : Color.red);
@@ -330,25 +339,30 @@ public class Move : MonoBehaviour
         return grounded;
     }
 
-    //private bool CheckOverhead()
-    //{
-    //    if (groundCheckPoint == null) return false;
-    //    if (FriendManager.FM.isPlayerInWater) return false;
+    private bool CheckOverhead()
+    {   
+        if (groundCheckPoint == null)
+            return false;
 
-    //    // 발 아래로 레이캐스트 발사
-    //    Vector2 rayOrigin = OverheadCheckPoint.position;
-    //    Vector2 rayDirection = Vector2.up;
+        // 갈릴레이에 의해 던져진 상태가 아니면면 처리 하지 않음
+        if (isThrown == false)
+            return false;
 
-    //    RaycastHit2D hit = Physics2D.Raycast(rayOrigin, rayDirection, OverheadCheckDistance, OverheadLayerMask);
+        if (FriendManager.FM.isPlayerInWater)
+            return false;
 
-    //    bool overhead = hit.collider != null;
-    //    // 디버그용 레이캐스트 시각화
-    //    Debug.DrawRay(rayOrigin, rayDirection * OverheadCheckDistance, overhead ? Color.green : Color.red);
+        // 발 아래로 레이캐스트 발사
+        Vector2 rayOrigin = OverheadCheckPoint.position;
+        Vector2 rayDirection = Vector2.up;
 
+        RaycastHit2D hit = Physics2D.Raycast(rayOrigin, rayDirection, OverheadCheckDistance, OverheadLayerMask);
 
+        bool overhead = hit.collider != null;
+        // 디버그용 레이캐스트 시각화
+        Debug.DrawRay(rayOrigin, rayDirection * OverheadCheckDistance, overhead ? Color.green : Color.red);
 
-    //    return overhead;
-    //}
+        return overhead;
+    }
 
     // 죽음 트리거 처리 (상대편이 Fire(6번)나 Obstacle(7번) 레이어면 죽음)
     void OnTriggerEnter2D(Collider2D other)
@@ -383,25 +397,25 @@ public class Move : MonoBehaviour
     {
         int objLayer = obj.layer;
         int deathLayerMaskValue = deathLayerMask.value;
-        
+
         bool isDeathLayer = (deathLayerMaskValue & (1 << objLayer)) != 0;
-        
+
         Debug.Log($"[레이어 체크] 오브젝트: {obj.name}, 레이어: {objLayer}({GetLayerName(objLayer)}), DeathLayerMask: {deathLayerMaskValue}, 결과: {isDeathLayer} (Fire=6, Obstacle=7)");
-        
+
         return isDeathLayer;
     }
-    
+
     // 레이어 번호를 레이어 이름으로 변환
     private string GetLayerName(int layerIndex)
     {
         return LayerMask.LayerToName(layerIndex);
     }
-    
+
     // 대화 상태 제어 함수들
     public void StartDialogue()
     {
         isInDialogue = true;
-        
+
         // 모든 애니메이션 중단 (Idle 상태로)
         SetIdleState();
         rb.linearVelocity = Vector2.zero;
@@ -409,10 +423,10 @@ public class Move : MonoBehaviour
 
         // FriendManager 싱글톤을 통해 스킬 중단
         FriendManager.FM?.OnDialogueStart();
-        
+
         Debug.Log("대화 시작 - 모든 애니메이션 중단, Idle 상태로 전환");
     }
-    
+
     void DelayDialogue()
     {
         isInDialogue = false;
@@ -423,31 +437,31 @@ public class Move : MonoBehaviour
         rb.constraints = RigidbodyConstraints2D.FreezeRotation;
         Debug.Log("대화 종료 - 캐릭터 움직임 재개");
     }
-    
+
     // 대화 상태 확인
     public bool IsInDialogue()
     {
         return isInDialogue;
     }
-    
+
     // Dead 상태 설정 (움직임과 스킬 차단)
     public void SetDead()
     {
-        if (isDead) return;
-        
+        if (isDead || isStop) return;
+
         isDead = true;
         Debug.Log("플레이어가 죽었습니다!");
         SoundManager.instance.PlaySound("gameover");
 
         // 물리 효과 정지
         rb.linearVelocity = Vector2.zero;
-        
+
         // 애니메이터에 Dead 상태 전달 (애니메이션은 유지)
         if (animator != null)
         {
             animator.SetBool("Dead", true);
         }
-        
+
         // FriendManager 싱글톤을 통해 스킬 중단
         FriendManager.FM?.OnDialogueStart();
         GameManager.instance.GameOver();
@@ -455,13 +469,13 @@ public class Move : MonoBehaviour
         this.GetComponent<CircleCollider2D>().enabled = false;
         this.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Kinematic;
     }
-    
+
     // 플레이어 리스폰
     public void Respawn()
     {
         isDead = false;
         Debug.Log("플레이어가 리스폰되었습니다!");
-        
+
         // 애니메이터 상태 리셋
         if (animator != null)
         {
@@ -474,7 +488,46 @@ public class Move : MonoBehaviour
         this.GetComponent<CircleCollider2D>().enabled = true;
         this.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
     }
-    
-    // 디버그용 - 지면 체크 트리거 시각화
 
+    public void StartDrownPlayer()
+    {
+        Debug.Log("플레이어가 물에 빠졌습니다!");
+        FriendManager.FM.isPlayerInWater = true;
+        rb.gravityScale = 1.5f;
+        jumpForce = 10f;
+        maxJumps = 100;
+        rb.linearDamping = 1.5f;
+
+        Vector2 vel = rb.linearVelocity;
+        vel.y *= 0.3f;
+        rb.linearVelocity = vel;
+    }
+
+    public void StopDrownPlayer()
+    {
+        Debug.Log("플레이어가 물에서 나왔습니다!");
+        FriendManager.FM.isPlayerInWater = false;
+        rb.gravityScale = 10f;
+        jumpForce = 30f;
+        maxJumps = 1;
+        rb.linearDamping = 0f;
+
+        Vector2 vel = rb.linearVelocity;
+
+        if (vel.y > 0) vel.y *= 1.5f;
+        else vel.y = Mathf.Clamp(vel.y, -10f, 0f);
+
+        rb.linearVelocity = vel;
+    }
+
+
+    // 플레이어 프리징
+    public void StopPlayer()
+    {
+        isStop = true;
+    }
+    public void ResumePlayer()
+    {
+        isStop = false;
+    }
 }

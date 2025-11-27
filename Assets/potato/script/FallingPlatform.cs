@@ -16,12 +16,14 @@ public class FallingPlatform : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other) {
         if(other.gameObject.tag == "Player") {
             MoveDown();
+            other.transform.SetParent(transform);
         }
     }
 
     private void OnTriggerExit2D(Collider2D other) {
         if(other.gameObject.tag == "Player") {
             MoveUp();
+            other.transform.SetParent(null);
         }
     }
 

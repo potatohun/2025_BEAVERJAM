@@ -28,38 +28,60 @@ public class SquareMovePlatform : MonoBehaviour
         }
     }
     
-    private IEnumerator MovePlatform() {
-        while(true) {
+    private void OnTriggerEnter2D(Collider2D other) {
+        if(other.gameObject.tag == "Player") {
+            other.transform.SetParent(transform);
+        }
+    }
+    private void OnTriggerExit2D(Collider2D other) {
+        if(other.gameObject.tag == "Player") {
+            other.transform.SetParent(null);
+        }
+    }
+    
+    private IEnumerator MovePlatform()
+    {
+        while (true)
+        {
             // 현재 목표 지점까지 이동
-            if(movePoints.Count > 0) {
+            if (movePoints.Count > 0)
+            {
                 // 시작 위치 + 상대 오프셋 = 목표 위치
                 Vector3 targetPoint = startLocalPosition + movePoints[currentPointIndex];
-                
+
                 // 거리 계산 (로컬 좌표 기준)
                 float distance = Vector3.Distance(transform.localPosition, targetPoint);
                 float duration = distance / moveSpeed;
-                
+
                 // DOTween으로 부드럽게 이동 (로컬 좌표 기준)
                 yield return transform.DOLocalMove(targetPoint, duration).SetEase(moveEase).WaitForCompletion();
-                
+
                 // 목표 지점에 도달하면 잠시 대기
                 yield return new WaitForSeconds(waitTime);
-                
+
                 // 다음 지점 인덱스 계산
                 currentPointIndex++;
-                
-                if(loopPath) {
+
+                if (loopPath)
+                {
                     // 순환: 인덱스가 마지막을 넘으면 0으로
                     currentPointIndex %= movePoints.Count;
-                } else {
+                }
+                else
+                {
                     // 왕복: 끝에 도달하면 역순으로
-                    if(currentPointIndex >= movePoints.Count) {
+                    if (currentPointIndex >= movePoints.Count)
+                    {
                         currentPointIndex = movePoints.Count - 2;
-                    } else if(currentPointIndex < 0) {
+                    }
+                    else if (currentPointIndex < 0)
+                    {
                         currentPointIndex = 1;
                     }
                 }
-            } else {
+            }
+            else
+            {
                 yield return null;
             }
         }
