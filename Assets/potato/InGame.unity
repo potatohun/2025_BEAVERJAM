@@ -2667,13 +2667,49 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 4800413036435368902, guid: ba7ab98e9ea6ca14e85bad64af4569d1, type: 3}
+      propertyPath: m_TranslationOffset.x
+      value: 203.85727
+      objectReference: {fileID: 0}
+    - target: {fileID: 4800413036435368902, guid: ba7ab98e9ea6ca14e85bad64af4569d1, type: 3}
+      propertyPath: m_TranslationOffset.y
+      value: -198.5072
+      objectReference: {fileID: 0}
+    - target: {fileID: 4800413036435368902, guid: ba7ab98e9ea6ca14e85bad64af4569d1, type: 3}
+      propertyPath: m_TranslationOffset.z
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4800413036435368902, guid: ba7ab98e9ea6ca14e85bad64af4569d1, type: 3}
       propertyPath: m_Sources.Array.data[0].sourceTransform
       value: 
       objectReference: {fileID: 16471678}
     - target: {fileID: 5324394443004426344, guid: ba7ab98e9ea6ca14e85bad64af4569d1, type: 3}
+      propertyPath: m_TranslationOffset.x
+      value: 203.85727
+      objectReference: {fileID: 0}
+    - target: {fileID: 5324394443004426344, guid: ba7ab98e9ea6ca14e85bad64af4569d1, type: 3}
+      propertyPath: m_TranslationOffset.y
+      value: -199.10721
+      objectReference: {fileID: 0}
+    - target: {fileID: 5324394443004426344, guid: ba7ab98e9ea6ca14e85bad64af4569d1, type: 3}
+      propertyPath: m_TranslationOffset.z
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5324394443004426344, guid: ba7ab98e9ea6ca14e85bad64af4569d1, type: 3}
       propertyPath: m_Sources.Array.data[0].sourceTransform
       value: 
       objectReference: {fileID: 16471678}
+    - target: {fileID: 7086741346858635441, guid: ba7ab98e9ea6ca14e85bad64af4569d1, type: 3}
+      propertyPath: m_TranslationOffset.x
+      value: 203.85727
+      objectReference: {fileID: 0}
+    - target: {fileID: 7086741346858635441, guid: ba7ab98e9ea6ca14e85bad64af4569d1, type: 3}
+      propertyPath: m_TranslationOffset.y
+      value: -201.90721
+      objectReference: {fileID: 0}
+    - target: {fileID: 7086741346858635441, guid: ba7ab98e9ea6ca14e85bad64af4569d1, type: 3}
+      propertyPath: m_TranslationOffset.z
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 7086741346858635441, guid: ba7ab98e9ea6ca14e85bad64af4569d1, type: 3}
       propertyPath: m_Sources.Array.data[0].sourceTransform
       value: 
@@ -2681,6 +2717,18 @@ PrefabInstance:
     - target: {fileID: 7484932958377080814, guid: ba7ab98e9ea6ca14e85bad64af4569d1, type: 3}
       propertyPath: m_Name
       value: map_3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7802254139180554027, guid: ba7ab98e9ea6ca14e85bad64af4569d1, type: 3}
+      propertyPath: m_TranslationOffset.x
+      value: 203.85727
+      objectReference: {fileID: 0}
+    - target: {fileID: 7802254139180554027, guid: ba7ab98e9ea6ca14e85bad64af4569d1, type: 3}
+      propertyPath: m_TranslationOffset.y
+      value: -198.0072
+      objectReference: {fileID: 0}
+    - target: {fileID: 7802254139180554027, guid: ba7ab98e9ea6ca14e85bad64af4569d1, type: 3}
+      propertyPath: m_TranslationOffset.z
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 7802254139180554027, guid: ba7ab98e9ea6ca14e85bad64af4569d1, type: 3}
       propertyPath: m_Sources.Array.data[0].sourceTransform
