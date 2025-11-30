@@ -1040,11 +1040,17 @@ MonoBehaviour:
     m_Bits: 136
   groundCheckDistance: 1.5
   groundCheckPoint: {fileID: 0}
+  OverheadLayerMask:
+    serializedVersion: 2
+    m_Bits: 8
+  OverheadCheckDistance: 1
+  OverheadCheckPoint: {fileID: 0}
   isDead: 0
   isInDialogue: 0
   deathLayerMask:
     serializedVersion: 2
     m_Bits: 0
+  isStop: 0
   rb: {fileID: 0}
   maxJumps: 1
   WaterCol_Object: {fileID: 7577493757499227783}

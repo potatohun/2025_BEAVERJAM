@@ -508,7 +508,7 @@ public class Move : MonoBehaviour
 
         Vector2 vel = rb.linearVelocity;
 
-        if (vel.y > 0) vel.y *= 1.5f;
+        if (vel.y > 0) vel.y *= 4f;  //1.5f
         else vel.y = Mathf.Clamp(vel.y, -10f, 0f);
 
         rb.linearVelocity = vel;
