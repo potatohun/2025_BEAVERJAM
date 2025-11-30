@@ -102,8 +102,14 @@ public class FriendManager : MonoBehaviour
 
         if(currentSkill == CharacterSkill.Miu && isPlayerInWater)
         {
-            Move.Singleton_Move.moveSpeed = 30f;
+            Move.Singleton_Move.moveSpeed = 25f;  //30
         }
+        else if(currentSkill == CharacterSkill.Miu && !isPlayerInWater)
+        {
+            StopCurrentSkill();
+        }
+
+        
     }
     
     // 스킬 해금
@@ -351,6 +357,7 @@ public class FriendManager : MonoBehaviour
                 {
                     Move.Singleton_Move.moveSpeed = 10f;
                 }
+                UseNoneSkill();
                 break;
         }
         // 기존 스킬 캐릭터 제거

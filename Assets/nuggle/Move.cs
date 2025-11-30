@@ -329,12 +329,6 @@ public class Move : MonoBehaviour
         Debug.DrawRay(rayOrigin, rayDirection * groundCheckDistance, grounded ? Color.green : Color.red);
 
         if (grounded) jumpCount = 0;
-        //else
-        //{
-        //    RaycastHit2D hit_water = Physics2D.Raycast(rayOrigin, rayDirection, groundCheckDistance, waterLayerMask);
-        //    Playerinwater = hit_water.collider != null;
-        //}
-
 
         return grounded;
     }
@@ -496,7 +490,7 @@ public class Move : MonoBehaviour
         rb.gravityScale = 1.5f;
         jumpForce = 10f;
         maxJumps = 100;
-        rb.linearDamping = 1.5f;
+        rb.linearDamping = 2f; //1.5
 
         Vector2 vel = rb.linearVelocity;
         vel.y *= 0.3f;
