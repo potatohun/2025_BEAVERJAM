@@ -31,7 +31,7 @@ public class FadeInOutController : MonoBehaviour
     }
 
     private void Start() {
-        FadeIn();
+        Invoke("FadeIn", 1f);
     }
 
     private void Update() {
@@ -118,9 +118,6 @@ public class FadeInOutController : MonoBehaviour
         fadeTween = holeRectTransform.DOScale(targetMinScale, fadeDuration).OnUpdate(() => {
             holeRectTransform.anchoredPosition = TalkController.instance.GetPlayerPositionToCanvas(player, holeOffset);
         }).OnComplete(() => {
-            // 플레이어 재생
-            Move.Singleton_Move.ResumePlayer();
-
             holeRectTransform.localScale = new Vector3(targetMinScale, targetMinScale, targetMinScale);
             fadeTween = holeRectTransform.DOScale(targetMaxScale, fadeDuration).OnUpdate(() => {
                 holeRectTransform.anchoredPosition = TalkController.instance.GetPlayerPositionToCanvas(player, holeOffset);
@@ -130,6 +127,9 @@ public class FadeInOutController : MonoBehaviour
                 backgroundCanvas.gameObject.SetActive(false);
                 holeCanvas.gameObject.SetActive(false);
                 fadeTween = null;
+
+                // 플레이어 재생
+                Move.Singleton_Move.ResumePlayer();
             });
         });
     }

@@ -51,7 +51,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4900b7b03c4690447804041eb3fff4e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MapControlelr
-  mapIndex: 1
+  mapIndex: 0
   startPoint: {fileID: 3034166648016929948}
   mapObjects:
   - {fileID: 7534397312992633357}
@@ -214,7 +214,7 @@ PositionConstraint:
   serializedVersion: 2
   m_Weight: 0.75
   m_TranslationAtRest: {x: 0, y: 0, z: 0}
-  m_TranslationOffset: {x: 203.85727, y: 0.8927852, z: 10}
+  m_TranslationOffset: {x: 203, y: 1, z: 0}
   m_AffectTranslationX: 1
   m_AffectTranslationY: 0
   m_AffectTranslationZ: 1
@@ -7315,7 +7315,7 @@ PositionConstraint:
   serializedVersion: 2
   m_Weight: 0.5
   m_TranslationAtRest: {x: 0, y: 0, z: 0}
-  m_TranslationOffset: {x: 203.85727, y: 0.8927852, z: 10}
+  m_TranslationOffset: {x: 203, y: 1, z: 0}
   m_AffectTranslationX: 1
   m_AffectTranslationY: 0
   m_AffectTranslationZ: 1
@@ -7426,7 +7426,7 @@ PositionConstraint:
   serializedVersion: 2
   m_Weight: 0.25
   m_TranslationAtRest: {x: 0, y: 0, z: 0}
-  m_TranslationOffset: {x: 203.85727, y: 0.8927852, z: 10}
+  m_TranslationOffset: {x: 203, y: 1, z: 0}
   m_AffectTranslationX: 1
   m_AffectTranslationY: 0
   m_AffectTranslationZ: 1
@@ -7850,7 +7850,7 @@ PositionConstraint:
   serializedVersion: 2
   m_Weight: 1
   m_TranslationAtRest: {x: 0, y: 0, z: 0}
-  m_TranslationOffset: {x: 203.85727, y: 0.8927852, z: 10}
+  m_TranslationOffset: {x: 203, y: 1, z: 0}
   m_AffectTranslationX: 1
   m_AffectTranslationY: 0
   m_AffectTranslationZ: 1

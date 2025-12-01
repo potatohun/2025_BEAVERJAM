@@ -37,6 +37,6 @@ public class PortalController : MonoBehaviour
         BGMController.instance.PlayBGM(nextMap.GetMapIndex());
 
         // 알림 표시
-        NotiManager.instance.ShowNoti(nextMap.GetMapIndex());
+        NotiManager.instance.ShowNoti(nextMap.GetMapIndex() + 1);
     }
 }

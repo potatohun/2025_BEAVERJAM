@@ -17,7 +17,7 @@ public class BGMController : MonoBehaviour
     }
 
     private void Start() {
-        PlayBGM(1);
+        PlayBGM(0);
     }
 
     public void PlayBGM(int bgmIndex) {

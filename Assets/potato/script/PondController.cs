@@ -37,7 +37,7 @@ public class PondController : MonoBehaviour
     private void OnTriggerStay2D(Collider2D other)
     {
         // 물이 채워지지 않았으면 리턴
-        if (isFilled == false)
+        if (isFilled == false || Move.Singleton_Move.isDead)
             return;
 
         // EyeSensor가 아니면 리턴
@@ -52,6 +52,8 @@ public class PondController : MonoBehaviour
             {
                 StopCoroutine(drownCoroutine);
                 drownCoroutine = null;
+                // fillAmount를 1로 복원
+                Move.Singleton_Move.SetDrownValue(1f);
             }
             return;
         }
@@ -109,6 +111,9 @@ public class PondController : MonoBehaviour
                 StopCoroutine(drownCoroutine);
                 drownCoroutine = null;
             }
+
+            // fillAmount를 1로 복원
+            Move.Singleton_Move.SetDrownValue(1f);
         }
     }
     
@@ -119,7 +124,25 @@ public class PondController : MonoBehaviour
 
         Debug.Log($"플레이어가 {drownTime}초 후에 익사합니다...");
 
-        yield return new WaitForSeconds(drownTime);
+        // fillAmount를 1로 초기화
+        Move.Singleton_Move.SetDrownValue(1f);
+
+        float elapsedTime = 0f;
+
+        // fillAmount를 1에서 0으로 점점 줄이면서 시간 체크
+        while (elapsedTime < drownTime)
+        {
+            elapsedTime += Time.deltaTime;
+            
+            // 남은 시간 비율 계산 (1에서 0으로 감소)
+            float remainingRatio = 1f - (elapsedTime / drownTime);
+            Move.Singleton_Move.SetDrownValue(remainingRatio);
+
+            yield return null;
+        }
+
+        // 시간이 다 지나면 fillAmount를 0으로 설정
+        Move.Singleton_Move.SetDrownValue(0f);
 
         // 플레이어가 여전히 물에 있다면 죽임
         if (FriendManager.FM.isPlayerInWater) {

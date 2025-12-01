@@ -41,12 +41,16 @@ public class SavePointManager : MonoBehaviour
         if (_currentSavePoint == null)
         {
             _currentSavePoint = savePoint;
+            NotiManager.instance.ShowNoti(4);
             return;
         }
         
         // Index가 더 큰 세이브 포인트 지점 설정
         if(_currentSavePoint.GetIndex() < savePoint.GetIndex())
+        {
             _currentSavePoint = savePoint;
+            NotiManager.instance.ShowNoti(4);
+        }
     }
 
     public SavePointController GetCurrentSavePoint()

@@ -49,7 +49,7 @@ public class FriendManager : MonoBehaviour
         if (FM == null)
         {
             FM = this;
-            DontDestroyOnLoad(gameObject);
+            //DontDestroyOnLoad(gameObject);
         }
         else
         {
@@ -198,6 +198,7 @@ public class FriendManager : MonoBehaviour
                 //Move.Singleton_Move.moveSpeed = 30f;
                 //Move.Singleton_Move.Playerinwater = false;
                 SetCocoAnimation(true, 4);
+                SoundManager.instance.PlaySound("skill");
                 break;
         }
 

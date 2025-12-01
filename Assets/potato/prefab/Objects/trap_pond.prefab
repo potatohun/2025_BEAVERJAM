@@ -808,7 +808,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f91ab753381b7ac41a076f3076aa4b9a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PondController
-  drownTime: 6
+  drownTime: 3
   fillable: 1
   fillTime: 1
   fillAmount: 5

@@ -1157,6 +1157,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: trap_pencil (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 3860167137547917157, guid: b058b8cc6e466d14193a2b16af8a3b09, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3202,6 +3206,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: trap_pencil
       objectReference: {fileID: 0}
+    - target: {fileID: 3860167137547917157, guid: b058b8cc6e466d14193a2b16af8a3b09, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -4955,15 +4963,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 413505571491202043, guid: f5178456eac25304d947c3482b2f1de7, type: 3}
       propertyPath: m_TranslationOffset.x
-      value: 203.85727
+      value: 203
       objectReference: {fileID: 0}
     - target: {fileID: 413505571491202043, guid: f5178456eac25304d947c3482b2f1de7, type: 3}
       propertyPath: m_TranslationOffset.y
-      value: -104.00722
+      value: -99
       objectReference: {fileID: 0}
     - target: {fileID: 413505571491202043, guid: f5178456eac25304d947c3482b2f1de7, type: 3}
       propertyPath: m_TranslationOffset.z
-      value: 10
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 753396977300285054, guid: f5178456eac25304d947c3482b2f1de7, type: 3}
       propertyPath: m_LocalPosition.x
@@ -5015,15 +5023,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 838536324932191329, guid: f5178456eac25304d947c3482b2f1de7, type: 3}
       propertyPath: m_TranslationOffset.x
-      value: 203.85727
+      value: 203
       objectReference: {fileID: 0}
     - target: {fileID: 838536324932191329, guid: f5178456eac25304d947c3482b2f1de7, type: 3}
       propertyPath: m_TranslationOffset.y
-      value: -98.00722
+      value: -99
       objectReference: {fileID: 0}
     - target: {fileID: 838536324932191329, guid: f5178456eac25304d947c3482b2f1de7, type: 3}
       propertyPath: m_TranslationOffset.z
-      value: 10
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 918039583128160853, guid: f5178456eac25304d947c3482b2f1de7, type: 3}
       propertyPath: m_IsActive
@@ -5059,15 +5067,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2700548633192282252, guid: f5178456eac25304d947c3482b2f1de7, type: 3}
       propertyPath: m_TranslationOffset.x
-      value: 203.85727
+      value: 203
       objectReference: {fileID: 0}
     - target: {fileID: 2700548633192282252, guid: f5178456eac25304d947c3482b2f1de7, type: 3}
       propertyPath: m_TranslationOffset.y
-      value: -102.00722
+      value: -99
       objectReference: {fileID: 0}
     - target: {fileID: 2700548633192282252, guid: f5178456eac25304d947c3482b2f1de7, type: 3}
       propertyPath: m_TranslationOffset.z
-      value: 10
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3034166648016929948, guid: f5178456eac25304d947c3482b2f1de7, type: 3}
       propertyPath: m_LocalPosition.x
@@ -5079,15 +5087,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3314706622028344098, guid: f5178456eac25304d947c3482b2f1de7, type: 3}
       propertyPath: m_TranslationOffset.x
-      value: 203.85727
+      value: 203
       objectReference: {fileID: 0}
     - target: {fileID: 3314706622028344098, guid: f5178456eac25304d947c3482b2f1de7, type: 3}
       propertyPath: m_TranslationOffset.y
-      value: -99.107216
+      value: -99
       objectReference: {fileID: 0}
     - target: {fileID: 3314706622028344098, guid: f5178456eac25304d947c3482b2f1de7, type: 3}
       propertyPath: m_TranslationOffset.z
-      value: 10
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3591397098452688745, guid: f5178456eac25304d947c3482b2f1de7, type: 3}
       propertyPath: m_Size.x
@@ -21635,7 +21643,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4866642918593060400, guid: f5178456eac25304d947c3482b2f1de7, type: 3}
       propertyPath: mapIndex
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5726722835465033425, guid: f5178456eac25304d947c3482b2f1de7, type: 3}
       propertyPath: m_LocalPosition.y

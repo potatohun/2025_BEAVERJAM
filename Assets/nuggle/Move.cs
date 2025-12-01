@@ -1,6 +1,7 @@
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Splines.ExtrusionShapes;
+using UnityEngine.UI;
 using static FriendManager;
 
 public class Move : MonoBehaviour
@@ -30,6 +31,10 @@ public class Move : MonoBehaviour
     [Header("Stop")]
     public bool isStop = false;
 
+    [Header("Drown")]
+    public GameObject drown_object;
+    public Image drown_image;
+
     public Rigidbody2D rb;
     private Animator animator;
     private bool isGrounded;
@@ -51,7 +56,7 @@ public class Move : MonoBehaviour
         if (Singleton_Move == null)
         {
             Singleton_Move = this;
-            DontDestroyOnLoad(gameObject);
+            //DontDestroyOnLoad(gameObject);
         }
         else
         {
@@ -115,22 +120,24 @@ public class Move : MonoBehaviour
             SetDead();  // 위로 충돌 시 사망
 
         // 죽은 상태나 대화 중이면 입력 무시
-        if (isDead || isInDialogue || isStop) return;
+        if (isDead || isInDialogue) return;
 
         // 입력 받기 (화살표 키)
-        horizontalInput = 0f;
-        if (Input.GetKey(KeyCode.LeftArrow))
-            horizontalInput = -1f;
-        else if (Input.GetKey(KeyCode.RightArrow))
-            horizontalInput = 1f;
-
-        // 캐릭터 방향 바꾸기
-        FlipCharacter();
-
-
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (isStop == false)
         {
-            Jump();
+            horizontalInput = 0f;
+            if (Input.GetKey(KeyCode.LeftArrow))
+                horizontalInput = -1f;
+            else if (Input.GetKey(KeyCode.RightArrow))
+                horizontalInput = 1f;
+
+            // 캐릭터 방향 바꾸기
+            FlipCharacter();
+
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                Jump();
+            }
         }
 
         // 애니메이터 파라미터 업데이트
@@ -495,6 +502,8 @@ public class Move : MonoBehaviour
         Vector2 vel = rb.linearVelocity;
         vel.y *= 0.3f;
         rb.linearVelocity = vel;
+
+        drown_object.SetActive(true);
     }
 
     public void StopDrownPlayer()
@@ -512,12 +521,20 @@ public class Move : MonoBehaviour
         else vel.y = Mathf.Clamp(vel.y, -10f, 0f);
 
         rb.linearVelocity = vel;
+
+        drown_object.SetActive(false);
+    }
+
+    public void SetDrownValue(float value)
+    {
+        drown_image.fillAmount = value;
     }
 
 
     // 플레이어 프리징
     public void StopPlayer()
     {
+        horizontalInput = 0f;
         isStop = true;
     }
     public void ResumePlayer()
