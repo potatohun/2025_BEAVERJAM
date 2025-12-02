@@ -169,6 +169,7 @@ public class TalkController : MonoBehaviour
 
         currentTalkData = null;
         currentTalkTarget = null;
+        ui_text_talk.text = "";
         ui_talk.gameObject.SetActive(false);
         CameraManager.instance.ZoomOut();
 

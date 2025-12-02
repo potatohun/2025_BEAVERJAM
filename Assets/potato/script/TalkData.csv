@@ -19,7 +19,7 @@ galilei,talk_galilei_4,npc,사과 자유낙하 실험 중.,talk_galilei_5
 galilei,talk_galilei_5,player,대체 무슨 말인지 알 수가 없슈...,talk_galilei_6
 galilei,talk_galilei_6,player,갈릴레이~ 우리 사슴산 갈 건데 같이 갈래유?,talk_galilei_7
 galilei,talk_galilei_7,npc,...!,talk_galilei_8
-galilei,talk_galilei_8,npc,<size=80>사슴산이라면.. 내가 법칙을 <증명>하던 곳..!</size>,talk_galilei_9
+galilei,talk_galilei_8,npc,사슴산이라면.. 내가 법칙을 <증명>하던 곳..!,talk_galilei_9
 galilei,talk_galilei_9,player,어홍?,talk_galilei_10
 galilei,talk_galilei_10,npc,좋아. 나도 같이 데려가 줘.,talk_galilei_11
 galilei,talk_galilei_11,npc,오늘은 어떤 과학이 나를 기다리고 있을지 궁금하군.,end
@@ -33,7 +33,7 @@ miu,talk_miu_7,player,보물이 없다고 생각하는 것보다,talk_miu_8
 miu,talk_miu_8,player,<size=80>어딘가에 있다고 믿는 게 더 행복한 일이잖유!</size>,talk_miu_9
 miu,talk_miu_9,npc,...,talk_miu_10
 miu,talk_miu_10,npc,그럼 나도 같이 갈게.,talk_miu_11
-miu,talk_miu_11,npc,사슴성으로 간다고 했지?,talk_miu_12
+miu,talk_miu_11,npc,물 속에서는 내가 도움이 될 거야.,talk_miu_12
 miu,talk_miu_12,npc,얼른 앞장 서!,end
 ham_1_1,talk_ham_1_1,npc,수호신이시여. 제발 물을 내려주소서...!,end
 ham_1_2,talk_ham_1_2,npc,빠르게 달려가 보시지요. 수호신 님.,end
@@ -48,3 +48,4 @@ ham_3_2,talk_ham_3_2,npc,우와. 힘 완전 쎄 보여.,end
 ham_3_3,talk_ham_3_3,npc,"하늘이 바로 눈 앞에 있어!
 닿으면 어떤 일이 일어날까?",end
 ham_3_4,talk_ham_3_4,npc,아래에서 물소리가 들리는 것 같아!,end
+ham_3_5,talk_ham_3_5,npc,굴러오는 수박을 뛰어넘을 수 있을 것 같은데..,end

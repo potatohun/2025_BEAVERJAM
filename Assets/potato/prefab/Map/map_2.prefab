@@ -747,6 +747,80 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 593138992677276504, guid: 25a8368e07ca68a4b97e214f62644822, type: 3}
   m_PrefabInstance: {fileID: 27598834482073854}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &154412874568033748
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 8281610413141123989}
+    m_Modifications:
+    - target: {fileID: 950257643184976838, guid: e765d9f5e80e591408fa8146b5f69be2, type: 3}
+      propertyPath: m_Name
+      value: NPC_ham_2 (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4019470090496229950, guid: e765d9f5e80e591408fa8146b5f69be2, type: 3}
+      propertyPath: m_Size.x
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4467912900707742412, guid: e765d9f5e80e591408fa8146b5f69be2, type: 3}
+      propertyPath: group_id
+      value: ham_3_5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4467912900707742412, guid: e765d9f5e80e591408fa8146b5f69be2, type: 3}
+      propertyPath: reUseable
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6249286129635477822, guid: e765d9f5e80e591408fa8146b5f69be2, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 323.84
+      objectReference: {fileID: 0}
+    - target: {fileID: 6249286129635477822, guid: e765d9f5e80e591408fa8146b5f69be2, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.05000019
+      objectReference: {fileID: 0}
+    - target: {fileID: 6249286129635477822, guid: e765d9f5e80e591408fa8146b5f69be2, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6249286129635477822, guid: e765d9f5e80e591408fa8146b5f69be2, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6249286129635477822, guid: e765d9f5e80e591408fa8146b5f69be2, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6249286129635477822, guid: e765d9f5e80e591408fa8146b5f69be2, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6249286129635477822, guid: e765d9f5e80e591408fa8146b5f69be2, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6249286129635477822, guid: e765d9f5e80e591408fa8146b5f69be2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6249286129635477822, guid: e765d9f5e80e591408fa8146b5f69be2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6249286129635477822, guid: e765d9f5e80e591408fa8146b5f69be2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: e765d9f5e80e591408fa8146b5f69be2, type: 3}
+--- !u!4 &6097162713466481898 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6249286129635477822, guid: e765d9f5e80e591408fa8146b5f69be2, type: 3}
+  m_PrefabInstance: {fileID: 154412874568033748}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &785048976558194476
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -28668,6 +28742,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1064997001418856380, guid: f5178456eac25304d947c3482b2f1de7, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1673991169252607292}
+    - targetCorrespondingSourceObject: {fileID: 1064997001418856380, guid: f5178456eac25304d947c3482b2f1de7, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6097162713466481898}
     - targetCorrespondingSourceObject: {fileID: 1064997001418856380, guid: f5178456eac25304d947c3482b2f1de7, type: 3}
       insertIndex: -1
       addedObject: {fileID: 5554763192141263700}

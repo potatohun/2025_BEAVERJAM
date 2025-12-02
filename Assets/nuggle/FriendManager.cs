@@ -102,7 +102,7 @@ public class FriendManager : MonoBehaviour
 
         if(currentSkill == CharacterSkill.Miu && isPlayerInWater)
         {
-            Move.Singleton_Move.moveSpeed = 25f;  //30
+            Move.Singleton_Move.moveSpeed = 20f;  //30
         }
         else if(currentSkill == CharacterSkill.Miu && !isPlayerInWater)
         {

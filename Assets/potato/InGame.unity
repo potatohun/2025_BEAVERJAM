@@ -2211,8 +2211,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9364f371701af184d9280658fb7cec18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NotiManager
-  notiDuration: 2
-  notiDelay: 3
+  notiDuration: 1
+  notiDelay: 2
   notiList:
   - {fileID: 1291137868}
   - {fileID: 811732549}
@@ -2351,6 +2351,10 @@ PrefabInstance:
     - target: {fileID: 255932246100612138, guid: 6b7f6d9e9310d0640bb829093009a3de, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4887918221658955391, guid: 6b7f6d9e9310d0640bb829093009a3de, type: 3}
+      propertyPath: m_text
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 6631908850271914702, guid: 6b7f6d9e9310d0640bb829093009a3de, type: 3}
       propertyPath: talkSoundDelay
